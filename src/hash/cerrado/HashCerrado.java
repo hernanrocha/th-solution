@@ -176,7 +176,7 @@ public class HashCerrado extends HashAbs {
 		//Referencia al elemento que se va a devolver.
 		Celda celdaSalida = null;
 
-		if ( posicionABuscar != -1){
+		if ( posicionABuscar != -1 ){
 
 			//Si dentro del balde se encontró al elemento y se conoce su posicón, se devuelve el elemento.
 			celdaSalida = espacioDeAlmacenamiento[baldeABuscar][posicionABuscar];
@@ -259,7 +259,7 @@ public class HashCerrado extends HashAbs {
 			if ( espacioDeAlmacenamiento[balde][i].getEstado() == Celda.VIRGEN ){
 				return resultado;
 			}else{	
-				if ( espacioDeAlmacenamiento[balde][i].getElementoContenido().get().equals(clave) ){
+				if ( espacioDeAlmacenamiento[balde][i].getElementoContenido().get().equals(clave) && espacioDeAlmacenamiento[balde][i].getEstado() != Celda.BORRADO ){
 					resultado = i;
 				}
 			}
