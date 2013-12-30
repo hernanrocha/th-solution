@@ -65,6 +65,7 @@ import java.awt.GridBagConstraints;
 import common.swing.ConsolaManager;
 
 public class mainWindow {
+	// EGit desde Eclipse
 
 	// Ruta del archivo de ayuda
 	//private static final String DIR_MANUAL = "./doc/manual.pdf"; // Linux
