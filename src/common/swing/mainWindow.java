@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -28,6 +29,7 @@ import javax.swing.UIManager;
 // import org.apache.log4j.Logger;
 
 import common.FiltroArchivoEstructura;
+import common.Messages;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
 
@@ -63,6 +65,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
 import common.swing.ConsolaManager;
+import javax.swing.JRadioButtonMenuItem;
 
 public class mainWindow {
 	// EGit desde Eclipse
@@ -496,6 +499,32 @@ public class mainWindow {
 			}
 		});
 		mnBuscar.add(mntmRealizarBusqueda);
+		
+		JMenu mnIdioma = new JMenu("Idioma");
+		menuBar.add(mnIdioma);
+		
+		
+		ButtonGroup group = new ButtonGroup();
+		
+		JRadioButtonMenuItem rdbtnmntmEspaolargentina = new JRadioButtonMenuItem("Español (Argentina)");
+		rdbtnmntmEspaolargentina.setSelected(true);
+		rdbtnmntmEspaolargentina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Messages.setLanguage("es_AR");
+			}
+		});
+		mnIdioma.add(rdbtnmntmEspaolargentina);
+		rdbtnmntmEspaolargentina.setSelected(true);
+		group.add(rdbtnmntmEspaolargentina);
+		
+		JRadioButtonMenuItem rdbtnmntmInglesus = new JRadioButtonMenuItem("Ingles (US)");
+		rdbtnmntmInglesus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Messages.setLanguage("en_US");
+			}
+		});
+		mnIdioma.add(rdbtnmntmInglesus);
+		group.add(rdbtnmntmInglesus);
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);

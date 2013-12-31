@@ -1,9 +1,11 @@
 package arbolb.estructura;
 
+
 import java.util.Vector;
 
 //import org.apache.log4j.Logger;
 
+import common.Messages;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
 import common.swing.ConsolaManager;
@@ -44,18 +46,18 @@ public class ArbolB extends Almacenamiento{
 	@Override
 	public void insertar(Elemento e){
 		// ρ
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Se insertará el elemento [" + e + "]");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_INSERTAR_PRE") + " [" + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		raiz.insertar(e);
-		agregarCaptura("Se inserto el elemento [" + e + "]");
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Se insertó el elemento [" + e + "]");		
+		agregarCaptura(Messages.getString("ARBOL_INSERTAR_POS") + " [" + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_INSERTAR_POS") + " [" + e + "]");		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	@Override
 	public void eliminar(Elemento e){
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Se eliminará el elemento [" + e + "]");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_ELIMINAR_PRE") + " [" + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		raiz.eliminar(e);
-		agregarCaptura("Se elimino el elemento [" + e + "]");
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Se eliminó el elemento [" + e + "]");
+		agregarCaptura(Messages.getString("ARBOL_ELIMINAR_POS") + " [" + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_ELIMINAR_POS") + " [" + e + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	@Override
@@ -67,7 +69,7 @@ public class ArbolB extends Almacenamiento{
 	//------------------------------ Setters y Getters ------------------------------//
 	
 	public void setRaiz(NodoB raiz) {
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Nuevo nodo raiz");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_NUEVO_NODO_RAIZ")); //$NON-NLS-1$ //$NON-NLS-2$
 		this.raiz = raiz;
 	}
 
@@ -103,24 +105,24 @@ public class ArbolB extends Almacenamiento{
 	}	
 	
 	public boolean aplicarEstrategiasCrecim(NodoB nodo){
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Nodo lleno. Iniciar estrategias de crecimiento");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_CRECIM_INICIAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		for (Estrategia e : crecim){
 			if (e.doAction(nodo)){
 				return true;
 			}
 		}
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "No se pudo aplicar ninguna estrategia de crecimiento");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_CRECIM_ERROR")); //$NON-NLS-1$ //$NON-NLS-2$
 		return false;
 	}
 	
 	public boolean aplicarEstrategiasDecrec(NodoB nodo){
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Nodo con pocos elementos. Iniciar estrategias de decrecimiento");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_DECRECIM_INICIAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		for (Estrategia e : decrec){
 			if (e.doAction(nodo)){
 				return true;
 			}
 		}
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "No se pudo aplicar ninguna estrategia de decrecimiento");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NOMBRE"), Messages.getString("ARBOL_DECRECIM_ERROR")); //$NON-NLS-1$ //$NON-NLS-2$
 		return false;
 	}
 	
@@ -132,29 +134,30 @@ public class ArbolB extends Almacenamiento{
 	public String getInfo() {
 		int n = getOrden();
 		
-		String s ="*Estructura de Arbol B. \n \n";
+		String s ="*Estructura de Arbol B."; //$NON-NLS-1$
+		s+= "\n \n"; //$NON-NLS-1$
 		
-		s+="+Orden: " + n + ".\n";		
-		s+="+Estrategias de Insercion: \n";
+		s+="+" + "Orden" + ": " + n + ".\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + "Estrategias de Insercion" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (Estrategia e : crecim){
-			s+= "    " + e.toString() + "\n";
+			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		s+="+Estrategias de Eliminacion: \n";
+		s+="+" + "Estrategias de Eliminacion" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (Estrategia e : decrec){
-			s+= "    " + e.toString() + "\n";
+			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		s+="+Minimo Numero de Elementos: " + "\n";
-		s+= "    1 para raiz, " + (n/2 + n % 2 - 1) + " para otro nodo\n";		
-		s+="+Maximo Numero de Elementos: " + "\n";
-		s+="    " + (n-1) + " para cualquier nodo\n";		
-		s+="+Minimo Numero de Hijos: " + "\n";
-		s+= "    0 para hojas, 2 para raiz, " + (n/2 + n % 2) + " para otro nodo\n";		
-		s+="+Maximo Numero de Hijos: " + "\n";
-		s+="    " + (n) + " para cualquier nodo \n";
+		s+="+" + "Minimo Numero de Elementos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+= "    " + "1 para raiz" + ", " + (n/2 + n % 2 - 1) + " " + "para otro nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		s+="+" + "Maximo Numero de Elementos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + (n-1) + " " + "para cualquier nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + "Minimo Numero de Hijos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+= "    0 " + "para hojas" + ", 2 " + "para raiz" + ", " + (n/2 + n % 2) + " " + "para otro nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		s+="+" + "Maximo Numero de Hijos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + (n) + " " + "para cualquier nodo" + " \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
-		s+="+Cantidad de elementos: " + getCantElementos() + "\n";
-		s+="+Profundidad: " + getProfundidad() + "\n";
+		s+="+" + "Cantidad de elementos" + ": " + getCantElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + "Profundidad" + ": " + getProfundidad() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
 		return s;
 	}
@@ -169,8 +172,8 @@ public class ArbolB extends Almacenamiento{
 
 	@Override
 	public void buscarConInfo(Elemento e) {
-		ConsolaManager.getInstance().escribir("");
-		ConsolaManager.getInstance().escribir("Búsqueda del elemento [" + e + "] en la estructura de Arbol B.");
+		ConsolaManager.getInstance().escribir(""); //$NON-NLS-1$
+		ConsolaManager.getInstance().escribir(Messages.getString("ARBOL_BUSCAR_INFO_PRE") + " [" + e + "] " + Messages.getString("ARBOL_BUSCAR_INFO_POS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		raiz.buscarConInfo(e);
 		
 	}	
