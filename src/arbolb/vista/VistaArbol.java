@@ -15,7 +15,7 @@ public abstract class VistaArbol extends Vista{
 	public static final String COLOR_BORDE_NORMAL = "#000000";
 
 	public static final String COLOR_NODO_INTERVINIENTE = "#FF0000";
-	public static final String COLOR_PUNT_BMAS = "#0000CC";
+	public static final String COLOR_PUNT_BMAS = "#0066AA";
 	
 	protected ArbolB arbol;
 	
