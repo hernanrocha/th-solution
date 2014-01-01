@@ -77,6 +77,7 @@ public class mainWindow {
 	// Ruta de salida estandar
 	//private static final String DIR_SALIDA = "./logs.log"; // Linux
 	private static final String DIR_SALIDA = "logs.log";  // Windows
+	//private static final String DIR_SALIDA = System.getProperty("user.home") + "logs.log";  // Windows (Fix)
 	
 	// Ruta de salida de errores
 	//private static final String DIR_ERR = "./logs.log"; // Linux
@@ -114,13 +115,20 @@ public class mainWindow {
 					mainWindow window = new mainWindow();
 					window.frmAplicacionDidacticaEstructuras.setVisible(true);
 					
+					// Propiedades
+					System.out.println(System.getProperty("os.name"));
+					System.out.println(System.getProperty("os.arch"));
+					System.out.println(System.getProperty("os.version"));
+					System.out.println(System.getProperty("user.dir"));
+					System.out.println(System.getProperty("user.home"));
+					
 					// Argumentos
 					System.out.println("Inicio argumentos (v2)");
 					for (String s : argumentos){
 						ConsolaManager.getInstance().escribirInfo("Arbol B", s);
 						//ConsolaManager.getInstance().escribirInfo("Arbol B", );
 						System.out.println(s);
-						window.abrirEstructura(s);
+						//window.abrirEstructura(s);
 					}
 					System.out.println("Fin argumentos (v2)");
 					

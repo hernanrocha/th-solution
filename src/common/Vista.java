@@ -4,6 +4,9 @@ package common;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.util.Vector;
 
@@ -26,7 +29,11 @@ public abstract class Vista extends JPanel implements Serializable{
 
 	private int capturaActual = 0;
 	private int infoActual = 0;
-	private Vector<String> capturas = new Vector<String>();	
+	//private Vector<String> capturas = new Vector<String>();	
+	private File archivo;
+	private RandomAccessFile fichero;
+	
+	
 	private Vector<String> info = new Vector<String>();
 	private String tipo = new String();
 
@@ -60,6 +67,14 @@ public abstract class Vista extends JPanel implements Serializable{
 		imagen.setHorizontalAlignment(SwingConstants.CENTER);  
 		//Esto te pone todo el fondo en blanco.
 		scrollPane.getViewport().setBackground(Color.WHITE);
+		
+		
+		// Abrir archivo
+		archivo = new File("capturas.dat");
+		try {
+			fichero = new RandomAccessFile(archivo, "rw");
+		} catch (FileNotFoundException e) {
+		}
 	}
 	
 	public String getTipo() {
@@ -80,37 +95,54 @@ public abstract class Vista extends JPanel implements Serializable{
 	public abstract String getInfo();
 	
 	public void agregarCaptura(String accion){
-		capturas.add(toGraph(accion));
+		try {
+			fichero.seek(fichero.length());
+			fichero.writeUTF(toGraph(accion));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//capturas.add(toGraph(accion));
 		info.add(getInfo());
 	}
 	
 	public void siguienteCaptura(){
-		if (capturaActual < capturas.size() - 1){
-			capturaActual++;	
-			infoActual++;
-		}
+//		if (capturaActual < capturas.size() - 1){
+//			capturaActual++;	
+//			infoActual++;
+//		}
 	}
 	
 	public void anteriorCaptura(){
-		if (capturaActual > 0){
-			capturaActual--;		
-			infoActual--;
-		}
+//		if (capturaActual > 0){
+//			capturaActual--;		
+//			infoActual--;
+//		}
 	}
 	
 	public void primeraCaptura(){
+		try {
+			fichero.seek(0);
+		} catch (IOException e) {}
 		capturaActual = 0;
 		infoActual = 0;
 	}
 	
 	public void ultimaCaptura(){
-		capturaActual = capturas.size() - 1;
+		try {
+			fichero.seek(fichero.length());
+		} catch (IOException e) {}
+		
+		//capturaActual = capturas.size() - 1;
 		infoActual = info.size() - 1;
 	}
 	
 	public void generateGraph(){
 		GraphViz gv = new GraphViz();
-		gv.add(capturas.elementAt(capturaActual));
+//		gv.add(capturas.elementAt(capturaActual));
+		try {
+			gv.add(fichero.readUTF());
+		} catch (IOException e) {}
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
 		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
 	    File out = new File(nombre);

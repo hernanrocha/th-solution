@@ -39,7 +39,7 @@ public class Archivo extends JTabbedPane{
 		// Listener. Ir a ultima captura cuando se cambia de tab
 		ChangeListener changeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent changeEvent) {				
-				ConsolaManager.getInstance().escribir("Actualizar Tab");
+				//ConsolaManager.getInstance().escribir("Actualizar Tab");
 				Vista v = (Vista) getSelectedComponent();
 				if (v != null){
 					v.ultimaCaptura();
