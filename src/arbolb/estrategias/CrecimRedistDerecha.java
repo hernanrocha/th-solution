@@ -1,5 +1,7 @@
 package arbolb.estrategias;
 
+import common.Messages;
+
 import arbolb.estructura.NodoB;
 
 public class CrecimRedistDerecha extends Estrategia {
@@ -16,7 +18,7 @@ public class CrecimRedistDerecha extends Estrategia {
 
 	@Override
 	public String toString() {
-		return "Redistribucion Derecha";
+		return Messages.getString("ARBOL_CRECIM_REDISTRIBUCION_DERECHA"); //$NON-NLS-1$
 	}
 
 }

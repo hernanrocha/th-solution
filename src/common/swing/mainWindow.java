@@ -99,6 +99,8 @@ public class mainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final String[] argumentos = args;
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -111,6 +113,17 @@ public class mainWindow {
 					//	UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
 					mainWindow window = new mainWindow();
 					window.frmAplicacionDidacticaEstructuras.setVisible(true);
+					
+					// Argumentos
+					System.out.println("Inicio argumentos (v2)");
+					for (String s : argumentos){
+						ConsolaManager.getInstance().escribirInfo("Arbol B", s);
+						//ConsolaManager.getInstance().escribirInfo("Arbol B", );
+						System.out.println(s);
+						window.abrirEstructura(s);
+					}
+					System.out.println("Fin argumentos (v2)");
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -683,9 +696,9 @@ public class mainWindow {
 		    		tabsArchivos.addTab(archivoElegido.getName(), archivo);
 		    		
 		    		// Agrega vistas al archivo
-		    		archivo.agregarTab();
 		    		archivo.ultimaCaptura();
-					actualizarImagen();	    			
+					actualizarImagen();	
+		    		archivo.agregarTab();
 	    		}else{
 	    			archivo = null;
 	    		}
@@ -694,6 +707,26 @@ public class mainWindow {
 			cerrarEstructura();
 			abrirEstructura();
 		}		
+	}
+	
+	protected void abrirEstructura(String est){
+		File archivoElegido = new File(est);
+		
+		// Intenta cargar archivo y mostrarlo en pantalla
+		archivo = new Archivo(JTabbedPane.BOTTOM);
+		if(archivo.cargar(archivoElegido.getPath())){
+
+            // Agregar pesta�a referida al archivo
+    		archivo.setBackground(Color.WHITE);
+    		tabsArchivos.addTab(archivoElegido.getName(), archivo);
+    		
+    		// Agrega vistas al archivo
+    		archivo.ultimaCaptura();
+			actualizarImagen();
+    		archivo.agregarTab();
+		}else{
+			archivo = null;
+		}
 	}
 	
 	protected void guardarEstructura(){
@@ -826,11 +859,10 @@ public class mainWindow {
 		
 	}
 
-	public void actualizarImagen() {		
+	public void actualizarImagen() {
 		// Renderizar imagen actual
 		if (archivo != null){
 			archivo.generateGraph();
-			archivo.updateUI();
 			archivo.actualizar();
 		}else{
 			System.out.println("Ninguna estructura a actualizar");

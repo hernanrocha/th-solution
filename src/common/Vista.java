@@ -112,17 +112,20 @@ public abstract class Vista extends JPanel implements Serializable{
 		GraphViz gv = new GraphViz();
 		gv.add(capturas.elementAt(capturaActual));
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
-		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;
+		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
 	    File out = new File(nombre);
 	  	gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), GraphViz.IMAGE_EXT ), out );
 	}	
 
 	public void agregarTab(JTabbedPane tabArchivo){
 	
+		// Verificar que existe el directorio temporal
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
-		src = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;
+		
+		
+		src = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
 
-		System.out.println("Agregar tab: " + src);
+		System.out.println("Agregar tab: " + src); 
 		
 		tabArchivo.addTab(getTipo(), this);
 		imagen.setIcon(new ImageIcon(src));
@@ -130,26 +133,23 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		
 		tabArchivo.setSelectedIndex(tabArchivo.getTabCount() - 1);
-		//InfoManager
-		InfoManager.getInstance().escribir(info.elementAt(infoActual));
-	}
-	
-	@Override
-	public void updateUI(){
-		super.updateUI();
-		if(src != null){
-			imagen.setIcon(new ImageIcon(GraphViz.getImagen(src)));
-			scrollPane.setViewportView(imagen);
-			add(scrollPane, BorderLayout.CENTER);
-		}
-	}
-
-	public void setInfo(){
+		
 		//InfoManager
 		InfoManager.getInstance().escribir(info.elementAt(infoActual));
 	}
 	
 	//Busqueda
 	public abstract void busqueda(Integer e);
+
+	public void actualizar() {
+		if(src != null){
+			imagen.setIcon(new ImageIcon(GraphViz.getImagen(src)));
+			scrollPane.setViewportView(imagen);
+			add(scrollPane, BorderLayout.CENTER);
+		}
+
+		//InfoManager
+		InfoManager.getInstance().escribir(info.elementAt(infoActual));
+	}
 	
 }

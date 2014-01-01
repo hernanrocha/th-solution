@@ -53,7 +53,7 @@ public class GraphViz
 	 */
 	//public static String TEMP_DIR = "./tmp";        // Linux
 	public static String TEMP_DIR = "tmp";        // Windows
-	
+	//public static String TEMP_DIR = System.getProperty("java.io.tmpdir"); // Windows (Fix)
 	public static String IMAGE_EXT = "png";
 
 	/**

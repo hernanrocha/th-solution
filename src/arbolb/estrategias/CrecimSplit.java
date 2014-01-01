@@ -1,5 +1,7 @@
 package arbolb.estrategias;
 
+import common.Messages;
+
 import arbolb.estructura.NodoB;
 
 public class CrecimSplit extends Estrategia {
@@ -13,7 +15,7 @@ public class CrecimSplit extends Estrategia {
 
 	@Override
 	public String toString() {
-		return "Split";
+		return Messages.getString("ARBOL_CRECIM_SPLIT"); //$NON-NLS-1$
 	}
 	
 }

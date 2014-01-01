@@ -1257,10 +1257,10 @@ public class formEstructura extends JDialog {
 		
 		// Actualizar pantalla
 		parent.tabsArchivos.addTab("Sin Título", arch);
-		arch.agregarTab();
 		arch.ultimaCaptura();
 		
 		parent.actualizarImagen();
+		arch.agregarTab();
 		
 		
 		g.dispose();

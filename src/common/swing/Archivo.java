@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 //import org.apache.log4j.Logger;
 
+import common.Messages;
 import common.Vista;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
@@ -29,28 +30,25 @@ public class Archivo extends JTabbedPane{
 	
 
 	public Archivo() {
-		// TODO Auto-generated constructor stub
 		this.setDoubleBuffered(true);
 	}
 
 	public Archivo(int tabPlacement) {
 		super(tabPlacement);
 		
-		//Aca agregar el listener.
+		// Listener. Ir a ultima captura cuando se cambia de tab
 		ChangeListener changeListener = new ChangeListener() {
-			public void stateChanged(ChangeEvent changeEvent) {
-				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
-				int index = sourceTabbedPane.getSelectedIndex();
-				Vector<Vista> vistas = new Vector<Vista>();
-				for (int i = 0 ; i < almac.size() ; i++){
-					vistas.addAll(almac.elementAt(i).getVistas());
+			public void stateChanged(ChangeEvent changeEvent) {				
+				ConsolaManager.getInstance().escribir("Actualizar Tab");
+				Vista v = (Vista) getSelectedComponent();
+				if (v != null){
+					v.ultimaCaptura();
+					v.generateGraph();
+					v.actualizar();
 				}
-				vistas.elementAt(index).setInfo();
 			}
 		};
 		this.addChangeListener(changeListener);
-
-
 	}
 	
 	public void agregarAlmacenamiento(Almacenamiento a){
@@ -59,17 +57,22 @@ public class Archivo extends JTabbedPane{
 	
 	public void insertar(Elemento e){
 		boolean existe = false;
+		
+		// Insertar en los distintos almacenamientos
 		for (Almacenamiento a : almac){
 			if (!a.buscar(e)){
 				a.insertar(e);
-				//Determino que cambio.
+				
+				// Determinar que cambio.
 				changed = true;
 			}else{
 				existe = true;
 			}
 		}
+		
+		// Mostrar mensaje si existia en alguna estructura
 		if(existe){
-			ConsolaManager.getInstance().escribirAdv("El elemento ya exist�a en algunas estructuras y no fue agregado nuevamente.");
+			ConsolaManager.getInstance().escribirAdv(Messages.getString("ARCHIVO_ELEMENTO_EXISTENTE")); //$NON-NLS-1$
 		}
 	}
 	
@@ -77,9 +80,10 @@ public class Archivo extends JTabbedPane{
 		for (Almacenamiento a : almac){
 			if ( a.buscar(e) ){
 				a.eliminar(e);
+
+				// Determinar que cambio.
 				changed = true;
-			}
-				
+			}				
 		}
 	}
 
@@ -89,7 +93,7 @@ public class Archivo extends JTabbedPane{
 				path = path + ".est";
 			}
 			ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(path));
-			salida.writeObject("Archivo: " + path);
+			salida.writeObject(Messages.getString("ARCHIVO_NOMBRE") + ": " + path); //$NON-NLS-1$
 			salida.writeObject(almac);
 			salida.writeObject(NodoB.getCantidad());
 			salida.close();
@@ -97,9 +101,13 @@ public class Archivo extends JTabbedPane{
 			setPath(path);
 			setName(name);
 			
-			//Determino que cambio.
+			// Determinar que los cambios estan guardados.
 			changed = false;
-		} catch (FileNotFoundException e) {	} catch (IOException e) { }
+		} catch (FileNotFoundException e) {	
+			
+		} catch (IOException e) {
+			
+		}
 		
 	}
 	
@@ -131,55 +139,51 @@ public class Archivo extends JTabbedPane{
 			NodoB.setCantidad((int) entrada.readObject());
 			entrada.close();
 			setPath(path);
-			
-			//Logger.getLogger("Cargar Estructura").info("Archivo cargado");
-			
+						
 			//Determino que cambio
 			changed = false;
 			
 			return true;
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			//Logger.getLogger("Cargar Estructura").warn("El archivo no existe");
+			e1.printStackTrace();
 			return false;
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			//Logger.getLogger("Cargar Estructura").warn(e1.getStackTrace().toString());
 			e1.printStackTrace();
 			return false;
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			//Logger.getLogger("Cargar Estructura").warn(e1.getStackTrace().toString());
 			e1.printStackTrace();
 			return false;
 		}
-		
 	}
 
 	public void primeraCaptura() {
-		for (Almacenamiento a : almac){
-			a.primeraCaptura();
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.primeraCaptura();
 		}
 	}
 	
 	public void ultimaCaptura() {
-		for (Almacenamiento a : almac){
-			a.ultimaCaptura();
-		}
-	}
-	
-	public void siguienteCaptura() {
-		for (Almacenamiento a : almac){
-			a.siguienteCaptura();
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.ultimaCaptura();
 		}
 	}
 	
 	public void anteriorCaptura() {
-		for (Almacenamiento a : almac){
-			a.anteriorCaptura();
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.anteriorCaptura();
 		}
 	}
-
+	
+	public void siguienteCaptura() {
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.siguienteCaptura();
+		}
+	}
+	
 	public void agregarTab() {
 		for (Almacenamiento a : almac){
 			a.agregarTab(this);
@@ -187,8 +191,9 @@ public class Archivo extends JTabbedPane{
 	}
 
 	public void generateGraph() {
-		for (Almacenamiento a : almac){
-			a.generateGraph();
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.generateGraph();
 		}
 	}
 
@@ -196,22 +201,11 @@ public class Archivo extends JTabbedPane{
 		return changed;
 	}
 	
-	public void updateUI(){
-		super.updateUI();
-		if (almac != null)
-			for (Almacenamiento a : almac){
-				a.updateUI();
-			}
-	}
-	
 	public void actualizar(){
-		Vector<Vista> vistas = new Vector<Vista>();
-        for (int i = 0 ; i < almac.size() ; i++){
-        	vistas.addAll(almac.elementAt(i).getVistas());
-        }
-        if (getSelectedIndex() >= 0){
-        	vistas.elementAt(getSelectedIndex()).setInfo();
-        }
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			v.actualizar();
+		}
 	}
 	
 	public Vector<Almacenamiento> getAlmac(){

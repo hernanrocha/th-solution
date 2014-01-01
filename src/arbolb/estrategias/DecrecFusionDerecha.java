@@ -1,5 +1,7 @@
 package arbolb.estrategias;
 
+import common.Messages;
+
 import arbolb.estructura.NodoB;
 
 public class DecrecFusionDerecha extends Estrategia {
@@ -13,8 +15,7 @@ public class DecrecFusionDerecha extends Estrategia {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Fusion Derecha";
+		return Messages.getString("ARBOL_DECRECIM_FUSION_DERECHA"); //$NON-NLS-1$
 	}
 
 }

@@ -11,16 +11,13 @@ import common.swing.ConsolaManager;
 
 public class HashAbierto extends HashAbs {
 
-	private static final long serialVersionUID = 1L;	
-	public static final int DEFAULT_CANT_BALDES = 7;
-	public static final int DEFAULT_CANT_RANURAS = 2;
+	private static final long serialVersionUID = 1L;
+	
 	public static final int DEFAULT_CANT_RANURAS_SECUNDARIAS = 3;
 	public static final double DEFAULT_RHO_DISENIO = 0.9;
-	
-	private int ranuras;
-	private int baldes;
-	private int ranurasSecundarias;
+
 	private Vector<Vector<Celda>> espacioDeAlmacenamiento;
+	private int ranurasSecundarias;
 	private double rhoDeDisenio;
 	private int frontera;
 	private int cantidadDeBaldesActuales;

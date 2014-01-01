@@ -53,7 +53,7 @@ public class Buscar extends JDialog {
 				ColumnSpec.decode("100dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -84,27 +84,27 @@ public class Buscar extends JDialog {
 					//Verificar si la tecla pulsada no es un digito
 					char caracter = e.getKeyChar();
 
-				      if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/) )
-				      {
-				         e.consume();  // ignorar el evento de teclado
-				      }else
-					if(textField.getText().length()>=10)
-				    {
-				        textField.setText(textField.getText().substring(0, 9));
-				    }
+					if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/) )
+					{
+						e.consume();  // ignorar el evento de teclado
+					}else
+						if(textField.getText().length()>=10)
+						{
+							textField.setText(textField.getText().substring(0, 9));
+						}
 				}
 				@Override
 				public void keyReleased(KeyEvent arg0) {
-					  if(textField.getText().length()>0)
-					        okButton.setEnabled(true);
-					    else
-					    	okButton.setEnabled(false);
+					if(textField.getText().length()>0)
+						okButton.setEnabled(true);
+					else
+						okButton.setEnabled(false);
 				}
 			});
 			textField.setFont(new Font("Tahoma", Font.BOLD, 12));
 			contentPanel.add(textField, "6, 4, fill, default");
 			textField.setColumns(10);
-		   
+
 		}
 		{
 			JSeparator separator = new JSeparator();
@@ -120,15 +120,12 @@ public class Buscar extends JDialog {
 			choice = new Choice();
 			choice.setFont(new Font("Tahoma", Font.BOLD, 12));
 			contentPanel.add(choice, "3, 10, 4, 1");
-			Vector<Vista> vistas = new Vector<Vista>();
-	        for (int i = 0 ; i < almac.size() ; i++){
-	        	vistas.addAll(almac.elementAt(i).getVistas());
-	        }
-	      
-	        for (Vista v: vistas){
-	        	choice.add(v.getTipo());
-	        }
-	        
+
+			for (Almacenamiento a : almac) {
+				for (Vista v : a.getVistas()){
+					choice.add(v.getTipo());
+				}
+			}	        
 		}
 		{
 			JPanel buttonPane = new JPanel();
