@@ -162,8 +162,8 @@ public class mainWindow {
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		System.setErr(err);
-		System.setOut(out);
+		//System.setErr(err);
+		//System.setOut(out);
 		
 		// Inicializar ventana principal
 		frmAplicacionDidacticaEstructuras = new JFrame();

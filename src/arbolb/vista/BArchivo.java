@@ -52,7 +52,7 @@ public class BArchivo extends VistaArbol {
 		}
 		
 		// Fin de grafo
-		str += "}";
+		str += "} \n";
 
 		return str;
 	}
@@ -109,5 +109,8 @@ public class BArchivo extends VistaArbol {
 		return str;
 	}
 	
-	
+	@Override
+	public String getTipo() {
+		return "B Archivo";
+	}
 }
