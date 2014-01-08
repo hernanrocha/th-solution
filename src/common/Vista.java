@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
-import java.lang.instrument.Instrumentation;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -30,7 +29,7 @@ public abstract class Vista extends JPanel implements Serializable{
 
 	private int capturaActual = 0;
 	private int infoActual = 0;
-	//private Vector<String> capturas = new Vector<String>();
+	private Vector<String> capturas = new Vector<String>();
 	private Vector<Long> seeks = new Vector<Long>();
 	private File archivo;
 	private RandomAccessFile fichero;
@@ -72,11 +71,11 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		
 		// Abrir archivo
-		archivo = new File(getUIClassID() + "_capturas.dat");
-		try {
-			fichero = new RandomAccessFile(archivo, "rw");
-		} catch (FileNotFoundException e) {
-		}
+//		archivo = new File(getUIClassID() + "_capturas.dat");
+//		try {
+//			fichero = new RandomAccessFile(archivo, "rw");
+//		} catch (FileNotFoundException e) {
+//		}
 	}
 	
 	public String getTipo() {
@@ -96,79 +95,87 @@ public abstract class Vista extends JPanel implements Serializable{
 	public abstract String getInfo();
 	
 	public void agregarCaptura(String accion){
-		try {
-			fichero.seek(fichero.length()); // Colocar puntero al final
-			seeks.add(fichero.getFilePointer()); // Agregar puntero al comienzo de la captura nueva
-			capturaActual = seeks.size() - 1; // Ir a ultima captura
-			fichero.writeBytes(toGraph(accion)); // Escribir
-			System.out.println("Grafo escrito");
-			System.out.println("Puntero al final del archivo:" + fichero.getFilePointer());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//capturas.add(toGraph(accion));
+//		try {
+//			fichero.seek(fichero.length()); // Colocar puntero al final
+//			seeks.add(fichero.getFilePointer()); // Agregar puntero al comienzo de la captura nueva
+//			capturaActual = seeks.size() - 1; // Ir a ultima captura
+//			fichero.writeBytes(toGraph(accion)); // Escribir
+//			System.out.println("Grafo escrito");
+//			System.out.println("Puntero al final del archivo:" + fichero.getFilePointer());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		capturas.add(toGraph(accion));
 		info.add(getInfo());
 	}
 	
 	public void siguienteCaptura(){
-		if (capturaActual < seeks.size() - 1){
-			try {
-				capturaActual++;
-				fichero.seek(seeks.elementAt(capturaActual));
-				System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			infoActual++;
+//		if (capturaActual < seeks.size() - 1){
+//			try {
+//				capturaActual++;
+//				fichero.seek(seeks.elementAt(capturaActual));
+//				System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			infoActual++;
+//		}
+		
+		if (capturaActual < capturas.size() - 1){
+			capturaActual++;
 		}
 	}
 	
 	public void anteriorCaptura(){
+//		if (capturaActual > 0){
+//			try {
+//				capturaActual--;
+//				fichero.seek(seeks.elementAt(capturaActual));
+//				System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			infoActual--;
+//		}
+		
 		if (capturaActual > 0){
-			try {
-				capturaActual--;
-				fichero.seek(seeks.elementAt(capturaActual));
-				System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			infoActual--;
+			capturaActual--;
 		}
 	}
 	
 	public void primeraCaptura(){
-		try {
-			fichero.seek(0);
+//		try {
+//			fichero.seek(0);
 			capturaActual = 0;
-			System.out.println("Primera captura");
-			System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
-		} catch (IOException e) {}
+//			System.out.println("Primera captura");
+//			System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
+//		} catch (IOException e) {}
 		infoActual = 0;
 	}
 	
 	public void ultimaCaptura(){
-		try {
-			//fichero.seek(fichero.length() - 1);
-			fichero.seek(seeks.lastElement());
-			capturaActual = seeks.size() - 1;
-			System.out.println("Ultima captura");
-			System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
-		} catch (IOException e) {}
+//		try {
+//			//fichero.seek(fichero.length() - 1);
+//			fichero.seek(seeks.lastElement());
+//			capturaActual = seeks.size() - 1;
+//			System.out.println("Ultima captura");
+//			System.out.println("Puntero actual: " + fichero.getFilePointer() + " (Captura " + capturaActual + ")");
+//		} catch (IOException e) {}
 		
-		//capturaActual = capturas.size() - 1;
+		capturaActual = capturas.size() - 1;
 		infoActual = info.size() - 1;
 	}
 	
 	public void generateGraph(){
 		GraphViz gv = new GraphViz();
-//		gv.add(capturas.elementAt(capturaActual));
-		try {
-			System.out.println("Leyendo");
-			gv.add(fichero.readLine());
-		} catch (IOException e) {}
+		gv.add(capturas.elementAt(capturaActual));
+//		try {
+//			System.out.println("Leyendo");
+//			gv.add(fichero.readLine());
+//		} catch (IOException e) {}
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
 		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
 	    File out = new File(nombre);
