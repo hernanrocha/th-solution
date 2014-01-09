@@ -29,13 +29,17 @@ import javax.swing.UIManager;
 // import org.apache.log4j.Logger;
 
 import common.FiltroArchivoEstructura;
+import common.FiltroArchivoTexto;
 import common.Messages;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
 
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.border.LineBorder;
@@ -256,8 +260,11 @@ public class mainWindow {
 		btnInsertar.setHorizontalAlignment(SwingConstants.LEADING);
 		btnInsertar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnInsertar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
-				insertarDatos();
+			public void actionPerformed(ActionEvent arg0) {
+				Vector<Elemento> elementos = parseToElements(CampoDeTexto.getText());
+				insertarDatos(elementos);
+				CampoDeTexto.setText("");
+				//insertarDatos();
 			}
 		});
 		BotonBoxAcciones.add(btnInsertar);
@@ -268,7 +275,10 @@ public class mainWindow {
 		btnEliminar.setHorizontalAlignment(SwingConstants.TRAILING);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				eliminarDatos();
+				Vector<Elemento> elementos = parseToElements(CampoDeTexto.getText());
+				eliminarDatos(elementos);
+				CampoDeTexto.setText("");
+				//eliminarDatos();
 			}
 		});
 		btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -570,8 +580,16 @@ public class mainWindow {
 		});
 		mnAyuda.add(mntmAcercaDe);
 	}
-	
+
 	private void initBotonesCaptura() {
+		
+		JButton btnCargarDesdeArchivo = new JButton("Cargar desde archivo");
+		btnCargarDesdeArchivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				leerAccionesArchivo();
+			}
+		});
+		verticalBox.add(btnCargarDesdeArchivo);
 		
 		JSeparator separator = new JSeparator();
 		verticalBox.add(separator);
@@ -644,6 +662,58 @@ public class mainWindow {
 		BotonBox.add(btnUltimo);		
 	}
 	
+	/***********************************************************************************
+	 *                                                                                 *
+	 *                            TODO ACCIONES ESTRUCTURA                             *
+	 *                                                                                 *
+	 ***********************************************************************************/
+	
+	protected void leerAccionesArchivo() {
+		//Crear un objeto FileChooser
+        JFileChooser fc = new JFileChooser();
+        
+        //Mostrar la ventana para abrir archivo y recoger la respuesta
+        fc.setFileFilter(new FiltroArchivoTexto());
+        int respuesta = fc.showOpenDialog(null);
+        
+        //Comprobar si se ha pulsado Aceptar
+        if (respuesta == JFileChooser.APPROVE_OPTION){
+            //Crear un objeto File con el archivo elegido
+            File archivo = fc.getSelectedFile();
+            
+            //Mostrar el nombre del archivo en un campo de texto
+            System.out.println(archivo.getPath());
+
+            FileReader fr;
+            BufferedReader br;
+            try {
+            	fr = new FileReader (archivo);
+            	br = new BufferedReader(fr);
+
+            	// Lectura del fichero
+            	String linea;
+            	while((linea = br.readLine()) != null){
+            		//System.out.println("Linea: " + linea);
+            		String[] tokens = linea.trim().split(" ");
+
+            		if (tokens[0].toLowerCase().equals("insertar")){
+            			Vector<Elemento> elementos = parseToElements(tokens[1]);
+            			insertarDatos(elementos);
+            		}else if (tokens[0].toLowerCase().equals("eliminar")){
+            			Vector<Elemento> elementos = parseToElements(tokens[1]);
+            			eliminarDatos(elementos);
+            		}
+            	}
+            } catch (FileNotFoundException e) {
+            	e.printStackTrace();
+            } catch (IOException e) {
+            	e.printStackTrace();
+            }
+		
+        }
+		
+	}
+
 	protected void nuevaEstructura() {
 		
 		//Borramos la consola.
@@ -793,61 +863,39 @@ public class mainWindow {
 		//Borramos el panel de informacion.
 		Informacion.setText("");
 	}
+	
+	/***********************************************************************************
+	 *                                                                                 *
+	 *                          TODO INSERCION / ELIMINACION                           *
+	 *                                                                                 *
+	 ***********************************************************************************/
+	
+	// Obtener vector de elementos
+	protected Vector<Elemento> parseToElements(String str) {
+		Vector<Elemento> elementos = new Vector<Elemento>();
+		String[] valores = str.split(",");
 
-	protected void eliminarDatos() {
-		if (archivo != null){
-
-			// Obtener elementos
-			Vector<Elemento> elementos = new Vector<Elemento>();
-			String[] valores = CampoDeTexto.getText().split(",");
-			for (String v : valores){
-				try{
-					elementos.add(new Elemento(Integer.parseInt( v.trim() )));
-				}catch (NumberFormatException e){
-					//Logger.getLogger("Eliminacion").warn("Error al obtener elementos a eliminar", e);
-				}
-			}		
-			// Logger.getLogger("Eliminacion").info("Elementos a eliminar: " + elementos);
-
-			// Eliminar elementos
-			for (Elemento e : elementos){
-				archivo.eliminar(e);
+		for (String v : valores){
+			try{
+				elementos.add(new Elemento(Integer.parseInt( v.trim() )));
+			}catch (NumberFormatException e){
+				//Logger.getLogger("Insercion").warn("Error al obtener elementos a insertar", e);
 			}
-
-			archivo.ultimaCaptura();
-			actualizarImagen();		
-		}else{
-			// System.out.println("Ningun archivo cargado para eliminar datos");
 		}
+		//Logger.getLogger("Insercion").info("Elementos a insertar: " + elementos);
 		
-		CampoDeTexto.setText("");
-		
+		return elementos;
 	}
 
-	protected void insertarDatos() {
-		
+	protected void insertarDatos(Vector<Elemento> elementos) {
 		if (archivo != null){
 
 			long tiempoInicial = System.currentTimeMillis();
-
-			// Obtener elementos
-			Vector<Elemento> elementos = new Vector<Elemento>();
-			String[] valores = CampoDeTexto.getText().split(",");
-
-			for (String v : valores){
-				try{
-					elementos.add(new Elemento(Integer.parseInt( v.trim() )));
-				}catch (NumberFormatException e){
-					//Logger.getLogger("Insercion").warn("Error al obtener elementos a insertar", e);
-				}
-			}		
-			//Logger.getLogger("Insercion").info("Elementos a insertar: " + elementos);
 
 			// Insertar elementos en el archivo
 			for (Elemento e : elementos){
 				archivo.insertar(e);
 			}
-
 
 			long tiempoMedio = System.currentTimeMillis();
 
@@ -862,9 +910,31 @@ public class mainWindow {
 		}else{
 			System.out.println("Ningun archivo cargado para insertar datos");
 		}
-		
-		CampoDeTexto.setText("");
-		
+	}
+	
+	protected void eliminarDatos(Vector<Elemento> elementos) {
+		if (archivo != null){
+
+			long tiempoInicial = System.currentTimeMillis();
+
+			// Insertar elementos en el archivo
+			for (Elemento e : elementos){
+				archivo.eliminar(e);
+			}
+
+			long tiempoMedio = System.currentTimeMillis();
+
+			// Actualizar pantalla
+			archivo.ultimaCaptura();
+			actualizarImagen();
+
+			long tiempoFinal = System.currentTimeMillis();
+			
+			System.out.println("Eliminar datos: " + (tiempoMedio - tiempoInicial));
+			System.out.println("Mostrar en pantalla: " + (tiempoFinal - tiempoMedio));
+		}else{
+			System.out.println("Ningun archivo cargado para eliminar datos");
+		}
 	}
 
 	public void actualizarImagen() {
@@ -877,6 +947,12 @@ public class mainWindow {
 		}
 
 	}
+	
+	/***********************************************************************************
+	 *                                                                                 *
+	 *                                TODO HERRAMIENTAS                                *
+	 *                                                                                 *
+	 ***********************************************************************************/
 	
 	private void abrirAyuda(){
 		// Asistente para configurar archivo
