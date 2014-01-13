@@ -6,7 +6,7 @@ import javax.swing.filechooser.FileFilter;
 
 public class FiltroArchivoEstructura extends FileFilter {
 
-	private static final String EXTENSION_ESTRUCTURA = "est";
+	private static final String EXTENSION_ESTRUCTURA = "est"; //$NON-NLS-1$
 	//private static final String EXTENSION_ACCESO_DRIECTO = "lnk";
 	
 	private final String[] okFileExtensions = new String[] {EXTENSION_ESTRUCTURA};
@@ -27,7 +27,7 @@ public class FiltroArchivoEstructura extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "Archivos Estructura (*.est)";
+		return Messages.getString("FILTRO_ARCHIVO_ESTRUCTURA") + " (*.est)"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

@@ -18,6 +18,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import common.Messages;
 
 public class dialogAcercaDe extends JDialog {
 
@@ -28,9 +29,9 @@ public class dialogAcercaDe extends JDialog {
 	private JPanel contentPanel = new JPanel();
 	
 	public dialogAcercaDe(mainWindow mainWindow) {
-		super(mainWindow.frmAplicacionDidacticaEstructuras, "Acerca De T.H.Solution", ModalityType.APPLICATION_MODAL);
-		setTitle("Acerca De T.H.Solution. Aplicaci\u00F3n Did\u00E1ctica");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(dialogAcercaDe.class.getResource("/img/icono.png")));
+		super(mainWindow.frmAplicacionDidacticaEstructuras, Messages.getString("SWING_ABOUT_TH_SOLUTION"), ModalityType.APPLICATION_MODAL); //$NON-NLS-1$
+		setTitle(Messages.getString("SWING_ABOUT_TH_SOLUTION_APLIC_DIDACTICA")); //$NON-NLS-1$
+		setIconImage(Toolkit.getDefaultToolkit().getImage(dialogAcercaDe.class.getResource("/img/icono.png"))); //$NON-NLS-1$
 		this.setResizable(false);
 		setBounds(100, 100, 450, 450);
 		this.setLocationRelativeTo(null);
@@ -42,9 +43,9 @@ public class dialogAcercaDe extends JDialog {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("default:grow"), //$NON-NLS-1$
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(45dlu;default)"),},
+				ColumnSpec.decode("max(45dlu;default)"),}, //$NON-NLS-1$
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -66,83 +67,83 @@ public class dialogAcercaDe extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,});
 		contentPanel.setLayout(fl_contentPanel);
 		{
-			JLabel brian = new JLabel("");
-			brian.setToolTipText("CAIMMI, Brian");
+			JLabel brian = new JLabel(""); //$NON-NLS-1$
+			brian.setToolTipText(Messages.getString("SWING_ABOUT_CAIMMI")); //$NON-NLS-1$
 			brian.setBorder(new LineBorder(Color.BLACK));
-			brian.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/brian.png")));
-			contentPanel.add(brian, "3, 2");
+			brian.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/brian.png"))); //$NON-NLS-1$
+			contentPanel.add(brian, "3, 2"); //$NON-NLS-1$
 		}
 		{
-			JLabel hernan = new JLabel("");
-			hernan.setToolTipText("ROCHA, Hern\u00E1n Gabriel");
+			JLabel hernan = new JLabel(""); //$NON-NLS-1$
+			hernan.setToolTipText(Messages.getString("SWING_ABOUT_ROCHA")); //$NON-NLS-1$
 			hernan.setBorder(new LineBorder(Color.BLACK));
-			hernan.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/hernan.png")));
-			contentPanel.add(hernan, "7, 2, center, center");
+			hernan.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/hernan.png"))); //$NON-NLS-1$
+			contentPanel.add(hernan, "7, 2, center, center"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblCaimmibrian = new JLabel("CAIMMI,Brian");
-			lblCaimmibrian.setFont(new Font("Tahoma", Font.BOLD, 12));
+			JLabel lblCaimmibrian = new JLabel(Messages.getString("SWING_ABOUT_CAIMMI")); //$NON-NLS-1$
+			lblCaimmibrian.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 			lblCaimmibrian.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblCaimmibrian, "3, 4");
+			contentPanel.add(lblCaimmibrian, "3, 4"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblNewLabel = new JLabel("      Desarrolladores      ");
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+			JLabel lblNewLabel = new JLabel("      " + Messages.getString("SWING_ABOUT_DESARROLLADORES") + "      "); //$NON-NLS-1$
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblNewLabel, "5, 2");
+			contentPanel.add(lblNewLabel, "5, 2"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblRochaHernnGabriel = new JLabel("ROCHA, Hernán Gabriel");
-			lblRochaHernnGabriel.setFont(new Font("Tahoma", Font.BOLD, 12));
+			JLabel lblRochaHernnGabriel = new JLabel(Messages.getString("SWING_ABOUT_ROCHA")); //$NON-NLS-1$
+			lblRochaHernnGabriel.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 			lblRochaHernnGabriel.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblRochaHernnGabriel, "7, 4");
+			contentPanel.add(lblRochaHernnGabriel, "7, 4"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblBcaimmigmailcom = new JLabel("bcaimmi@gmail.com");
-			lblBcaimmigmailcom.setFont(new Font("Tahoma", Font.ITALIC, 11));
+			JLabel lblBcaimmigmailcom = new JLabel(Messages.getString("SWING_ABOUT_CAIMMI_MAIL")); //$NON-NLS-1$
+			lblBcaimmigmailcom.setFont(new Font("Tahoma", Font.ITALIC, 11)); //$NON-NLS-1$
 			lblBcaimmigmailcom.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblBcaimmigmailcom, "3, 6");
+			contentPanel.add(lblBcaimmigmailcom, "3, 6"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblNewLabel_1 = new JLabel("hernanrocha93@gmail.com");
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
+			JLabel lblNewLabel_1 = new JLabel(Messages.getString("SWING_ABOUT_ROCHA_MAIL")); //$NON-NLS-1$
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.ITALIC, 11)); //$NON-NLS-1$
 			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblNewLabel_1, "7, 6");
+			contentPanel.add(lblNewLabel_1, "7, 6"); //$NON-NLS-1$
 		}
 		{
 			JSeparator separator = new JSeparator();
-			contentPanel.add(separator, "1, 8, 7, 1");
+			contentPanel.add(separator, "1, 8, 7, 1"); //$NON-NLS-1$
 		}
 		
 		{
-			JLabel lblNewLabel_2 = new JLabel("FACULTAD DE CIENCIAS EXACTAS");
-			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+			JLabel lblNewLabel_2 = new JLabel(Messages.getString("SWING_ABOUT_FACULTAD")); //$NON-NLS-1$
+			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16)); //$NON-NLS-1$
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblNewLabel_2, "3, 10, 5, 1");
+			contentPanel.add(lblNewLabel_2, "3, 10, 5, 1"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblUnicen = new JLabel("UNICEN");
+			JLabel lblUnicen = new JLabel(Messages.getString("SWING_ABOUT_UNICEN")); //$NON-NLS-1$
 			lblUnicen.setHorizontalAlignment(SwingConstants.CENTER);
-			lblUnicen.setFont(new Font("Tahoma", Font.BOLD, 14));
-			contentPanel.add(lblUnicen, "5, 12");
+			lblUnicen.setFont(new Font("Tahoma", Font.BOLD, 14)); //$NON-NLS-1$
+			contentPanel.add(lblUnicen, "5, 12"); //$NON-NLS-1$
 		}
 		{
-			JLabel label = new JLabel(" ");
-			label.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/unicen.png")));
+			JLabel label = new JLabel(" "); //$NON-NLS-1$
+			label.setIcon(new ImageIcon(dialogAcercaDe.class.getResource("/img/unicen.png"))); //$NON-NLS-1$
 			label.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(label, "5, 14");
+			contentPanel.add(label, "5, 14"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblProyectoFinal = new JLabel("Proyecto Final");
-			lblProyectoFinal.setFont(new Font("Tahoma", Font.BOLD, 12));
+			JLabel lblProyectoFinal = new JLabel(Messages.getString("SWING_ABOUT_PROYECTO_FINAL")); //$NON-NLS-1$
+			lblProyectoFinal.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 			lblProyectoFinal.setHorizontalAlignment(SwingConstants.CENTER);
-			contentPanel.add(lblProyectoFinal, "5, 16");
+			contentPanel.add(lblProyectoFinal, "5, 16"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblProyectoFinalEstructuras = new JLabel("Estructuras de Almacenamiento de Datos");
+			JLabel lblProyectoFinalEstructuras = new JLabel(Messages.getString("SWING_ABOUT_ESTRUCTURAS")); //$NON-NLS-1$
 			lblProyectoFinalEstructuras.setHorizontalAlignment(SwingConstants.CENTER);
-			lblProyectoFinalEstructuras.setFont(new Font("Tahoma", Font.BOLD, 12));
-			contentPanel.add(lblProyectoFinalEstructuras, "3, 18, 5, 1");
+			lblProyectoFinalEstructuras.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			contentPanel.add(lblProyectoFinalEstructuras, "3, 18, 5, 1"); //$NON-NLS-1$
 		}
 	}
 

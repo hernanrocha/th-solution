@@ -61,6 +61,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import common.Graficador;
+import common.Messages;
 import common.estructura.Elemento;
 //import org.apache.log4j.Logger;
 
@@ -159,7 +160,7 @@ public class formEstructura extends JDialog {
 	 */
 	
 	public formEstructura(mainWindow mainWindow, Archivo arch) {
-		super(mainWindow.frmAplicacionDidacticaEstructuras, "Nuvevo archivo de estructuras", ModalityType.APPLICATION_MODAL);
+		super(mainWindow.frmAplicacionDidacticaEstructuras, Messages.getString("SWING_FORM_NUEVO_ARCHIVO"), ModalityType.APPLICATION_MODAL); //$NON-NLS-1$
 		setResizable(false);
 		//Logger.getRootLogger().trace("Iniciando asistente para nueva estructura");
 		
@@ -168,7 +169,7 @@ public class formEstructura extends JDialog {
 		this.arch = arch;
 		
 		// Configurar ventana
-		setTitle("Asistente de configuraci\u00F3n de una nueva estructura.");
+		setTitle(Messages.getString("SWING_FORM_TITULO")); //$NON-NLS-1$
 		setBounds(100, 100, 600,550);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -196,7 +197,7 @@ public class formEstructura extends JDialog {
 	
 	private void initPanInicio() {
 		JPanel panInicio = new JPanel();
-		panPrincipal.add(panInicio, "name_43606110650234");
+		panPrincipal.add(panInicio, "name_43606110650234"); //$NON-NLS-1$
 		
 		panInicio.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panInicio.setLayout(new FormLayout(new ColumnSpec[] {
@@ -221,36 +222,36 @@ public class formEstructura extends JDialog {
 				FormFactory.PARAGRAPH_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		label = new JLabel("");
-		label.setIcon(new ImageIcon(formEstructura.class.getResource("/img/dataWizard.png")));
-		panInicio.add(label, "1, 2");
+		label = new JLabel(""); //$NON-NLS-1$
+		label.setIcon(new ImageIcon(formEstructura.class.getResource("/img/dataWizard.png"))); //$NON-NLS-1$
+		panInicio.add(label, "1, 2"); //$NON-NLS-1$
 		
-		lblBienvenidoAlAsistente = new JLabel("Bienvenido al asistente de configuraci\u00F3n.");
+		lblBienvenidoAlAsistente = new JLabel(Messages.getString("SWING_FORM_BIENVENIDO")); //$NON-NLS-1$
 		lblBienvenidoAlAsistente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBienvenidoAlAsistente.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panInicio.add(lblBienvenidoAlAsistente, "3, 2");
+		lblBienvenidoAlAsistente.setFont(new Font("Tahoma", Font.PLAIN, 18)); //$NON-NLS-1$
+		panInicio.add(lblBienvenidoAlAsistente, "3, 2"); //$NON-NLS-1$
 		
 		separator_4 = new JSeparator();
-		panInicio.add(separator_4, "1, 4, 3, 1");
+		panInicio.add(separator_4, "1, 4, 3, 1"); //$NON-NLS-1$
 		
-		JLabel lblElementosIniciales = new JLabel(" Elementos Iniciales:");
-		lblElementosIniciales.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panInicio.add(lblElementosIniciales, "1, 6, left, center");
+		JLabel lblElementosIniciales = new JLabel(Messages.getString("SWING_FORM_ELEMENTOS_INICIALES") + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		lblElementosIniciales.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panInicio.add(lblElementosIniciales, "1, 6, left, center"); //$NON-NLS-1$
 			
-			chckbxSinElementos = new JCheckBox("Sin Elementos");
+			chckbxSinElementos = new JCheckBox(Messages.getString("SWING_FORM_SIN_ELEMENTOS")); //$NON-NLS-1$
 			chckbxSinElementos.setSelected(true);
 			chckbxSinElementos.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
 					txtElementos.setEnabled(!txtElementos.isEnabled());
 				}
 			});
-			chckbxSinElementos.setFont(new Font("Tahoma", Font.BOLD, 12));
-			panInicio.add(chckbxSinElementos, "3, 6");
+			chckbxSinElementos.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			panInicio.add(chckbxSinElementos, "3, 6"); //$NON-NLS-1$
 		
 		txtElementos = new JTextField();
 		txtElementos.setEnabled(false);
-		txtElementos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtElementos.setText("");
+		txtElementos.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
+		txtElementos.setText(""); //$NON-NLS-1$
 		txtElementos.addKeyListener(new KeyAdapter(){
 			   public void keyTyped(KeyEvent e)
 			   {
@@ -264,31 +265,31 @@ public class formEstructura extends JDialog {
 						    	  
 			   }});
 		
-			panInicio.add(txtElementos, "3, 8, fill, fill");
+			panInicio.add(txtElementos, "3, 8, fill, fill"); //$NON-NLS-1$
 			txtElementos.setColumns(10);
 			lblElementosIniciales.setLabelFor(txtElementos);
 		
 		separator_5 = new JSeparator();
-		panInicio.add(separator_5, "1, 10, 3, 1");
+		panInicio.add(separator_5, "1, 10, 3, 1"); //$NON-NLS-1$
 		
-		JLabel lblEstructuras = new JLabel(" Estructuras:");
-		lblEstructuras.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panInicio.add(lblEstructuras, "1, 12, left, top");
+		JLabel lblEstructuras = new JLabel(Messages.getString("SWING_FORM_21")); //$NON-NLS-1$
+		lblEstructuras.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panInicio.add(lblEstructuras, "1, 12, left, top"); //$NON-NLS-1$
 		
-		chckbxArbolesB = new JCheckBox("Arboles B");
-		chckbxArbolesB.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxArbolesB = new JCheckBox(Messages.getString("SWING_FORM_ARBOLES_B")); //$NON-NLS-1$
+		chckbxArbolesB.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxArbolesB.setSelected(true);
-		panInicio.add(chckbxArbolesB, "3, 12, left, top");
+		panInicio.add(chckbxArbolesB, "3, 12, left, top"); //$NON-NLS-1$
 		
-		chckbxHashingCerrado = new JCheckBox("Hashing Cerrado");
-		chckbxHashingCerrado.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxHashingCerrado = new JCheckBox(Messages.getString("SWING_FORM_HASH_CERRADO")); //$NON-NLS-1$
+		chckbxHashingCerrado.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxHashingCerrado.setSelected(true);
-		panInicio.add(chckbxHashingCerrado, "3, 14, left, top");
+		panInicio.add(chckbxHashingCerrado, "3, 14, left, top"); //$NON-NLS-1$
 		
-		chckbxHashingAbierto = new JCheckBox("Hashing Abierto");
-		chckbxHashingAbierto.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxHashingAbierto = new JCheckBox(Messages.getString("SWING_FORM_HASH_ABIERTO")); //$NON-NLS-1$
+		chckbxHashingAbierto.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxHashingAbierto.setSelected(true);
-		panInicio.add(chckbxHashingAbierto, "3, 16, fill, top");		
+		panInicio.add(chckbxHashingAbierto, "3, 16, fill, top");		 //$NON-NLS-1$
 		
 	}
 		
@@ -298,8 +299,8 @@ public class formEstructura extends JDialog {
 		fl_panAcciones.setVgap(1);
 		contentPane.add(panAcciones, BorderLayout.SOUTH);
 		
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(formEstructura.class.getResource("/img/cancel.png")));
+		btnCancelar = new JButton(Messages.getString("SWING_FORM_CANCELAR")); //$NON-NLS-1$
+		btnCancelar.setIcon(new ImageIcon(formEstructura.class.getResource("/img/cancel.png"))); //$NON-NLS-1$
 		btnCancelar.setMnemonic('c');
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
@@ -308,8 +309,8 @@ public class formEstructura extends JDialog {
 		});
 		panAcciones.add(btnCancelar);
 		
-		btnSiguiente = new JButton("Siguiente");
-		btnSiguiente.setIcon(new ImageIcon(formEstructura.class.getResource("/img/next.png")));
+		btnSiguiente = new JButton(Messages.getString("SWING_FORM_SIGUIENTE")); //$NON-NLS-1$
+		btnSiguiente.setIcon(new ImageIcon(formEstructura.class.getResource("/img/next.png"))); //$NON-NLS-1$
 		btnSiguiente.setMnemonic('s');
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -323,7 +324,7 @@ public class formEstructura extends JDialog {
 	
 	private void initPanArbol() {
 		panArbol = new JPanel();
-		panPrincipal.add(panArbol, "panArbol");
+		panPrincipal.add(panArbol, "panArbol"); //$NON-NLS-1$
 		panArbol.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panArbol.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.MIN_COLSPEC,
@@ -336,7 +337,7 @@ public class formEstructura extends JDialog {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
-				ColumnSpec.decode("13dlu"),
+				ColumnSpec.decode("13dlu"), //$NON-NLS-1$
 				FormFactory.MIN_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -344,7 +345,7 @@ public class formEstructura extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
+				RowSpec.decode("20px"), //$NON-NLS-1$
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.LINE_GAP_ROWSPEC,
@@ -353,7 +354,7 @@ public class formEstructura extends JDialog {
 				FormFactory.PREF_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
-				RowSpec.decode("12dlu"),
+				RowSpec.decode("12dlu"), //$NON-NLS-1$
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -374,50 +375,50 @@ public class formEstructura extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 
-		lblArbolB = new JLabel("");
-		lblArbolB.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imArbol.png")));
-		panArbol.add(lblArbolB, "1, 2, 12, 1, center, default");
+		lblArbolB = new JLabel(""); //$NON-NLS-1$
+		lblArbolB.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imArbol.png"))); //$NON-NLS-1$
+		panArbol.add(lblArbolB, "1, 2, 12, 1, center, default"); //$NON-NLS-1$
 
 		separator_6 = new JSeparator();
-		panArbol.add(separator_6, "1, 4, 12, 1");
+		panArbol.add(separator_6, "1, 4, 12, 1"); //$NON-NLS-1$
 
 		// ------------------------------ ORDEN ------------------------------- //
 
 
-		lblOrden = new JLabel(" Orden:");
+		lblOrden = new JLabel(Messages.getString("SWING_FORM_45")); //$NON-NLS-1$
 		lblOrden.setHorizontalAlignment(SwingConstants.CENTER);
-		lblOrden.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOrden.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		lblOrden.setBounds(27, 77, 46, 14);
-		panArbol.add(lblOrden, "1, 6, center, center");
+		panArbol.add(lblOrden, "1, 6, center, center"); //$NON-NLS-1$
 
 		elementosInsertar = new DefaultListModel<Object>();
-		elementosInsertar.addElement("Redistribucion Derecha");
-		elementosInsertar.addElement("Split");
-		elementosInsertar.addElement("Redistribucion Izquierda");
+		elementosInsertar.addElement("Redistribucion Derecha"); //$NON-NLS-1$
+		elementosInsertar.addElement("Split"); //$NON-NLS-1$
+		elementosInsertar.addElement("Redistribucion Izquierda"); //$NON-NLS-1$
 
 		txtOrden = new JSpinner();
 		txtOrden.setModel(new SpinnerNumberModel(5, 3, 10, 1));
-		txtOrden.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panArbol.add(txtOrden, "2, 6, left, default");
+		txtOrden.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panArbol.add(txtOrden, "2, 6, left, default"); //$NON-NLS-1$
 
 		separator_2 = new JSeparator();
-		panArbol.add(separator_2, "1, 8, 12, 1");
+		panArbol.add(separator_2, "1, 8, 12, 1"); //$NON-NLS-1$
 
 
 		// ----------------------------- INSERCION ----------------------------- //
 
 
-		lblEstrategiasDeInsercion = new JLabel("Estrategias de Inserci\u00F3n:");
-		lblEstrategiasDeInsercion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEstrategiasDeInsercion = new JLabel(Messages.getString("SWING_FORM_ESTRATEGIAS_INSERCION") + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		lblEstrategiasDeInsercion.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		lblEstrategiasDeInsercion.setBounds(27, 125, 140, 14);
-		panArbol.add(lblEstrategiasDeInsercion, "1, 10, center, center");
+		panArbol.add(lblEstrategiasDeInsercion, "1, 10, center, center"); //$NON-NLS-1$
 
 		listInsertar = new JList<Object>();
 		listInsertar.setBorder(new LineBorder(new Color(0, 0, 0)));
 		listInsertar.setModel(elementosInsertar);
-		panArbol.add(listInsertar, "2, 10, 10, 3, fill, fill");
+		panArbol.add(listInsertar, "2, 10, 10, 3, fill, fill"); //$NON-NLS-1$
 
-		JButton btnInsertarSubir = new JButton("Subir");
+		JButton btnInsertarSubir = new JButton(Messages.getString("SWING_FORM_SUBIR")); //$NON-NLS-1$
 		btnInsertarSubir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -431,9 +432,9 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		panArbol.add(btnInsertarSubir, "12, 10, center, default");
+		panArbol.add(btnInsertarSubir, "12, 10, center, default"); //$NON-NLS-1$
 
-		JButton btnInsertarBajar = new JButton("Bajar");
+		JButton btnInsertarBajar = new JButton(Messages.getString("SWING_FORM_BAJAR")); //$NON-NLS-1$
 		btnInsertarBajar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -446,9 +447,9 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		panArbol.add(btnInsertarBajar, "12, 12, center, default");
+		panArbol.add(btnInsertarBajar, "12, 12, center, default"); //$NON-NLS-1$
 
-		JButton btnEliminarSubir = new JButton("Subir");
+		JButton btnEliminarSubir = new JButton(Messages.getString("SWING_FORM_SUBIR")); //$NON-NLS-1$
 		btnEliminarSubir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
@@ -465,29 +466,29 @@ public class formEstructura extends JDialog {
 		});
 
 		elementosEliminar = new DefaultListModel<Object>();
-		elementosEliminar.addElement("Redistribucion Izquierda");
-		elementosEliminar.addElement("Redistribucion Derecha");
-		elementosEliminar.addElement("Fusion Izquierda");
-		elementosEliminar.addElement("Fusion Derecha");
+		elementosEliminar.addElement("Redistribucion Izquierda"); //$NON-NLS-1$
+		elementosEliminar.addElement("Redistribucion Derecha"); //$NON-NLS-1$
+		elementosEliminar.addElement("Fusion Izquierda"); //$NON-NLS-1$
+		elementosEliminar.addElement("Fusion Derecha"); //$NON-NLS-1$
 
 
 		// ---------------------------- ELIMINACION ---------------------------- //
 
 
-		lblEstrategiasDeEliminacion = new JLabel(" Estrategias de Eliminaci\u00F3n: ");
-		lblEstrategiasDeEliminacion.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEstrategiasDeEliminacion = new JLabel(Messages.getString("SWING_FORM_ESTRATEGIAS_ELIMINACION") + ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		lblEstrategiasDeEliminacion.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		lblEstrategiasDeEliminacion.setBounds(27, 180, 140, 14);
-		panArbol.add(lblEstrategiasDeEliminacion, "1, 14, center, center");
+		panArbol.add(lblEstrategiasDeEliminacion, "1, 14, center, center"); //$NON-NLS-1$
 
 		listEliminar = new JList<Object>();
 		listEliminar.setBorder(new LineBorder(new Color(0, 0, 0)));
 		listEliminar.setModel(elementosEliminar);
-		panArbol.add(listEliminar, "2, 14, 10, 3, fill, fill");
-		panArbol.add(btnEliminarSubir, "12, 14, center, default");
+		panArbol.add(listEliminar, "2, 14, 10, 3, fill, fill"); //$NON-NLS-1$
+		panArbol.add(btnEliminarSubir, "12, 14, center, default"); //$NON-NLS-1$
 
 
 
-		JButton btnEliminarBajar = new JButton("Bajar");
+		JButton btnEliminarBajar = new JButton(Messages.getString("SWING_FORM_BAJAR")); //$NON-NLS-1$
 		btnEliminarBajar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
@@ -501,20 +502,20 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		panArbol.add(btnEliminarBajar, "12, 16, center, default");
+		panArbol.add(btnEliminarBajar, "12, 16, center, default"); //$NON-NLS-1$
 
 		separator_7 = new JSeparator();
-		panArbol.add(separator_7, "1, 18, 12, 1");
+		panArbol.add(separator_7, "1, 18, 12, 1"); //$NON-NLS-1$
 
 
 		// ------------------------- TIPOS DE ARBOLES ------------------------- //
 
 
-		lblTiposDeVista = new JLabel("Tipos de Vista");
-		lblTiposDeVista.setFont(new Font("Tahoma", Font.BOLD, 14));
-		panArbol.add(lblTiposDeVista, "1, 20, center, default");
+		lblTiposDeVista = new JLabel(Messages.getString("SWING_FORM_TIPOS_VISTA")); //$NON-NLS-1$
+		lblTiposDeVista.setFont(new Font("Tahoma", Font.BOLD, 14)); //$NON-NLS-1$
+		panArbol.add(lblTiposDeVista, "1, 20, center, default"); //$NON-NLS-1$
 
-		chckbxBArchivo = new JCheckBox("B Archivo");
+		chckbxBArchivo = new JCheckBox(Messages.getString("SWING_FORM_BARCHIVO")); //$NON-NLS-1$
 		chckbxBArchivo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (chckbxBArchivo.isSelected()){
@@ -524,14 +525,14 @@ public class formEstructura extends JDialog {
 						btnSiguiente.setEnabled(false);
 			}
 		});
-		chckbxBArchivo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxBArchivo.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxBArchivo.setSelected(true);
-		panArbol.add(chckbxBArchivo, "1, 22, left, default");
+		panArbol.add(chckbxBArchivo, "1, 22, left, default"); //$NON-NLS-1$
 
-		chckbxBMasIndice = new JCheckBox("B+ Indice");
-		chckbxBMasIndice.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxBMasIndice = new JCheckBox(Messages.getString("SWING_FORM_BMASINDICE")); //$NON-NLS-1$
+		chckbxBMasIndice.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxBMasIndice.setSelected(true);
-		panArbol.add(chckbxBMasIndice, "2, 22");
+		panArbol.add(chckbxBMasIndice, "2, 22"); //$NON-NLS-1$
 		chckbxBMasIndice.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (chckbxBMasIndice.isSelected()){
@@ -542,10 +543,10 @@ public class formEstructura extends JDialog {
 			}
 		});
 
-		chckbxBHibrido = new JCheckBox("B Hibrido");
-		chckbxBHibrido.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxBHibrido = new JCheckBox(Messages.getString("SWING_FORM_BHIBRIDO")); //$NON-NLS-1$
+		chckbxBHibrido.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxBHibrido.setSelected(true);
-		panArbol.add(chckbxBHibrido, "1, 24, left, default");
+		panArbol.add(chckbxBHibrido, "1, 24, left, default"); //$NON-NLS-1$
 		chckbxBHibrido.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (chckbxBHibrido.isSelected()){
@@ -556,7 +557,7 @@ public class formEstructura extends JDialog {
 			}
 		});
 
-		chckbxBmasClustered = new JCheckBox("B+ Clustered");
+		chckbxBmasClustered = new JCheckBox(Messages.getString("SWING_FORM_BMASCLUSTERED")); //$NON-NLS-1$
 		chckbxBmasClustered.setSelected(true);
 		chckbxBmasClustered.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -569,15 +570,15 @@ public class formEstructura extends JDialog {
 						btnSiguiente.setEnabled(false);
 			}
 		});
-		chckbxBmasClustered.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxBmasClustered.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 
 
-		panArbol.add(chckbxBmasClustered, "2, 24");
+		panArbol.add(chckbxBmasClustered, "2, 24"); //$NON-NLS-1$
 
-		chckbxBIndice = new JCheckBox("B Indice");
-		chckbxBIndice.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxBIndice = new JCheckBox(Messages.getString("SWING_FORM_BINDICE")); //$NON-NLS-1$
+		chckbxBIndice.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chckbxBIndice.setSelected(true);
-		panArbol.add(chckbxBIndice, "1, 26, left, default");
+		panArbol.add(chckbxBIndice, "1, 26, left, default"); //$NON-NLS-1$
 		chckbxBIndice.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (chckbxBIndice.isSelected()){
@@ -588,14 +589,14 @@ public class formEstructura extends JDialog {
 			}
 		});
 
-		lblTamaoDeCluster = new JLabel("Tama\u00F1o  de Cluster");
-		lblTamaoDeCluster.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		panArbol.add(lblTamaoDeCluster, "2, 26");
+		lblTamaoDeCluster = new JLabel(Messages.getString("SWING_FORM_CLUSTER")); //$NON-NLS-1$
+		lblTamaoDeCluster.setFont(new Font("Tahoma", Font.ITALIC, 12)); //$NON-NLS-1$
+		panArbol.add(lblTamaoDeCluster, "2, 26"); //$NON-NLS-1$
 
 		txtTamCluster = new JSpinner();
 		txtTamCluster.setModel(new SpinnerNumberModel(3, 1, 10, 1));
 		txtTamCluster.setValue(3);
-		panArbol.add(txtTamCluster, "4, 26");
+		panArbol.add(txtTamCluster, "4, 26"); //$NON-NLS-1$
 
 
 
@@ -605,11 +606,11 @@ public class formEstructura extends JDialog {
 		
 		JPanel panHashCerrado = new JPanel();
 		panHashCerrado.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panPrincipal.add(panHashCerrado, "panHashCerrado");
+		panPrincipal.add(panHashCerrado, "panHashCerrado"); //$NON-NLS-1$
 		panHashCerrado.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.MIN_COLSPEC,
-				ColumnSpec.decode("max(10dlu;pref)"),
+				ColumnSpec.decode("max(10dlu;pref)"), //$NON-NLS-1$
 				FormFactory.GLUE_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -635,45 +636,45 @@ public class formEstructura extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imHashC.png")));
-		panHashCerrado.add(lblNewLabel, "2, 2, 3, 1");
+		lblNewLabel = new JLabel(""); //$NON-NLS-1$
+		lblNewLabel.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imHashC.png"))); //$NON-NLS-1$
+		panHashCerrado.add(lblNewLabel, "2, 2, 3, 1"); //$NON-NLS-1$
 		
 		separator_1 = new JSeparator();
-		panHashCerrado.add(separator_1, "2, 4, 3, 1");
+		panHashCerrado.add(separator_1, "2, 4, 3, 1"); //$NON-NLS-1$
 		
-		JLabel lblNewLabel_1 = new JLabel(" Cantidad de Baldes");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(lblNewLabel_1, "2, 6, left, center");
+		JLabel lblNewLabel_1 = new JLabel(Messages.getString("SWING_FORM_BALDES")); //$NON-NLS-1$
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(lblNewLabel_1, "2, 6, left, center"); //$NON-NLS-1$
 		
 		txtCantBaldes = new JSpinner();
-		txtCantBaldes.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtCantBaldes.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		txtCantBaldes.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				//System.out.println("ahora tengo " + txtCantBaldes.getValue());
 			}
 		});
-		txtCantBaldes.setToolTipText("( 1 .. 30 )");
+		txtCantBaldes.setToolTipText("( 1 .. 30 )"); //$NON-NLS-1$
 		txtCantBaldes.setModel(new SpinnerNumberModel(7, 1, 30, 1));
-		panHashCerrado.add(txtCantBaldes, "4, 6, left, default");
+		panHashCerrado.add(txtCantBaldes, "4, 6, left, default"); //$NON-NLS-1$
 		
-		lblCeldasPorBalde = new JLabel(" Cantidad de Celdas por Balde");
-		lblCeldasPorBalde.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(lblCeldasPorBalde, "2, 8, left, default");
+		lblCeldasPorBalde = new JLabel(Messages.getString("SWING_FORM_CELDAS")); //$NON-NLS-1$
+		lblCeldasPorBalde.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(lblCeldasPorBalde, "2, 8, left, default"); //$NON-NLS-1$
 		
 		txtCantRanuras = new JSpinner();
-		txtCantRanuras.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtCantRanuras.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		txtCantRanuras.setModel(new SpinnerNumberModel(2, 1, 30, 1));
-		panHashCerrado.add(txtCantRanuras, "4, 8, left, default");
+		panHashCerrado.add(txtCantRanuras, "4, 8, left, default"); //$NON-NLS-1$
 		
 		separator = new JSeparator();
-		panHashCerrado.add(separator, "2, 10, 3, 1");
+		panHashCerrado.add(separator, "2, 10, 3, 1"); //$NON-NLS-1$
 		
-		lblVistasDeTcnicas = new JLabel(" Vistas de T\u00E9cnicas");
-		lblVistasDeTcnicas.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(lblVistasDeTcnicas, "2, 12, left, default");
+		lblVistasDeTcnicas = new JLabel(Messages.getString("SWING_FORM_VISTAS_TECNICAS")); //$NON-NLS-1$
+		lblVistasDeTcnicas.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(lblVistasDeTcnicas, "2, 12, left, default"); //$NON-NLS-1$
 		
-		chk1 = new JCheckBox(" T\u00E9cnica de Reasignaci\u00F3n Lineal");
+		chk1 = new JCheckBox(Messages.getString("SWING_FORM_REASIGNACION_LINEAL")); //$NON-NLS-1$
 		chk1.setSelected(true);
 		chk1.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -685,10 +686,10 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		chk1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(chk1, "4, 12");
+		chk1.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(chk1, "4, 12"); //$NON-NLS-1$
 		
-		chk2 = new JCheckBox(" T\u00E9cnica Cuadr\u00E1tica");
+		chk2 = new JCheckBox(Messages.getString("SWING_FORM_CUADRATICA")); //$NON-NLS-1$
 		chk2.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if ( chk2.isSelected() )
@@ -699,10 +700,10 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		chk2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(chk2, "4, 14");
+		chk2.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(chk2, "4, 14"); //$NON-NLS-1$
 		
-		chk3 = new JCheckBox(" T\u00E9cnica Realeatorizada");
+		chk3 = new JCheckBox(Messages.getString("SWING_FORM_REALEATORIZADA")); //$NON-NLS-1$
 		chk3.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if ( chk3.isSelected() )
@@ -713,10 +714,10 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		chk3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashCerrado.add(chk3, "4, 16");
+		chk3.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashCerrado.add(chk3, "4, 16"); //$NON-NLS-1$
 		
-		chk4 = new JCheckBox(" T\u00E9cnica PseudoAzar");
+		chk4 = new JCheckBox(Messages.getString("SWING_FORM_PSEUDOASAR")); //$NON-NLS-1$
 		chk4.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if ( chk4.isSelected() )
@@ -727,7 +728,7 @@ public class formEstructura extends JDialog {
 				}
 			}
 		});
-		chk4.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chk4.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 		chk4.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				ListaPseudo.setEnabled(chk4.isSelected() );	
@@ -736,12 +737,12 @@ public class formEstructura extends JDialog {
 			}
 		});
 		
-		lb2 = new JLabel("La lista deber\u00EDa tener");
+		lb2 = new JLabel(Messages.getString("SWING_FORM_LISTA_DEBE_TENER")); //$NON-NLS-1$
 		lb2.setHorizontalAlignment(SwingConstants.CENTER);
-		lb2.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lb2.setFont(new Font("Tahoma", Font.ITALIC, 12)); //$NON-NLS-1$
 		lb2.setVisible(false);
-		panHashCerrado.add(lb2, "2, 18");
-		panHashCerrado.add(chk4, "4, 18");
+		panHashCerrado.add(lb2, "2, 18"); //$NON-NLS-1$
+		panHashCerrado.add(chk4, "4, 18"); //$NON-NLS-1$
 		
 		ListaPseudo = new JTextField();
 		ListaPseudo.addKeyListener(new KeyAdapter() {
@@ -758,14 +759,14 @@ public class formEstructura extends JDialog {
 			}
 		});
 		
-		lb3 = new JLabel("elementos diferentes");
+		lb3 = new JLabel(Messages.getString("SWING_FORM_ELEMENTOS_DIFERENTES")); //$NON-NLS-1$
 		lb3.setHorizontalAlignment(SwingConstants.CENTER);
 		lb3.setVisible(false);
-		lb3.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		panHashCerrado.add(lb3, "2, 20");
-		ListaPseudo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lb3.setFont(new Font("Tahoma", Font.ITALIC, 12)); //$NON-NLS-1$
+		panHashCerrado.add(lb3, "2, 20"); //$NON-NLS-1$
+		ListaPseudo.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		ListaPseudo.setEnabled(false);
-		panHashCerrado.add(ListaPseudo, "4, 20, fill, default");
+		panHashCerrado.add(ListaPseudo, "4, 20, fill, default"); //$NON-NLS-1$
 		ListaPseudo.setColumns(10);
 				
 	}
@@ -773,13 +774,13 @@ public class formEstructura extends JDialog {
 	private void initPanHashAbierto() {
 		JPanel panHashAbierto = new JPanel();
 		panHashAbierto.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panPrincipal.add(panHashAbierto, "panHashAbierto");
+		panPrincipal.add(panHashAbierto, "panHashAbierto"); //$NON-NLS-1$
 		panHashAbierto.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.MIN_COLSPEC,
-				ColumnSpec.decode("10dlu"),
+				ColumnSpec.decode("10dlu"), //$NON-NLS-1$
 				FormFactory.MIN_COLSPEC,
-				ColumnSpec.decode("pref:grow"),},
+				ColumnSpec.decode("pref:grow"),}, //$NON-NLS-1$
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -808,18 +809,18 @@ public class formEstructura extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imHashA.png")));
-		panHashAbierto.add(lblNewLabel_2, "2, 2, 4, 1");
+		lblNewLabel_2 = new JLabel(""); //$NON-NLS-1$
+		lblNewLabel_2.setIcon(new ImageIcon(formEstructura.class.getResource("/img/imHashA.png"))); //$NON-NLS-1$
+		panHashAbierto.add(lblNewLabel_2, "2, 2, 4, 1"); //$NON-NLS-1$
 		
 		separator_7 = new JSeparator();
-		panHashAbierto.add(separator_7, "1, 4, 5, 1");
+		panHashAbierto.add(separator_7, "1, 4, 5, 1"); //$NON-NLS-1$
 		
-		lblTipo = new JLabel(" Tipo:");
-		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblTipo, "2, 6");
+		lblTipo = new JLabel(Messages.getString("SWING_FORM_TIPO")); //$NON-NLS-1$
+		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblTipo, "2, 6"); //$NON-NLS-1$
 		
-		chk5 = new JCheckBox("Separado");
+		chk5 = new JCheckBox(Messages.getString("SWING_FORM_SEPARADO")); //$NON-NLS-1$
 		chk5.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if ( chk5.isSelected() )
@@ -829,10 +830,10 @@ public class formEstructura extends JDialog {
 			}
 		});
 		chk5.setSelected(true);
-		chk5.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(chk5, "2, 8");
+		chk5.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(chk5, "2, 8"); //$NON-NLS-1$
 		
-		chk6 = new JCheckBox("Separado con Crecimiento Lineal");
+		chk6 = new JCheckBox(Messages.getString("SWING_FORM_SEPARADO_CRECIM_LINEAL")); //$NON-NLS-1$
 		chk6.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if ( chk6.isSelected() )
@@ -841,58 +842,58 @@ public class formEstructura extends JDialog {
 					btnSiguiente.setEnabled(false);
 			}
 		});
-		chk6.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(chk6, "2, 10");
+		chk6.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(chk6, "2, 10"); //$NON-NLS-1$
 		
 		separator_6 = new JSeparator();
-		panHashAbierto.add(separator_6, "1, 12, 5, 1");
+		panHashAbierto.add(separator_6, "1, 12, 5, 1"); //$NON-NLS-1$
 		
-		lblConfiguracin = new JLabel(" Configuraci\u00F3n:");
-		lblConfiguracin.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblConfiguracin, "2, 14");
+		lblConfiguracin = new JLabel(Messages.getString("SWING_FORM_CONFIGURACION")); //$NON-NLS-1$
+		lblConfiguracin.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblConfiguracin, "2, 14"); //$NON-NLS-1$
 		
-		JLabel lblNewLabel_1 = new JLabel(" Cantidad de Baldes");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblNewLabel_1, "2, 16, left, center");
+		JLabel lblNewLabel_1 = new JLabel(Messages.getString("SWING_FORM_BALDES")); //$NON-NLS-1$
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblNewLabel_1, "2, 16, left, center"); //$NON-NLS-1$
 		
 		txtBaldesAbierto = new JSpinner();
-		txtBaldesAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtBaldesAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		txtBaldesAbierto.setModel(new SpinnerNumberModel(7, 1, 30, 1));
-		panHashAbierto.add(txtBaldesAbierto, "4, 16, fill, default");
+		panHashAbierto.add(txtBaldesAbierto, "4, 16, fill, default"); //$NON-NLS-1$
 		
-		lblCeldasPorBalde = new JLabel(" Cantidad de Ranuras por Balde");
-		lblCeldasPorBalde.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblCeldasPorBalde, "2, 18, left, default");
+		lblCeldasPorBalde = new JLabel(Messages.getString("SWING_FORM_RANURAS")); //$NON-NLS-1$
+		lblCeldasPorBalde.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblCeldasPorBalde, "2, 18, left, default"); //$NON-NLS-1$
 		
 		txtRanurasAbierto = new JSpinner();
-		txtRanurasAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtRanurasAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		txtRanurasAbierto.setModel(new SpinnerNumberModel(2, 1, 30, 1));
-		panHashAbierto.add(txtRanurasAbierto, "4, 18, fill, default");
+		panHashAbierto.add(txtRanurasAbierto, "4, 18, fill, default"); //$NON-NLS-1$
 		
-		JLabel lblRanurasSecundarias = new JLabel(" Cantidad de Ranuras Secundarias");
-		lblRanurasSecundarias.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblRanurasSecundarias, "2, 20, left, default");
+		JLabel lblRanurasSecundarias = new JLabel(Messages.getString("SWING_FORM_RANURAS_SECUNDARIAS")); //$NON-NLS-1$
+		lblRanurasSecundarias.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblRanurasSecundarias, "2, 20, left, default"); //$NON-NLS-1$
 		
 		txtRanurasSecundariasAbierto = new JSpinner();
 		txtRanurasSecundariasAbierto.setModel(new SpinnerNumberModel(2, 1, 30, 1));
-		txtRanurasSecundariasAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12));	
-		panHashAbierto.add(txtRanurasSecundariasAbierto, "4, 20, fill, default");
+		txtRanurasSecundariasAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12));	 //$NON-NLS-1$
+		panHashAbierto.add(txtRanurasSecundariasAbierto, "4, 20, fill, default"); //$NON-NLS-1$
 		
-		JLabel lblRhoDisenio = new JLabel(" Rho de Dise\u00F1o");
-		lblRhoDisenio.setFont(new Font("Tahoma", Font.BOLD, 12));
-		panHashAbierto.add(lblRhoDisenio, "2, 22, left, default");
+		JLabel lblRhoDisenio = new JLabel(Messages.getString("SWING_FORM_RHO_DISENIO")); //$NON-NLS-1$
+		lblRhoDisenio.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblRhoDisenio, "2, 22, left, default"); //$NON-NLS-1$
 		
 		txtRhoDisenioAbierto = new JSpinner();
-		txtRhoDisenioAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtRhoDisenioAbierto.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
 		txtRhoDisenioAbierto.setModel(new SpinnerNumberModel(0.9, 0.01, 100.0, 0.05));
-		panHashAbierto.add(txtRhoDisenioAbierto, "4, 22, left, default");
+		panHashAbierto.add(txtRhoDisenioAbierto, "4, 22, left, default"); //$NON-NLS-1$
 		
-		lblValoresCercanosA = new JLabel(" TIP: Valores cercanos a 1 son m\u00E1s eficientes.");
-		lblValoresCercanosA.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		panHashAbierto.add(lblValoresCercanosA, "5, 22");
+		lblValoresCercanosA = new JLabel(Messages.getString("SWING_FORM_TIP")); //$NON-NLS-1$
+		lblValoresCercanosA.setFont(new Font("Tahoma", Font.ITALIC, 12)); //$NON-NLS-1$
+		panHashAbierto.add(lblValoresCercanosA, "5, 22"); //$NON-NLS-1$
 		
 		separator_3 = new JSeparator();
-		panHashAbierto.add(separator_3, "1, 26, 5, 1");
+		panHashAbierto.add(separator_3, "1, 26, 5, 1"); //$NON-NLS-1$
 	}
 	
 	//MENU DE GENERACION
@@ -964,18 +965,18 @@ public class formEstructura extends JDialog {
 		
 		if ( ! chckbxSinElementos.isSelected() ){
 			elementos = new Vector<Elemento>();
-			String[] valores = txtElementos.getText().split(",");
+			String[] valores = txtElementos.getText().split(","); //$NON-NLS-1$
 			for (String v : valores){
 				try{
 					elementos.add(new Elemento(Integer.parseInt( v.trim() )));
 				}catch (NumberFormatException e){
-					ConsolaManager.getInstance().escribirAdv("Error al obtener elementos iniciales");
+					ConsolaManager.getInstance().escribirAdv(Messages.getString("SWING_FORM_ERROR_ELEMENTOS_INICIALES")); //$NON-NLS-1$
 					//Logger.getLogger("NuevaEstructura").warn("Error al obtener elementos iniciales");
 				}
 			}		
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Elementos iniciales: " + elementos);
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_ELEMENTOS_INCIALES") + ": " + elementos); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}else{
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Estructura sin Elementos");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_ESTRUCTURA_SIN_ELEMENTOS")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		estructuras = 0;
 		// Avanzar al siguiente menu
@@ -1013,7 +1014,7 @@ public class formEstructura extends JDialog {
 		}
 
 		// Crear arbol
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear arbol de orden " + orden);
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CREAR_ARBOL_ORDEN") + orden); //$NON-NLS-1$ //$NON-NLS-2$
 		ArbolB arbol = new ArbolB(orden);
 		arch.agregarAlmacenamiento(arbol);
 
@@ -1021,38 +1022,38 @@ public class formEstructura extends JDialog {
 
 		// Agregar vista Arbol B Indice
 		if(chckbxBIndice.isSelected()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear nuevo tipo de arbol: B Indice");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
 			arbol.agregarVista(new BIndice(arbol));
 		}
 
 		// Agregar vista Arbol B Hibrido
 		if(chckbxBHibrido.isSelected()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear nuevo tipo de arbol: B Hibrido");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BHIBRIDO")); //$NON-NLS-1$ //$NON-NLS-2$
 			arbol.agregarVista(new BHibrido(arbol));
 		}
 
 		// Agregar vista Arbol B Archivo
 		if(chckbxBArchivo.isSelected()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear nuevo tipo de arbol: B Archivo");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BARCHIVO")); //$NON-NLS-1$ //$NON-NLS-2$
 			arbol.agregarVista(new BArchivo(arbol));
 		}
 
 		// Agregar vista Arbol B Mas Indice
 		if(chckbxBMasIndice.isSelected()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear nuevo tipo de arbol: B+ Indice");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
 			arbol.agregarVista(new BMasIndice(arbol));
 
 		}
 
 		// Agregar vista Arbol B Mas Clustered
 		if(chckbxBmasClustered.isSelected()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Crear nuevo tipo de arbol: B+ Clustered");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASCLUSTERED")); //$NON-NLS-1$ //$NON-NLS-2$
 			try{
 				int cluster = (int) txtTamCluster.getValue();
-				System.out.println("cluster " + cluster);
+				System.out.println("cluster " + cluster); //$NON-NLS-1$
 				arbol.agregarVista(new BMasClustered(arbol, cluster));
 			}catch(Exception e){
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Tamaño de cluster incorrecto.");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CLUSTER_INCORRECTO")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.agregarVista(new BMasClustered(arbol));				
 			}
 		}
@@ -1064,16 +1065,16 @@ public class formEstructura extends JDialog {
 		DefaultListModel modeloInsertar = (DefaultListModel) listInsertar.getModel();
 		for(int i = 0; i < modeloInsertar.getSize(); i++){
 			switch (modeloInsertar.elementAt(i).toString()) {
-			case "Split":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de insercion: Split");
+			case "Split": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_SPLIT")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimSplit());
 				break;
-			case "Redistribucion Izquierda":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de insercion: Redistribucion Izquierda");
+			case "Redistribucion Izquierda": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimRedistIzquierda());
 				break;
-			case "Redistribucion Derecha":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de insercion: Redistribucion Derecha");
+			case "Redistribucion Derecha": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimRedistDerecha());
 				break;
 			default:
@@ -1089,20 +1090,20 @@ public class formEstructura extends JDialog {
 		DefaultListModel modeloEliminar = (DefaultListModel) listEliminar.getModel();
 		for(int i = 0; i < modeloEliminar.getSize(); i++){
 			switch (modeloEliminar.elementAt(i).toString()) {
-			case "Fusion Izquierda":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de eliminacion: Fusion Izquierda");
+			case "Fusion Izquierda": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecFusionIzquierda());
 				break;
-			case "Fusion Derecha":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de eliminacion: Fusion Derecha");
+			case "Fusion Derecha": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecFusionDerecha());
 				break;
-			case "Redistribucion Izquierda":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de eliminacion: Redistribucion Izquierda");
+			case "Redistribucion Izquierda": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecRedistIzquierda());
 				break;
-			case "Redistribucion Derecha":
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Agregar metodo de eliminacion: Redistribucion Derecha");
+			case "Redistribucion Derecha": //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecRedistDerecha());
 				break;
 			default:
@@ -1175,7 +1176,7 @@ public class formEstructura extends JDialog {
 		if ( chk4.isSelected() ){
 			
 			Vector<Integer> lista = new Vector<Integer>();
-			String[] valores = ListaPseudo.getText().split(",");
+			String[] valores = ListaPseudo.getText().split(","); //$NON-NLS-1$
 			for (String v : valores){
 				try{
 					lista.add(Integer.parseInt( v.trim() ));
@@ -1256,7 +1257,7 @@ public class formEstructura extends JDialog {
 		}
 		
 		// Actualizar pantalla
-		parent.tabsArchivos.addTab("Sin Título", arch);
+		parent.tabsArchivos.addTab(Messages.getString("SWING_FORM_SIN_TITULO"), arch); //$NON-NLS-1$
 		arch.ultimaCaptura();
 		
 		parent.actualizarImagen();

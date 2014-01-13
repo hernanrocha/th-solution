@@ -9,6 +9,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import common.Messages;
+
 
 public class ConsolaManager {
 
@@ -32,21 +34,21 @@ public class ConsolaManager {
 	     StyleConstants.setForeground(keyWord1, Color.RED);
 	     StyleConstants.setBackground(keyWord1, Color.YELLOW);
 	     StyleConstants.setBold(keyWord1, true);
-	     estilos.put("HashCerrado",keyWord1);
+	     estilos.put(Messages.getString("CONSOLA_HASH_CERRADO"),keyWord1); //$NON-NLS-1$
 	     
 	     //Hash Abierto
 	     SimpleAttributeSet keyWord2 = new SimpleAttributeSet();
 	     StyleConstants.setForeground(keyWord2, Color.BLACK);
 	     StyleConstants.setBackground(keyWord2, Color.ORANGE);
 	     StyleConstants.setBold(keyWord2, true);
-	     estilos.put("HashAbierto",keyWord2);
+	     estilos.put(Messages.getString("CONSOLA_HASH_ABIERTO"),keyWord2); //$NON-NLS-1$
 	   
 	     //Arbol
 	     SimpleAttributeSet keyWord3 = new SimpleAttributeSet();
 	     StyleConstants.setForeground(keyWord3, Color.BLUE);
 	     StyleConstants.setBackground(keyWord3, Color.CYAN);
 	     StyleConstants.setBold(keyWord3, true);
-	     estilos.put("Arbol",keyWord3);
+	     estilos.put(Messages.getString("CONSOLA_ARBOL"),keyWord3); //$NON-NLS-1$
 		
 	}
 	
@@ -68,7 +70,7 @@ public class ConsolaManager {
 		// Con esto se escribe en la consola.
 		try {
 			  if ( getConsola() != null )
-				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), ">> "+s+"\n", null);
+				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), ">> "+s+"\n", null); //$NON-NLS-1$ //$NON-NLS-2$
 			  	  getScr().getVerticalScrollBar().setValue(getScr().getVerticalScrollBar().getMaximum());
 		   } catch(BadLocationException exc) {}
 	}
@@ -79,7 +81,7 @@ public class ConsolaManager {
 			final StyleContext cont = StyleContext.getDefaultStyleContext();
 	        final javax.swing.text.AttributeSet attr = (javax.swing.text.AttributeSet) cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
 			  if ( getConsola() != null )
-				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), ">> "+s+"\n", attr);
+				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), ">> "+s+"\n", attr); //$NON-NLS-1$ //$NON-NLS-2$
 			  	  getScr().getVerticalScrollBar().setValue(getScr().getVerticalScrollBar().getMaximum());
 		   } catch(BadLocationException exc) {}
 	}
@@ -90,17 +92,17 @@ public class ConsolaManager {
 			
 			SimpleAttributeSet keyWord = null;
 			
-			if ( s1.contains("Cerrado") ){
-				keyWord = estilos.get("HashCerrado");
+			if ( s1.contains(Messages.getString("CONSOLA_CERRADO")) ){ //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_HASH_CERRADO")); //$NON-NLS-1$
 			}else
-			if (s1.contains("Abierto") ){
-				keyWord = estilos.get("HashAbierto");
+			if (s1.contains(Messages.getString("CONSOLA_ABIERTO")) ){ //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_HASH_ABIERTO")); //$NON-NLS-1$
 			}else
-			if (s1.contains("B") )
-				keyWord = estilos.get("Arbol");	
+			if (s1.contains(Messages.getString("CONSOLA_B")) ) //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_ARBOL"));	 //$NON-NLS-1$
 	        
 	        if ( getConsola() != null )
-				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), "<< "+ s1 +" >> ", keyWord);
+				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), "<< "+ s1 +" >> ", keyWord); //$NON-NLS-1$ //$NON-NLS-2$
 					
 	        getScr().getVerticalScrollBar().setValue(getScr().getVerticalScrollBar().getMaximum());
 		   } catch(BadLocationException exc) {}
@@ -112,25 +114,25 @@ public class ConsolaManager {
 
 			SimpleAttributeSet keyWord = null;
 			
-			if ( s1.contains("Cerrado") ){
-				keyWord = estilos.get("HashCerrado");
+			if ( s1.contains(Messages.getString("CONSOLA_CERRADO")) ){ //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_HASH_CERRADO")); //$NON-NLS-1$
 			}else
-			if (s1.contains("Abierto") ){
-				keyWord = estilos.get("HashAbierto");
+			if (s1.contains(Messages.getString("CONSOLA_ABIERTO")) ){ //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_HASH_ABIERTO")); //$NON-NLS-1$
 			}else
-			if (s1.contains("B") )
-				keyWord = estilos.get("Arbol");	
+			if (s1.contains(Messages.getString("CONSOLA_B")) ) //$NON-NLS-1$
+				keyWord = estilos.get(Messages.getString("CONSOLA_ARBOL"));	 //$NON-NLS-1$
 			
 	        if ( getConsola() != null ){
-				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), "<< "+ s1 +" >> ", keyWord);
-				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), " " + s2 + "\n", null);
+				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), "<< "+ s1 +" >> ", keyWord); //$NON-NLS-1$ //$NON-NLS-2$
+				  getConsola().getDocument().insertString(getConsola().getDocument().getLength(), " " + s2 + "\n", null); //$NON-NLS-1$ //$NON-NLS-2$
 				  getScr().getVerticalScrollBar().setValue(getScr().getVerticalScrollBar().getMaximum());	
 		   }
 		} catch(BadLocationException exc) { }
 	}
 	
 	public void borrar(){
-		getConsola().setText("");
+		getConsola().setText(""); //$NON-NLS-1$
 	}
 
 	public static JTextPane getConsola() {

@@ -110,6 +110,14 @@ public abstract class Vista extends JPanel implements Serializable{
 		info.add(getInfo());
 	}
 	
+	public boolean canSiguienteCaptura(){
+		return (capturaActual < capturas.size() - 1);
+	}
+	
+	public boolean canAnteriorCaptura(){
+		return (capturaActual > 0);
+	}
+	
 	public void siguienteCaptura(){
 //		if (capturaActual < seeks.size() - 1){
 //			try {
@@ -194,8 +202,7 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		tabArchivo.addTab(getTipo(), this);
 		imagen.setIcon(new ImageIcon(src));
-		scrollPane.setViewportView(imagen);
-		
+		scrollPane.setViewportView(imagen);		
 		
 		tabArchivo.setSelectedIndex(tabArchivo.getTabCount() - 1);
 		

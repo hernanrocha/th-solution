@@ -42,6 +42,7 @@ public class Archivo extends JTabbedPane{
 				//ConsolaManager.getInstance().escribir("Actualizar Tab");
 				Vista v = (Vista) getSelectedComponent();
 				if (v != null){
+					// Actualizar botones del panel
 					v.ultimaCaptura();
 					v.generateGraph();
 					v.actualizar();
@@ -182,6 +183,24 @@ public class Archivo extends JTabbedPane{
 		if (v != null){
 			v.siguienteCaptura();
 		}
+	}
+	
+	public boolean canAnteriorCaptura() {
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			return v.canAnteriorCaptura();
+		}
+		
+		return false;
+	}
+	
+	public boolean canSiguienteCaptura() {
+		Vista v = (Vista) getSelectedComponent();
+		if (v != null){
+			return v.canSiguienteCaptura();
+		}
+		
+		return false;
 	}
 	
 	public void agregarTab() {

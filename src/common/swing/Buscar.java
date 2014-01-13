@@ -23,6 +23,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import common.Messages;
 import common.Vista;
 import common.estructura.Almacenamiento;
 
@@ -36,7 +38,7 @@ public class Buscar extends JDialog {
 	private JButton okButton;
 	
 	public Buscar(mainWindow mainWindow, Vector<Almacenamiento> almac) {
-		super(mainWindow.frmAplicacionDidacticaEstructuras, "Búsqueda de un elemento", ModalityType.APPLICATION_MODAL);
+		super(mainWindow.frmAplicacionDidacticaEstructuras, Messages.getString("SWING_BUSCAR_BUSQUEDA_ELEMENTO"), ModalityType.APPLICATION_MODAL); //$NON-NLS-1$
 		setBounds(100, 100, 320, 200);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -49,8 +51,8 @@ public class Buscar extends JDialog {
 				FormFactory.MIN_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("64dlu:grow"),
-				ColumnSpec.decode("100dlu"),
+				ColumnSpec.decode("64dlu:grow"), //$NON-NLS-1$
+				ColumnSpec.decode("100dlu"), //$NON-NLS-1$
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 				new RowSpec[] {
@@ -66,15 +68,15 @@ public class Buscar extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		this.almace=almac;
 		{
-			JLabel lblElResmenSaldr = new JLabel("El res\u00FAmen saldr\u00E1 por consola");
+			JLabel lblElResmenSaldr = new JLabel(Messages.getString("SWING_BUSCAR_RESUMEN_POR_CONSOLA")); //$NON-NLS-1$
 			lblElResmenSaldr.setHorizontalAlignment(SwingConstants.CENTER);
-			lblElResmenSaldr.setFont(new Font("Tahoma", Font.ITALIC, 12));
-			contentPanel.add(lblElResmenSaldr, "3, 2, 4, 1");
+			lblElResmenSaldr.setFont(new Font("Tahoma", Font.ITALIC, 12)); //$NON-NLS-1$
+			contentPanel.add(lblElResmenSaldr, "3, 2, 4, 1"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblElementoABuscar = new JLabel("Elemento a Buscar");
-			lblElementoABuscar.setFont(new Font("Tahoma", Font.BOLD, 12));
-			contentPanel.add(lblElementoABuscar, "3, 4");
+			JLabel lblElementoABuscar = new JLabel(Messages.getString("SWING_BUSCAR_ELEMENTO_A_BUSCAR")); //$NON-NLS-1$
+			lblElementoABuscar.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			contentPanel.add(lblElementoABuscar, "3, 4"); //$NON-NLS-1$
 		}
 		{
 			textField = new JTextField(6);
@@ -101,25 +103,25 @@ public class Buscar extends JDialog {
 						okButton.setEnabled(false);
 				}
 			});
-			textField.setFont(new Font("Tahoma", Font.BOLD, 12));
-			contentPanel.add(textField, "6, 4, fill, default");
+			textField.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			contentPanel.add(textField, "6, 4, fill, default"); //$NON-NLS-1$
 			textField.setColumns(10);
 
 		}
 		{
 			JSeparator separator = new JSeparator();
-			contentPanel.add(separator, "1, 6, 6, 1");
+			contentPanel.add(separator, "1, 6, 6, 1"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblElijaUnaEstructura = new JLabel("Elija una estructura de las disponibles");
-			lblElijaUnaEstructura.setFont(new Font("Tahoma", Font.BOLD, 12));
-			contentPanel.add(lblElijaUnaEstructura, "3, 8, 4, 1");
+			JLabel lblElijaUnaEstructura = new JLabel(Messages.getString("SWING_BUSCAR_ELIJA_ESTRUCTURA")); //$NON-NLS-1$
+			lblElijaUnaEstructura.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			contentPanel.add(lblElijaUnaEstructura, "3, 8, 4, 1"); //$NON-NLS-1$
 		}
 
 		{
 			choice = new Choice();
-			choice.setFont(new Font("Tahoma", Font.BOLD, 12));
-			contentPanel.add(choice, "3, 10, 4, 1");
+			choice.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			contentPanel.add(choice, "3, 10, 4, 1"); //$NON-NLS-1$
 
 			for (Almacenamiento a : almac) {
 				for (Vista v : a.getVistas()){
@@ -132,16 +134,16 @@ public class Buscar extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("Buscar");
+				okButton = new JButton(Messages.getString("SWING_BUSCAR_BUSCAR")); //$NON-NLS-1$
 				okButton.setEnabled(false);
-				okButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						buscar();
 						dispose();
 					}
 				});
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand(Messages.getString("SWING_BUSCAR_OK")); //$NON-NLS-1$
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -153,10 +155,10 @@ public class Buscar extends JDialog {
         for (int i = 0 ; i < almace.size() ; i++){
         	vistas.addAll(almace.elementAt(i).getVistas());
         }
-        System.out.println("Hola:" + choice.getItem(choice.getSelectedIndex()));
+        System.out.println("Hola:" + choice.getItem(choice.getSelectedIndex())); //$NON-NLS-1$
 		for (Vista v: vistas){
 			if (v.getTipo().equals(choice.getItem(choice.getSelectedIndex()))){
-				System.out.println("Vista:"+v.getTipo());
+				System.out.println("Vista:"+v.getTipo()); //$NON-NLS-1$
 				v.busqueda(Integer.parseInt(textField.getText()));
 			}
 		}
