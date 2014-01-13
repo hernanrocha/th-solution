@@ -598,8 +598,8 @@ public class mainWindow {
 		JButton btnCargarDesdeArchivo = new JButton(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO")); //$NON-NLS-1$
 		btnCargarDesdeArchivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//leerAccionesArchivo();
-				generarDatos(5, 10, 7);
+				leerAccionesArchivo();
+				//generarDatos(5, 10, 7);
 			}
 		});
 		verticalBox.add(btnCargarDesdeArchivo);
