@@ -218,6 +218,13 @@ public class mainWindow {
 		actualizarImagen();
 		
 	}
+
+
+	/***********************************************************************************
+	 *                                                                                 *
+	 *                              TODO CONFIGURACIONES                               *
+	 *                                                                                 *
+	 ***********************************************************************************/
 	
 	/** 
 	 * Configurar los siguientes directorios:
@@ -268,6 +275,7 @@ public class mainWindow {
 		}
 	}
 
+	// Stream de Salida y Error
 	private void configureOutput() {
 		File errFile = new File(APP_HOME + DIR_ERR);
 		File outFile = new File(APP_HOME + DIR_SALIDA);
@@ -286,6 +294,7 @@ public class mainWindow {
 		
 	}
 
+	// Ventana Principal
 	private void initWindow() {
 		
 		// Inicializar ventana
@@ -308,6 +317,7 @@ public class mainWindow {
 		
 	}
 	
+	// Menu Bar
 	private void initMenu() {
 		// MENU BAR
 		menuBar = new JMenuBar();
@@ -462,6 +472,7 @@ public class mainWindow {
 		
 	}
 
+	// Panel Derecho
 	private void initPanelDerecho() {
 		
 		// Inicializar panel
@@ -505,6 +516,7 @@ public class mainWindow {
 		
 	}
 
+	// Informacion
 	private void initInformacion() {
 		
 		// Titulo
@@ -526,6 +538,7 @@ public class mainWindow {
 		
 	}
 
+	// Insertar/Eliminar
 	private void initAcciones() {
 		// Titulo
 		lblAcciones = new JLabel();
@@ -578,7 +591,7 @@ public class mainWindow {
 		btnInsertar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
+				Vector<Elemento> elementos = Elemento.parseToElements(txtElementos.getText());
 				insertarDatos(elementos);
 				txtElementos.setText(""); //$NON-NLS-1$
 			}
@@ -593,7 +606,7 @@ public class mainWindow {
 		btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
+				Vector<Elemento> elementos = Elemento.parseToElements(txtElementos.getText());
 				eliminarDatos(elementos);
 				txtElementos.setText(""); //$NON-NLS-1$
 			}
@@ -602,6 +615,7 @@ public class mainWindow {
 		
 	}
 
+	// Captura
 	private void initBotonesCaptura() {
 
 		// Titulo
@@ -673,6 +687,7 @@ public class mainWindow {
 		
 	}
 	
+	// Consola
 	private void initConsola() {
 		// Consola
 		txtConsola = new JTextPane();
@@ -870,8 +885,8 @@ public class mainWindow {
 		btnSiguiente.setEnabled(false);
 		btnUltimo.setEnabled(false);
 		
-		// Renderizar imagen actual
 		if (archivo != null){
+			// Renderizar imagen actual
 			archivo.generateGraph();
 			archivo.actualizar();
 			
@@ -921,10 +936,10 @@ public class mainWindow {
             		String[] tokens = linea.trim().split(" "); //$NON-NLS-1$
 
             		if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_INSERTAR_MINUSCULA"))){ //$NON-NLS-1$
-            			Vector<Elemento> elementos = parseToElements(tokens[1]);
+            			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
             			insertarDatos(elementos);
             		}else if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_ELIMINAR_MINUSCULA"))){ //$NON-NLS-1$
-            			Vector<Elemento> elementos = parseToElements(tokens[1]);
+            			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
             			eliminarDatos(elementos);
             		}
             	}
@@ -947,9 +962,9 @@ public class mainWindow {
 			//Logger.getLogger("ARCHIVO").info("Creando nueva estructura");
 			
 			// Construir archivo nuevo
-			archivo = new Archivo(JTabbedPane.BOTTOM);
+			archivo = new Archivo(JTabbedPane.BOTTOM, this);
 			
-			// Agregar pesta�a referida al archivo
+			// Agregar pestaña referida al archivo
 			archivo.setBackground(Color.WHITE);
 			archivo.setForeground(Color.BLACK);
 	        
@@ -990,7 +1005,7 @@ public class mainWindow {
 	            System.out.println(archivoElegido.getPath());
 	            	            	            
 	            // Intenta cargar archivo y mostrarlo en pantalla
-	    		archivo = new Archivo(JTabbedPane.BOTTOM);
+	    		archivo = new Archivo(JTabbedPane.BOTTOM, this);
 	    		if(archivo.cargar(archivoElegido.getPath())){
 
 		            // Agregar pesta�a referida al archivo
@@ -1015,7 +1030,7 @@ public class mainWindow {
 		File archivoElegido = new File(est);
 		
 		// Intenta cargar archivo y mostrarlo en pantalla
-		archivo = new Archivo(JTabbedPane.BOTTOM);
+		archivo = new Archivo(JTabbedPane.BOTTOM, this);
 		if(archivo.cargar(archivoElegido.getPath())){
 
             // Agregar pesta�a referida al archivo
@@ -1085,7 +1100,13 @@ public class mainWindow {
 		if ( tabsArchivos.getSelectedIndex() >= 0)
 		tabsArchivos.remove(tabsArchivos.getSelectedIndex());
 		//Borramos el panel de informacion.
-		txtInformacion.setText(""); //$NON-NLS-1$
+		txtInformacion.setText(""); //$NON-NLS-1$		
+
+		// Bloquear botones
+		btnPrimero.setEnabled(false);
+		btnAnterior.setEnabled(false);
+		btnSiguiente.setEnabled(false);
+		btnUltimo.setEnabled(false);
 	}
 	
 	/***********************************************************************************
@@ -1094,49 +1115,6 @@ public class mainWindow {
 	 *                                                                                 *
 	 ***********************************************************************************/
 	
-	// Obtener vector de elementos (desde cadena de texto)
-	protected Vector<Elemento> parseToElements(String str) {
-		Vector<Elemento> elementos = new Vector<Elemento>();
-		String[] valores = str.split(","); //$NON-NLS-1$
-
-		for (String v : valores){
-			try{
-				elementos.add(new Elemento(Integer.parseInt( v.trim() )));
-			}catch (NumberFormatException e){
-				//Logger.getLogger("Insercion").warn("Error al obtener elementos a insertar", e);
-			}
-		}
-		//Logger.getLogger("Insercion").info("Elementos a insertar: " + elementos);
-		
-		return elementos;
-	}
-	
-	// Obtener vector de elementos (aleatoriamente)
-	protected Vector<Elemento> generarDatos(int inicio, int fin, int tiradas){
-		Vector<Elemento> elementos = new Vector<Elemento>();		
-		
-		if (tiradas > fin - inicio + 1){
-			System.out.println("Imposible elegir tantos elementos"); //$NON-NLS-1$
-			return elementos;
-		}
-		
-		// Generar lista de valores posibles
-		Vector<Elemento> lista = new Vector<Elemento>();
-		for(int i = inicio; i <= fin; i++){
-			lista.add(new Elemento(i));
-		}
-		System.out.println("Lista completa: " + lista); //$NON-NLS-1$
-		
-		// Seleccionar aleatoriamente los valores
-		for(int i = 0; i < tiradas; i++){
-			int index = (int) ( Math.random() * lista.size() );
-			elementos.add(lista.remove(index));
-		}		
-		System.out.println("Seleccionados: " + elementos); //$NON-NLS-1$
-		
-		return elementos;
-	}
-
 	protected void insertarDatos(Vector<Elemento> elementos) {
 		if (archivo != null){
 

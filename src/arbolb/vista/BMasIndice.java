@@ -78,12 +78,12 @@ public class BMasIndice extends VistaArbol{
 		return str;
 	}
 
-	public String toGraph(NodoB nodo) {
+	private String toGraph(NodoB nodo) {
 		Elemento finArchivo = new Elemento(Elemento.FIN_ARCHIVO);
 		return toGraph(nodo, finArchivo);
 	}
 	
-	public String toGraph(NodoB nodo, Elemento parent) {
+	private String toGraph(NodoB nodo, Elemento parent) {
 		String str = new String();
 		
 		String color = "COLOR=\"" + VistaArbol.COLOR_BORDE_NORMAL + "\""; //$NON-NLS-1$ //$NON-NLS-2$

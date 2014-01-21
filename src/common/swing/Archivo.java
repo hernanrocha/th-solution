@@ -26,14 +26,17 @@ public class Archivo extends JTabbedPane{
 	
 	private Vector<Almacenamiento> almac = new Vector<Almacenamiento>();
 	private String path;
-	private boolean changed;	
+	private boolean changed;
+	protected mainWindow window;
 
-	public Archivo() {
-		this.setDoubleBuffered(true);
-	}
+//	public Archivo() {
+//		this.setDoubleBuffered(true);
+//	}
 
-	public Archivo(int tabPlacement) {
+	public Archivo(int tabPlacement, mainWindow windowP) {
 		super(tabPlacement);
+		setDoubleBuffered(true);
+		this.window = windowP;
 		
 		// Listener. Ir a ultima captura cuando se cambia de tab
 		ChangeListener changeListener = new ChangeListener() {
@@ -41,10 +44,11 @@ public class Archivo extends JTabbedPane{
 				//ConsolaManager.getInstance().escribir("Actualizar Tab");
 				Vista v = (Vista) getSelectedComponent();
 				if (v != null){
-					// Actualizar botones del panel
+					// Ir A Ultima Captura
 					v.ultimaCaptura();
-					v.generateGraph();
-					v.actualizar();
+
+					// Actualizar pantalla
+					window.actualizarImagen();
 				}
 			}
 		};

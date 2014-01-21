@@ -86,14 +86,6 @@ public abstract class Vista extends JPanel implements Serializable{
 		this.tipo = tipo;
 	}
 	
-	public String toGraph(){
-		return toGraph(null);
-	}
-	
-	public abstract String toGraph(String accion);
-	
-	public abstract String getInfo();
-	
 	public void agregarCaptura(String accion){
 //		try {
 //			fichero.seek(fichero.length()); // Colocar puntero al final
@@ -133,6 +125,7 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		if (capturaActual < capturas.size() - 1){
 			capturaActual++;
+			infoActual++;
 		}
 	}
 	
@@ -151,6 +144,7 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		if (capturaActual > 0){
 			capturaActual--;
+			infoActual--;
 		}
 	}
 	
@@ -208,10 +202,7 @@ public abstract class Vista extends JPanel implements Serializable{
 		
 		//InfoManager
 		InfoManager.getInstance().escribir(info.elementAt(infoActual));
-	}
-	
-	//Busqueda
-	public abstract void busqueda(Integer e);
+	}	
 
 	public void actualizar() {
 		if(src != null){
@@ -224,8 +215,15 @@ public abstract class Vista extends JPanel implements Serializable{
 		InfoManager.getInstance().escribir(info.elementAt(infoActual));
 	}
 	
-//	public void informar(){
-//
-//	}
+	public String toGraph(){
+		return toGraph(null);
+	}
+	
+	public abstract String toGraph(String accion);
+	
+	public abstract String getInfo();
+	
+	// Busqueda
+	public abstract void busqueda(Integer e);
 	
 }

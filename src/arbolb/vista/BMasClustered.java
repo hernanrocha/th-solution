@@ -105,14 +105,14 @@ public class BMasClustered extends VistaArbol{
 		return str;
 	}
 
-	public String toGraph(NodoB nodo) {
+	private String toGraph(NodoB nodo) {
 		Elemento finArchivo = new Elemento(Elemento.FIN_ARCHIVO);
 		Vector<Elemento> elementos = nodo.getListaElementos();
 		elementos.add(finArchivo);
 		return toGraph(nodo, finArchivo, elementos);
 	}
 	
-	public String toGraph(NodoB nodo, Elemento parent, Vector<Elemento> listaElementos) {
+	private String toGraph(NodoB nodo, Elemento parent, Vector<Elemento> listaElementos) {
 		String str = new String();
 		
 		String color = "COLOR=\"" + VistaArbol.COLOR_BORDE_NORMAL + "\""; //$NON-NLS-1$ //$NON-NLS-2$

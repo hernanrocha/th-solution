@@ -70,7 +70,7 @@ public class BHibrido extends VistaArbol {
 		return str;
 	}
 
-	public String toGraph(NodoB nodo) {
+	private String toGraph(NodoB nodo) {
 		String str = new String();
 		
 		String color = "COLOR=\"" + VistaArbol.COLOR_BORDE_NORMAL + "\""; //$NON-NLS-1$ //$NON-NLS-2$

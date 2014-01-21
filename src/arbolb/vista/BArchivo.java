@@ -58,7 +58,7 @@ public class BArchivo extends VistaArbol {
 		return str;
 	}
 
-	public String toGraph(NodoB nodo) {
+	private String toGraph(NodoB nodo) {
 
 		String str = new String();
 		
