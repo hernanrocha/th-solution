@@ -2,16 +2,16 @@ package common;
 
 import java.util.concurrent.Semaphore;
 
-import common.swing.formEstructura;
+import common.swing.DialogNuevaEstructura;
 
 
 public class Graficador extends Thread {
 	
 	private static final Graficador graficador = new Graficador();	
-	private static formEstructura form;
+	private static DialogNuevaEstructura form;
 	public Semaphore ready = new Semaphore(0);
 	
-	public static void setForm(formEstructura form) {
+	public static void setForm(DialogNuevaEstructura form) {
 		Graficador.form = form;
 	}
 

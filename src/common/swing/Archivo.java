@@ -26,8 +26,7 @@ public class Archivo extends JTabbedPane{
 	
 	private Vector<Almacenamiento> almac = new Vector<Almacenamiento>();
 	private String path;
-	private boolean changed;
-	
+	private boolean changed;	
 
 	public Archivo() {
 		this.setDoubleBuffered(true);

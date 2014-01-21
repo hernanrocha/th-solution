@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import common.swing.mainWindow;
+
 /**
  * <dl>
  * <dt>Purpose: GraphViz Java API
@@ -174,7 +176,7 @@ public class GraphViz
 			Runtime rt = Runtime.getRuntime();
 
 			// patch by Mike Chenault
-			String[] args = {DOT, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()};
+			String[] args = {mainWindow.INSTALL_PATH + DOT, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()};
 			Process p = rt.exec(args);
 
 			p.waitFor();
