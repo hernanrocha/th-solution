@@ -39,11 +39,11 @@ public class HashAbierto extends HashAbs {
 		this.separadoSolo=separadoSolo;
 		
 		if ( separadoSolo ){
-			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado.");
+			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado" + ".");
 			this.tipo="(SEP)";
 		}
 		else{
-			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado Con Crecimiento Lineal.");
+			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado Con Crecimiento Lineal" + ".");
 			this.tipo="(S.C.L.)";
 		}
 		
@@ -69,18 +69,23 @@ public class HashAbierto extends HashAbs {
 		return (double) cantidadRegistros / (cantidadDeBaldesActuales * (ranuras) );
 	}
 
+	public double getRhoMasUnElemento() {
+		// RhoTemporal = # Elementos_t  + 1 / ( # Baldes_t * # ranuras_t)
+		return ((double) cantidadRegistros + 1) / (cantidadDeBaldesActuales * (ranuras) );
+	}
+	
 	@Override
 	public void insertar(Elemento e) {
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se intentará insertar el elemento: ["+e.getNum()+"].");
+		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se intentará insertar el elemento" + ": ["+e.getNum()+"].");
 		int baldeFinal = 0;
 		
 		if ( separadoSolo ){
 			//Se busca el balde a insertar el elemento.
 			int baldeAInsertar = h(e.getNum());
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h(" + e.getNum() + ") = " + baldeAInsertar +".");
+			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h" + "(" + e.getNum() + ") = " + baldeAInsertar +".");
 			
 			//Si no hay más lugares en el balde lógico se le crean más ranuras.
 			if ( ! this.baldeConRanurasVirgenes(baldeAInsertar) ){
@@ -102,13 +107,13 @@ public class HashAbierto extends HashAbs {
 		}else
 		{	
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Para insertar sin crear baldes mellizos, el Rho temporal (ρt) debe ser menor o igual al Rho de Diseño (ρd).");
+		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Para insertar sin crear baldes mellizos, el Rho temporal (ρt) contando al elemento a insertar debe ser menor o igual al Rho de Diseño (ρd).");
 			
 		//Si el factor de carga temporal no sobrepasa al factor de diseño.
-		if ( this.getRho() <= this.getRhoDeDisenio() ){
+		if ( this.getRhoMasUnElemento() <= this.getRhoDeDisenio() ){
 			
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) = "+ df.format(getRho()) +" <= "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
+			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) contando el elemento a insertar = "+ df.format(getRhoMasUnElemento()) +" <= "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
 			
 			
 			//Se busca el balde a insertar el elemento.
@@ -147,7 +152,7 @@ public class HashAbierto extends HashAbs {
 		}else{
 		//Se crea un balde mellizo.
 			
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) = "+ df.format(getRho()) +" > "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
+			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) contando el elemento a insertar = "+ df.format(getRhoMasUnElemento()) +" > "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
 			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se crea un balde mellizo.");
 			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se realeatorizan los dos baldes mellizos según h'(x).");
 			
@@ -441,6 +446,7 @@ public class HashAbierto extends HashAbs {
 		s+="+Frontera: " + frontera + ".\n";
 		s+="+Factor de carga (Rho ρ) de diseño:\n     ρ=" + df.format(getRhoDeDisenio()) + ".\n";
 		s+="+Factor de carga (Rho ρ) temporal:\n     ρ=" + df.format(getRho()) + ".\n";
+		s+="+Factor de carga (Rho ρ) temporal tomando un elemento más:\n     ρ=" + df.format(getRhoMasUnElemento()) + ".\n";
 		}
 		return s;
 	}
@@ -463,14 +469,14 @@ public class HashAbierto extends HashAbs {
 		ConsolaManager.getInstance().escribir("Búsqueda del elemento ["+e+"] en la estructura de Hash Abierto " + tipo + ".");
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h("+e.getNum()+") = "+baldeABuscar+" y se busca si el elemento existe en el balde.");
+		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h("+e.getNum()+") = "+baldeABuscar+".");
 				
 		//Si el balde encontrado < frontera entonces el elemento cae en un balde particionado.
 		if ( baldeABuscar < frontera ){
 			//Explicación.
 			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El elemento debe pertenecer a un balde particionado (ya que h("+e.getNum()+") = "+baldeABuscar+" < "+frontera+" = frontera)por lo que se aplicará h'(x).");
 			baldeABuscar = hprima(e.getNum());
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h'("+e.getNum()+") = "+baldeABuscar+" y se busca si el elemento existe en el balde.");
+			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h'("+e.getNum()+") = "+baldeABuscar+".");
 		}
 		//Si se encontró se devuelve verdadero, sino falso.
 		if ( posicionElementoEnBalde (baldeABuscar,e.getNum() ) != -1 ){
