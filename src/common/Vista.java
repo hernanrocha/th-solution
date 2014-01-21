@@ -4,9 +4,9 @@ package common;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+//import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.util.Vector;
 
@@ -30,9 +30,9 @@ public abstract class Vista extends JPanel implements Serializable{
 	private int capturaActual = 0;
 	private int infoActual = 0;
 	private Vector<String> capturas = new Vector<String>();
-	private Vector<Long> seeks = new Vector<Long>();
-	private File archivo;
-	private RandomAccessFile fichero;
+//	private Vector<Long> seeks = new Vector<Long>();
+//	private File archivo;
+//	private RandomAccessFile fichero;
 	
 	
 	private Vector<String> info = new Vector<String>();
@@ -196,7 +196,7 @@ public abstract class Vista extends JPanel implements Serializable{
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
 		
 		
-		src = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
+		src = GraphViz.TEMP_DIR + "grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
 
 		System.out.println("Agregar tab: " + src); 
 		

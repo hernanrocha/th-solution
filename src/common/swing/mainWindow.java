@@ -76,19 +76,25 @@ import javax.swing.JRadioButtonMenuItem;
 public class mainWindow {
 	
 	// Ruta del archivo de ayuda
-	//private static final String DIR_MANUAL = "./doc/manual.pdf"; // Linux
 	private static final String DIR_MANUAL = "doc\\manual.pdf"; // Windows //$NON-NLS-1$
+	//private static final String DIR_MANUAL = "./doc/manual.pdf"; // Linux
 	
 	// Ruta de salida estandar
-	//private static final String DIR_SALIDA = "./logs.log"; // Linux
 	private static final String DIR_SALIDA = "logs.log";  // Windows //$NON-NLS-1$
-	//private static final String DIR_SALIDA = System.getProperty("user.home") + "logs.log";  // Windows (Fix)
+	//private static final String DIR_SALIDA = "./logs.log"; // Linux
 	
 	// Ruta de salida de errores
+	private static final String DIR_ERR = "reports.log";  // Windows //$NON-NLS-1$
 	//private static final String DIR_ERR = "./logs.log"; // Linux
-	private static final String DIR_ERR = "logs.log";  // Windows //$NON-NLS-1$
 
+	// Directorio de instalacion
 	public static String INSTALL_PATH = ""; // Windows
+	
+	// Directorio de usuario
+	public static String USER_HOME = ""; // Windows
+	
+	// Directorio de aplicacion
+	public static String APP_HOME = ""; // Windows
 
 	// --------- Panel Derecho - Begin --------- //
 	
@@ -147,9 +153,9 @@ public class mainWindow {
 	private JLabel lblConsola;
 	private final JButton btnBorrar = new JButton(""); //$NON-NLS-1$
 	private final JButton btnMax = new JButton(""); //$NON-NLS-1$
-	private final JButton btnMin = new JButton(""); //$NON-NLS-1$ 
+	private final JButton btnMin = new JButton(""); //$NON-NLS-1$
 
-	public JTextPane txtConsola;
+	private JTextPane txtConsola;
 	private JScrollPane scrollConsola;
 	private final JPanel panelConsola = new JPanel();
 	
@@ -168,32 +174,16 @@ public class mainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
-					//Windows Style
-					//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					
-					//UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");	
-					
-					//	UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+
+					// Crear aplicacion
 					mainWindow window = new mainWindow();
 					window.frmAplicacion.setVisible(true);
 					
-					// Propiedades
-					System.out.println(System.getProperty("os.name")); //$NON-NLS-1$
-					System.out.println(System.getProperty("os.arch")); //$NON-NLS-1$
-					System.out.println(System.getProperty("os.version")); //$NON-NLS-1$
-					System.out.println(System.getProperty("user.dir")); //$NON-NLS-1$
-					System.out.println(System.getProperty("user.home")); //$NON-NLS-1$
-					
-					// Argumentos
-					System.out.println("Inicio argumentos (v2)"); //$NON-NLS-1$
+					// Procesar Argumentos
 					for (String s : argumentos){
-						ConsolaManager.getInstance().escribirInfo("Arbol B", s); //$NON-NLS-1$
-						//ConsolaManager.getInstance().escribirInfo("Arbol B", );
-						System.out.println(s);
+						System.out.println("Abrir " + s);
 						window.abrirEstructura(s);
 					}
-					System.out.println("Fin argumentos (v2)"); //$NON-NLS-1$
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -206,48 +196,19 @@ public class mainWindow {
 	 * Create the application.
 	 */
 	public mainWindow() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		
-		// Configurar PATH
-//		configurePath(); // TODO Windows
+		// Configuracion
+		configurePath();
+		configureOutput();
 		
-		// Configurar flujo de salida
-//		configureOutput(); // TODO DEBUG
-		
-		// Inicializar ventana
-		frmAplicacion = new JFrame();
-		frmAplicacion.setIconImage(Toolkit.getDefaultToolkit().getImage(mainWindow.class.getResource("/img/icono.png"))); //$NON-NLS-1$
-		frmAplicacion.setBounds(100, 100, 1200, 600);
-		frmAplicacion.setLocationRelativeTo(null);
-		frmAplicacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAplicacion.getContentPane().setLayout(new BorderLayout(0, 0));
-		frmAplicacion.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-
-		// Setear fondo de los tabbed panes del color comun del jframe. Asi el Generando queda lindo.
-		Color c = frmAplicacion.getBackground();
-		UIManager.put("TabbedPane.contentAreaColor", new Color(c.getRed(),c.getGreen(), c.getBlue()));  //$NON-NLS-1$
-		
-		// Inicializar menu
-		initMenu();
-		
-		// Panel Principal	
-		tabsArchivos = new JTabbedPane(JTabbedPane.TOP);
-		tabsArchivos.setForeground(Color.BLACK);
-		tabsArchivos.setBackground(Color.WHITE);
-		frmAplicacion.getContentPane().add(tabsArchivos, BorderLayout.CENTER);		
-		
-		// Panel Derecho
+		// Inicializacion
+		initWindow();
+		initMenu();		
 		initPanelDerecho();
-		InfoManager.getInstance(txtInformacion); // Asignamos el InfoManager
-		
-		// Consola
 		initConsola();
+		
+		// Managers
+		InfoManager.getInstance(txtInformacion); // Asignamos el InfoManager
 		ConsolaManager.getInstance(txtConsola, scrollConsola); // Asignamos el ConsolaManager
 		
 		// Generar texto segun lenguaje seleccionado
@@ -255,13 +216,64 @@ public class mainWindow {
 		
 		// Actualizar imagenes
 		actualizarImagen();
+		
+	}
+	
+	/** 
+	 * Configurar los siguientes directorios:
+	 *    . USER_HOME
+	 *    . APP_HOME (guardar logs)
+	 *    . INSTALL_PATH (acceder a ayuda, dot)
+	 */
+	private void configurePath() {
+		// Configurar carpeta de usuario
+		USER_HOME = System.getProperty("user.home"); //$NON-NLS-1$
+		
+		// Configurar carpeta de aplicacion
+		File appDir = new File(USER_HOME + "\\TH Solution\\");
+
+		if (!appDir.exists() || !appDir.isDirectory()) {
+			boolean result = appDir.mkdir();
+
+			if(result) {    
+				System.out.println("DIRECTORIO creado");  
+			}
+		}
+		APP_HOME = appDir.getAbsolutePath() + "\\";
+		
+		// Configurar carpeta de instalacion
+		String value;
+		try {
+			value = WinRegistry.readString (
+				    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
+				   "SOFTWARE\\THSolution",                                      //Key (32 bits)
+				   "InstallPath");                                              //ValueName
+			if (value == null){
+				value = WinRegistry.readString (
+					    WinRegistry.HKEY_LOCAL_MACHINE,                         //HKEY
+					   "SOFTWARE\\Wow6432Node\\THSolution",                     //Key (64 bits)
+					   "InstallPath");                                          //ValueName				
+			}
+			
+			if(value == null){
+				return;
+			}
+			INSTALL_PATH = value + "\\";
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void configureOutput() {
-		File errFile = new File(INSTALL_PATH + DIR_ERR);
-		File outFile = new File(INSTALL_PATH + DIR_SALIDA);
+		File errFile = new File(APP_HOME + DIR_ERR);
+		File outFile = new File(APP_HOME + DIR_SALIDA);
 		PrintStream err = null;
 		PrintStream out = null;
+		
 		try {
 			err = new PrintStream(errFile);
 			out = new PrintStream(outFile);
@@ -274,6 +286,393 @@ public class mainWindow {
 		
 	}
 
+	private void initWindow() {
+		
+		// Inicializar ventana
+		frmAplicacion = new JFrame();
+		frmAplicacion.setIconImage(Toolkit.getDefaultToolkit().getImage(mainWindow.class.getResource("/img/icono.png"))); //$NON-NLS-1$
+		frmAplicacion.setBounds(100, 100, 1200, 600);
+		frmAplicacion.setLocationRelativeTo(null);
+		frmAplicacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAplicacion.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmAplicacion.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+
+		// Setear fondo de los tabbed panes del color comun del jframe. Asi el Generando queda lindo.
+		UIManager.put("TabbedPane.contentAreaColor", frmAplicacion.getBackground());  //$NON-NLS-1$
+		
+		// Panel Principal	
+		tabsArchivos = new JTabbedPane(JTabbedPane.TOP);
+		tabsArchivos.setForeground(Color.BLACK);
+		tabsArchivos.setBackground(Color.WHITE);
+		frmAplicacion.getContentPane().add(tabsArchivos, BorderLayout.CENTER);
+		
+	}
+	
+	private void initMenu() {
+		// MENU BAR
+		menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
+		frmAplicacion.setJMenuBar(menuBar);
+		
+		// ARCHIVO
+		mnArchivo = new JMenu();
+		mnArchivo.setMnemonic('a');
+		menuBar.add(mnArchivo);
+		
+		// Nueva Estructura
+		mntmNuevaEstructura = new JMenuItem();
+		mntmNuevaEstructura.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+		mntmNuevaEstructura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nuevaEstructura();
+			}
+		});
+		mnArchivo.add(mntmNuevaEstructura);
+		
+		// Abrir
+		mntmAbrir = new JMenuItem();
+		mntmAbrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		mntmAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirEstructura();
+			}
+		});
+		mntmAbrir.setMnemonic('a');
+		mnArchivo.add(mntmAbrir);
+		
+		// Guardar
+		mntmGuardar = new JMenuItem();
+		mntmGuardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		mntmGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarEstructura();
+			}
+		});
+		mntmGuardar.setMnemonic('g');
+		mnArchivo.add(mntmGuardar);
+		
+		// Guardar Como
+		mntmGuardarComo = new JMenuItem();
+		mntmGuardarComo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
+		mntmGuardarComo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarComoEstructura();
+			}
+		});
+		mnArchivo.add(mntmGuardarComo);
+
+		// Separador
+		mnArchivo.add(new JSeparator());
+		
+		// Cerrar Estructura
+		mntmCerrarEstructura = new JMenuItem();
+		mntmCerrarEstructura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cerrarEstructura();
+			}
+		});
+		mnArchivo.add(mntmCerrarEstructura);
+		
+		// Separador
+		mnArchivo.add(new JSeparator());
+		
+		// Salir
+		mntmSalir = new JMenuItem();
+		mntmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Agregar ventana modal para preguntar si desea guardar.
+				//Si esta todo guardado ( incluir booleano ) entonces la aplicacion se tendria que cerrar sin
+				//mostrar la ventana modal.
+				System.exit(0);
+			}
+		});	
+		mnArchivo.add(mntmSalir);
+		
+		// BUSCAR
+		mnBuscar = new JMenu();
+		menuBar.add(mnBuscar);
+		
+		// Realizar Busqueda
+		mntmRealizarBusqueda = new JMenuItem();
+		mntmRealizarBusqueda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+		mntmRealizarBusqueda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirBusqueda();
+			}
+		});
+		mnBuscar.add(mntmRealizarBusqueda);
+		
+		// IDIOMA
+		mnIdioma = new JMenu();
+		menuBar.add(mnIdioma);
+		
+		// Grupo Idiomas
+		groupIdioma = new ButtonGroup();
+		
+		// Idioma es_AR
+		rdbtnmntmEspanolargentina = new JRadioButtonMenuItem();
+		rdbtnmntmEspanolargentina.setSelected(true);
+		rdbtnmntmEspanolargentina.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Messages.setLanguage("es_AR"); //$NON-NLS-1$
+				generateMessages();
+			}
+		});
+		mnIdioma.add(rdbtnmntmEspanolargentina);
+		rdbtnmntmEspanolargentina.setSelected(true);
+		groupIdioma.add(rdbtnmntmEspanolargentina);
+		
+		// Idioma en_US
+		rdbtnmntmInglesUs = new JRadioButtonMenuItem();
+		rdbtnmntmInglesUs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Messages.setLanguage("en_US"); //$NON-NLS-1$
+				generateMessages();
+			}
+		});
+		mnIdioma.add(rdbtnmntmInglesUs);
+		groupIdioma.add(rdbtnmntmInglesUs);
+		
+		// AYUDA
+		mnAyuda = new JMenu();
+		menuBar.add(mnAyuda);
+		
+		// Manual
+		mntmAyuda = new JMenuItem();
+		mntmAyuda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		mntmAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					File file = new File(INSTALL_PATH + DIR_MANUAL);
+					Desktop.getDesktop().open(file);
+				} catch (Exception e) {}
+			}
+		});
+		mnAyuda.add(mntmAyuda);
+		
+		// Acerca De
+		mntmAcercaDe = new JMenuItem();
+		mntmAcercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirAyuda();
+			}
+		});
+		mnAyuda.add(mntmAcercaDe);
+		
+	}
+
+	private void initPanelDerecho() {
+		
+		// Inicializar panel
+		panelDerecho = new JPanel();
+		frmAplicacion.getContentPane().add(panelDerecho, BorderLayout.EAST);
+		panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.X_AXIS));
+		
+		// Crear Box
+		verticalBox = Box.createVerticalBox();
+		verticalBox.setBorder(new LineBorder(Color.GRAY));
+		verticalBox.setPreferredSize(new Dimension(340,0));
+		panelDerecho.add(verticalBox);
+		
+		// Informacion
+		initInformacion();
+		
+		// Separador
+		verticalBox.add(new JSeparator());
+		
+		// Acciones
+		initAcciones();
+		
+		// Separador
+		verticalBox.add(new JSeparator());
+		
+		// Cargar Desde Archivo
+		JButton btnCargarDesdeArchivo = new JButton(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO")); //$NON-NLS-1$
+		btnCargarDesdeArchivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				leerAccionesArchivo();
+				//generarDatos(5, 10, 7);
+			}
+		});
+		verticalBox.add(btnCargarDesdeArchivo);
+		
+		// Separador
+		verticalBox.add(new JSeparator());
+		
+		// Capturas
+		initBotonesCaptura();
+		
+	}
+
+	private void initInformacion() {
+		
+		// Titulo
+		lblInformacion = new JLabel();
+		lblInformacion.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblInformacion.setHorizontalAlignment(SwingConstants.LEFT);
+		lblInformacion.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
+		verticalBox.add(lblInformacion);
+		
+		// Separador
+		verticalBox.add(new JSeparator());
+		
+		txtInformacion = new JTextPane();
+		txtInformacion.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+		txtInformacion.setEditable(false);
+		txtInformacion.setPreferredSize(new Dimension(0, 400));
+		txtInformacion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$		
+		verticalBox.add(txtInformacion);
+		
+	}
+
+	private void initAcciones() {
+		// Titulo
+		lblAcciones = new JLabel();
+		lblAcciones.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
+		lblAcciones.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAcciones.setAlignmentX(Component.CENTER_ALIGNMENT);
+		verticalBox.add(lblAcciones);
+		
+		// Campo de texto
+		txtElementos = new JTextField();
+		txtElementos.setHorizontalAlignment(JTextField.CENTER); // Centrar texto
+		txtElementos.setFont(new Font("Verdana", Font.BOLD, 14)); //$NON-NLS-1$
+		txtElementos.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		txtElementos.setColumns(10);
+		txtElementos.addKeyListener(new KeyAdapter(){
+			public void keyTyped(KeyEvent e)
+			{
+				char caracter = e.getKeyChar();
+
+				// Verificar si la tecla pulsada no es un digito
+				if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/) && (caracter != ',' ) )
+				{
+					e.consume();  // ignorar el evento de teclado
+				}
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (archivo != null && txtElementos.getText().length() > 0){
+					btnInsertar.setEnabled(true);
+					btnEliminar.setEnabled(true);
+				}else{
+					btnInsertar.setEnabled(false);
+					btnEliminar.setEnabled(false);
+				}
+			}
+		});
+		verticalBox.add(txtElementos);
+		
+		// Layout para ordenar los botones de Insertar, Eliminar y Buscar.
+		boxAcciones = Box.createHorizontalBox();
+		boxAcciones.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
+		verticalBox.add(boxAcciones);
+		
+		// Insertar
+		btnInsertar = new JButton();
+		btnInsertar.setEnabled(false);
+		btnInsertar.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnInsertar.setHorizontalAlignment(SwingConstants.LEADING);
+		btnInsertar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnInsertar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
+				insertarDatos(elementos);
+				txtElementos.setText(""); //$NON-NLS-1$
+			}
+		});
+		boxAcciones.add(btnInsertar);
+		
+		// Eliminar
+		btnEliminar = new JButton();
+		btnEliminar.setEnabled(false);
+		btnEliminar.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnEliminar.setHorizontalAlignment(SwingConstants.TRAILING);
+		btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
+				eliminarDatos(elementos);
+				txtElementos.setText(""); //$NON-NLS-1$
+			}
+		});		
+		boxAcciones.add(btnEliminar);
+		
+	}
+
+	private void initBotonesCaptura() {
+
+		// Titulo
+		lblCapturas = new JLabel(Messages.getString("SWING_MAIN_CAPTURAS")); //$NON-NLS-1$
+		lblCapturas.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
+		lblCapturas.setAlignmentX(Component.CENTER_ALIGNMENT);
+		verticalBox.add(lblCapturas);
+		
+		// Layout para ordenar los botones
+		boxCapturas = Box.createHorizontalBox();
+		boxCapturas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
+		verticalBox.add(boxCapturas);		
+		
+		// Primero
+		btnPrimero = new JButton("<<"); //$NON-NLS-1$
+		btnPrimero.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnPrimero.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnPrimero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (archivo != null){
+					archivo.primeraCaptura();
+				}
+				actualizarImagen();
+			}
+		});		
+		boxCapturas.add(btnPrimero);
+		
+		// Anterior
+		btnAnterior = new JButton("<"); //$NON-NLS-1$
+		btnAnterior.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnAnterior.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (archivo != null){
+					archivo.anteriorCaptura();
+				}
+				actualizarImagen();
+			}
+		});
+		boxCapturas.add(btnAnterior);
+
+		// Siguiente
+		btnSiguiente = new JButton(">"); //$NON-NLS-1$
+		btnSiguiente.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnSiguiente.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (archivo != null){
+					archivo.siguienteCaptura();
+				}
+				actualizarImagen();
+			}
+		});
+		boxCapturas.add(btnSiguiente);
+		
+		// Ultimo
+		btnUltimo = new JButton(">>"); //$NON-NLS-1$
+		btnUltimo.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
+		btnUltimo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnUltimo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (archivo != null){
+					archivo.ultimaCaptura();
+				}
+				actualizarImagen();
+			}
+		});
+		boxCapturas.add(btnUltimo);	
+		
+	}
+	
 	private void initConsola() {
 		// Consola
 		txtConsola = new JTextPane();
@@ -420,331 +819,7 @@ public class mainWindow {
 		panelConsola.add(btnMax, gbc_Max);
 		
 	}
-
-	private void initPanelDerecho() {
-		
-		// Inicializar panel
-		panelDerecho = new JPanel();
-		frmAplicacion.getContentPane().add(panelDerecho, BorderLayout.EAST);
-		panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.X_AXIS));
-		
-		// Crear Box
-		verticalBox = Box.createVerticalBox();
-		verticalBox.setBorder(new LineBorder(Color.GRAY));
-		verticalBox.setPreferredSize(new Dimension(340,0));
-		panelDerecho.add(verticalBox);
-		
-		// Informacion
-		initInformacion();
-		
-		// Separador
-		verticalBox.add(new JSeparator());
-		
-		// Acciones
-		initAcciones();
-		
-		// Separador
-		verticalBox.add(new JSeparator());
-		
-		// Cargar Desde Archivo
-		JButton btnCargarDesdeArchivo = new JButton(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO")); //$NON-NLS-1$
-		btnCargarDesdeArchivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				leerAccionesArchivo();
-				//generarDatos(5, 10, 7);
-			}
-		});
-		verticalBox.add(btnCargarDesdeArchivo);
-		
-		// Separador
-		verticalBox.add(new JSeparator());
-		
-		// Capturas
-		initBotonesCaptura();
-		
-	}
-
-	private void initInformacion() {
-		
-		// Titulo
-		lblInformacion = new JLabel();
-		lblInformacion.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblInformacion.setHorizontalAlignment(SwingConstants.LEFT);
-		lblInformacion.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
-		verticalBox.add(lblInformacion);
-		
-		// Separador
-		verticalBox.add(new JSeparator());
-		
-		txtInformacion = new JTextPane();
-		txtInformacion.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
-		txtInformacion.setEditable(false);
-		txtInformacion.setPreferredSize(new Dimension(0, 400));
-		txtInformacion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$		
-		verticalBox.add(txtInformacion);
-		
-	}
-
-	private void initAcciones() {
-		// Titulo
-		lblAcciones = new JLabel();
-		lblAcciones.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
-		lblAcciones.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAcciones.setAlignmentX(Component.CENTER_ALIGNMENT);
-		verticalBox.add(lblAcciones);
-		
-		// Campo de texto
-		txtElementos = new JTextField();
-		txtElementos.setHorizontalAlignment(JTextField.CENTER); // Centrar texto
-		txtElementos.setFont(new Font("Verdana", Font.BOLD, 14)); //$NON-NLS-1$
-		txtElementos.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		txtElementos.setColumns(10);
-		txtElementos.addKeyListener(new KeyAdapter(){
-			public void keyTyped(KeyEvent e)
-			{
-				char caracter = e.getKeyChar();
-
-				// Verificar si la tecla pulsada no es un digito
-				if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/) && (caracter != ',' ) )
-				{
-					e.consume();  // ignorar el evento de teclado
-				}
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (archivo != null && txtElementos.getText().length() > 0){
-					btnInsertar.setEnabled(true);
-					btnEliminar.setEnabled(true);
-				}else{
-					btnInsertar.setEnabled(false);
-					btnEliminar.setEnabled(false);
-				}
-			}
-		});
-		verticalBox.add(txtElementos);
-		
-		// Layout para ordenar los botones de Insertar, Eliminar y Buscar.
-		boxAcciones = Box.createHorizontalBox();
-		boxAcciones.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
-		verticalBox.add(boxAcciones);
-		
-		// Insertar
-		btnInsertar = new JButton();
-		btnInsertar.setEnabled(false);
-		btnInsertar.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnInsertar.setHorizontalAlignment(SwingConstants.LEADING);
-		btnInsertar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnInsertar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
-				insertarDatos(elementos);
-				txtElementos.setText(""); //$NON-NLS-1$
-			}
-		});
-		boxAcciones.add(btnInsertar);
-		
-		// Eliminar
-		btnEliminar = new JButton();
-		btnEliminar.setEnabled(false);
-		btnEliminar.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnEliminar.setHorizontalAlignment(SwingConstants.TRAILING);
-		btnEliminar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Vector<Elemento> elementos = parseToElements(txtElementos.getText());
-				eliminarDatos(elementos);
-				txtElementos.setText(""); //$NON-NLS-1$
-			}
-		});		
-		boxAcciones.add(btnEliminar);
-		
-	}
-
-	private void initMenu() {
-		// MENU BAR
-		menuBar = new JMenuBar();
-		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 12)); //$NON-NLS-1$
-		frmAplicacion.setJMenuBar(menuBar);
-		
-		// ARCHIVO
-		mnArchivo = new JMenu();
-		mnArchivo.setMnemonic('a');
-		menuBar.add(mnArchivo);
-		
-		// Nueva Estructura
-		mntmNuevaEstructura = new JMenuItem();
-		mntmNuevaEstructura.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
-		mntmNuevaEstructura.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				nuevaEstructura();
-			}
-		});
-		mnArchivo.add(mntmNuevaEstructura);
-		
-		// Abrir
-		mntmAbrir = new JMenuItem();
-		mntmAbrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
-		mntmAbrir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				abrirEstructura();
-			}
-		});
-		mntmAbrir.setMnemonic('a');
-		mnArchivo.add(mntmAbrir);
-		
-		// Guardar
-		mntmGuardar = new JMenuItem();
-		mntmGuardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-		mntmGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				guardarEstructura();
-			}
-		});
-		mntmGuardar.setMnemonic('g');
-		mnArchivo.add(mntmGuardar);
-		
-		// Guardar Como
-		mntmGuardarComo = new JMenuItem();
-		mntmGuardarComo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
-		mntmGuardarComo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				guardarComoEstructura();
-			}
-		});
-		mnArchivo.add(mntmGuardarComo);
-
-		// Separador
-		mnArchivo.add(new JSeparator());
-		
-		// Cerrar Estructura
-		mntmCerrarEstructura = new JMenuItem();
-		mntmCerrarEstructura.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cerrarEstructura();
-			}
-		});
-		mnArchivo.add(mntmCerrarEstructura);
-		
-		// Separador
-		mnArchivo.add(new JSeparator());
-		
-		// Salir
-		mntmSalir = new JMenuItem();
-		mntmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
-		mntmSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO Agregar ventana modal para preguntar si desea guardar.
-				//Si esta todo guardado ( incluir booleano ) entonces la aplicacion se tendria que cerrar sin
-				//mostrar la ventana modal.
-				System.exit(0);
-			}
-		});	
-		mnArchivo.add(mntmSalir);
-		
-		// BUSCAR
-		mnBuscar = new JMenu();
-		menuBar.add(mnBuscar);
-		
-		// Realizar Busqueda
-		mntmRealizarBusqueda = new JMenuItem();
-		mntmRealizarBusqueda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
-		mntmRealizarBusqueda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				abrirbusqueda();
-			}
-		});
-		mnBuscar.add(mntmRealizarBusqueda);
-		
-		// IDIOMA
-		mnIdioma = new JMenu();
-		menuBar.add(mnIdioma);
-		
-		// Grupo Idiomas
-		groupIdioma = new ButtonGroup();
-		
-		// Idioma es_AR
-		rdbtnmntmEspanolargentina = new JRadioButtonMenuItem();
-		rdbtnmntmEspanolargentina.setSelected(true);
-		rdbtnmntmEspanolargentina.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Messages.setLanguage("es_AR"); //$NON-NLS-1$
-				generateMessages();
-			}
-		});
-		mnIdioma.add(rdbtnmntmEspanolargentina);
-		rdbtnmntmEspanolargentina.setSelected(true);
-		groupIdioma.add(rdbtnmntmEspanolargentina);
-		
-		// Idioma en_US
-		rdbtnmntmInglesUs = new JRadioButtonMenuItem();
-		rdbtnmntmInglesUs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Messages.setLanguage("en_US"); //$NON-NLS-1$
-				generateMessages();
-			}
-		});
-		mnIdioma.add(rdbtnmntmInglesUs);
-		groupIdioma.add(rdbtnmntmInglesUs);
-		
-		// AYUDA
-		mnAyuda = new JMenu();
-		menuBar.add(mnAyuda);
-		
-		// Manual
-		mntmAyuda = new JMenuItem();
-		mntmAyuda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-		mntmAyuda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					File file = new File(INSTALL_PATH + DIR_MANUAL);
-					Desktop.getDesktop().open(file);
-				} catch (Exception e) {}
-			}
-		});
-		mnAyuda.add(mntmAyuda);
-		
-		// Acerca De
-		mntmAcercaDe = new JMenuItem();
-		mntmAcercaDe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				abrirAyuda();
-			}
-		});
-		mnAyuda.add(mntmAcercaDe);
-		
-	}
-
-	private void configurePath() {
-		String value;
-		try {
-			value = WinRegistry.readString (
-				    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-				   "SOFTWARE\\THSolution",                                      //Key (32 bits)
-				   "InstallPath");                                              //ValueName
-			if (value == null){
-				value = WinRegistry.readString (
-					    WinRegistry.HKEY_LOCAL_MACHINE,                         //HKEY
-					   "SOFTWARE\\Wow6432Node\\THSolution",                     //Key (64 bits)
-					   "InstallPath");                                          //ValueName				
-			}
-			
-			if(value == null){
-				return;
-			}
-			INSTALL_PATH = value + "\\";
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		
-		// DEBUG
-		INSTALL_PATH = "";
-	}
-
+	
 	private void generateMessages() {
 		frmAplicacion.setTitle(Messages.getString("SWING_MAIN_TITULO")); //$NON-NLS-1$
 		
@@ -788,74 +863,26 @@ public class mainWindow {
 		mntmAcercaDe.setText(Messages.getString("SWING_MAIN_ACERCA_DE")); //$NON-NLS-1$
 	}
 
-	private void initBotonesCaptura() {
-
-		// Titulo
-		lblCapturas = new JLabel(Messages.getString("SWING_MAIN_CAPTURAS")); //$NON-NLS-1$
-		lblCapturas.setFont(new Font("Verdana", Font.BOLD, 16)); //$NON-NLS-1$
-		lblCapturas.setAlignmentX(Component.CENTER_ALIGNMENT);
-		verticalBox.add(lblCapturas);
+	public void actualizarImagen() {
+		// Bloquear botones
+		btnPrimero.setEnabled(false);
+		btnAnterior.setEnabled(false);
+		btnSiguiente.setEnabled(false);
+		btnUltimo.setEnabled(false);
 		
-		// Layout para ordenar los botones
-		boxCapturas = Box.createHorizontalBox();
-		boxCapturas.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
-		verticalBox.add(boxCapturas);		
-		
-		// Primero
-		btnPrimero = new JButton("<<"); //$NON-NLS-1$
-		btnPrimero.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnPrimero.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnPrimero.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (archivo != null){
-					archivo.primeraCaptura();
-				}
-				actualizarImagen();
-			}
-		});		
-		boxCapturas.add(btnPrimero);
-		
-		// Anterior
-		btnAnterior = new JButton("<"); //$NON-NLS-1$
-		btnAnterior.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnAnterior.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnAnterior.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (archivo != null){
-					archivo.anteriorCaptura();
-				}
-				actualizarImagen();
-			}
-		});
-		boxCapturas.add(btnAnterior);
-
-		// Siguiente
-		btnSiguiente = new JButton(">"); //$NON-NLS-1$
-		btnSiguiente.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnSiguiente.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnSiguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (archivo != null){
-					archivo.siguienteCaptura();
-				}
-				actualizarImagen();
-			}
-		});
-		boxCapturas.add(btnSiguiente);
-		
-		// Ultimo
-		btnUltimo = new JButton(">>"); //$NON-NLS-1$
-		btnUltimo.setFont(new Font("Verdana", Font.BOLD, 12)); //$NON-NLS-1$
-		btnUltimo.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnUltimo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (archivo != null){
-					archivo.ultimaCaptura();
-				}
-				actualizarImagen();
-			}
-		});
-		boxCapturas.add(btnUltimo);	
+		// Renderizar imagen actual
+		if (archivo != null){
+			archivo.generateGraph();
+			archivo.actualizar();
+			
+			// Actualizar botones de captura
+			btnPrimero.setEnabled(archivo.canAnteriorCaptura());
+			btnAnterior.setEnabled(archivo.canAnteriorCaptura());
+			btnSiguiente.setEnabled(archivo.canSiguienteCaptura());
+			btnUltimo.setEnabled(archivo.canSiguienteCaptura());
+		}else{
+			System.out.println(Messages.getString("SWING_MAIN_NINGUNA_ESTRUCTURA_ACTUALIZAR")); //$NON-NLS-1$
+		}
 		
 	}
 	
@@ -1067,7 +1094,7 @@ public class mainWindow {
 	 *                                                                                 *
 	 ***********************************************************************************/
 	
-	// Obtener vector de elementos
+	// Obtener vector de elementos (desde cadena de texto)
 	protected Vector<Elemento> parseToElements(String str) {
 		Vector<Elemento> elementos = new Vector<Elemento>();
 		String[] valores = str.split(","); //$NON-NLS-1$
@@ -1084,6 +1111,7 @@ public class mainWindow {
 		return elementos;
 	}
 	
+	// Obtener vector de elementos (aleatoriamente)
 	protected Vector<Elemento> generarDatos(int inicio, int fin, int tiradas){
 		Vector<Elemento> elementos = new Vector<Elemento>();		
 		
@@ -1159,31 +1187,6 @@ public class mainWindow {
 		}
 	}
 
-	public void actualizarImagen() {
-		// Bloquear botones
-		btnPrimero.setEnabled(false);
-		btnAnterior.setEnabled(false);
-		btnSiguiente.setEnabled(false);
-		btnUltimo.setEnabled(false);
-		
-		// Renderizar imagen actual
-		if (archivo != null){
-			archivo.generateGraph();
-			archivo.actualizar();
-			
-			// Actualizar botones de captura
-			btnPrimero.setEnabled(archivo.canAnteriorCaptura());
-			btnAnterior.setEnabled(archivo.canAnteriorCaptura());
-			btnSiguiente.setEnabled(archivo.canSiguienteCaptura());
-			btnUltimo.setEnabled(archivo.canSiguienteCaptura());
-		}else{
-			System.out.println(Messages.getString("SWING_MAIN_NINGUNA_ESTRUCTURA_ACTUALIZAR")); //$NON-NLS-1$
-		}
-
-		
-		
-	}
-	
 	/***********************************************************************************
 	 *                                                                                 *
 	 *                                TODO HERRAMIENTAS                                *
@@ -1200,17 +1203,17 @@ public class mainWindow {
 		
 	}
 	
-	private void abrirbusqueda() {	
-	if (archivo != null){
-		Vector<Almacenamiento> almac = archivo.getAlmac();
-		if ( almac != null && almac.size() > 0 ){
-			DialogBuscar b = new DialogBuscar(this,almac);
-			b.setVisible(true);
-			b.setAlwaysOnTop(true);
-			b.setModal(true);
-			b.setModalityType(ModalityType.APPLICATION_MODAL);	
+	private void abrirBusqueda() {	
+		if (archivo != null){
+			Vector<Almacenamiento> almac = archivo.getAlmac();
+			if ( almac != null && almac.size() > 0 ){
+				DialogBuscar b = new DialogBuscar(this,almac);
+				b.setVisible(true);
+				b.setAlwaysOnTop(true);
+				b.setModal(true);
+				b.setModalityType(ModalityType.APPLICATION_MODAL);	
+			}
 		}
-	}
 	}
 
 }
