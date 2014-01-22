@@ -441,8 +441,8 @@ public class HashAbierto extends HashAbs {
 		if ( ! separadoSolo )
 			s+=" -h'(x) = x mod "+ MHprima + "\n";
 		s+="+Capacidad de la estructura primaria: " + cantidadDeBaldesActuales * ranuras + " elementos.\n";
-		if (! separadoSolo){
 		s+="+Cantidad de elementos: " + cantidadRegistros + ".\n";
+		if (! separadoSolo){	
 		s+="+Frontera: " + frontera + ".\n";
 		s+="+Factor de carga (Rho ρ) de diseño:\n     ρ=" + df.format(getRhoDeDisenio()) + ".\n";
 		s+="+Factor de carga (Rho ρ) temporal:\n     ρ=" + df.format(getRho()) + ".\n";
