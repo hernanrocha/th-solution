@@ -473,32 +473,7 @@ public class HashAbierto extends HashAbs {
 		ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_BUSQUEDA_ELEMENTO", new Object[]{e, tipo} )); //$NON-NLS-1$
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo(Messages.getString("HAS
-	@Override
-	public String getInfo() {
-		String s;
-		if ( ! separadoSolo )
-			s ="*" + Messages.getString("HASH_ABIERTO_INFO_TITULO_SCL") + "\n\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		else
-			s ="*" + Messages.getString("HASH_ABIERTO_INFO_TITULO_SEP") + "\n\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_BALDES") + ": " + baldes + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_RANURAS") + ": " + ranuras + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		
-		s+=" -h(x) = x mod "+ MH + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		if ( ! separadoSolo )
-			s+=" -h'(x) = x mod "+ MHprima + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		
-		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CAPACIDAD") + ": " + cantidadDeBaldesActuales * ranuras + " " + "elementos" + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_ELEMENTOS") + ": " + cantidadRegistros + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		
-		if (! separadoSolo){
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_FRONTERA") + ": " + frontera + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_DISENIO") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoDeDisenio()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRho()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL_MAS_UNO") + ":\n     "+ Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoMasUnElemento()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		}
-		return s;
-	}H_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_21", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_21", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
 				
 		//Si el balde encontrado < frontera entonces el elemento cae en un balde particionado.
 		if ( baldeABuscar < frontera ){
