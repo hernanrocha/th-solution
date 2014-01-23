@@ -443,8 +443,8 @@ public class HashAbierto extends HashAbs {
 		if ( ! separadoSolo )
 			s+=" -h'(x) = x mod "+ MHprima + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CAPACIDAD") + ": " + cantidadDeBaldesActuales * ranuras + " " + "elementos" + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		if (! separadoSolo){
 		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_ELEMENTOS") + ": " + cantidadRegistros + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		if (! separadoSolo){
 		s+="+" + Messages.getString("HASH_ABIERTO_INFO_FRONTERA") + ": " + frontera + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_DISENIO") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoDeDisenio()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRho()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
