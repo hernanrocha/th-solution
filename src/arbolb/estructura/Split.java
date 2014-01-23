@@ -26,12 +26,12 @@ public class Split{
 		return med;
 	}
 
-	public void setIzq(NodoB izq2) {
-		this.izq = izq2;
+	public void setIzq(NodoB izq) {
+		this.izq = izq;
 	}
 
-	public void setDer(NodoB der2) {
-		this.der = der2;
+	public void setDer(NodoB der) {
+		this.der = der;
 	}
 
 	public void setMed(Elemento med) {

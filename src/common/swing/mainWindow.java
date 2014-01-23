@@ -136,6 +136,7 @@ public class mainWindow {
 
 	private JMenu mnBuscar;
 	private JMenuItem mntmRealizarBusqueda;
+	private JMenuItem mntmGenerarElementos;
 
 	private JMenu mnIdioma;
 	private ButtonGroup groupIdioma;
@@ -164,6 +165,7 @@ public class mainWindow {
 	public JFrame frmAplicacion;
 	public Archivo archivo;
 	public JTabbedPane tabsArchivos;
+
 	
 	/**
 	 * Launch the application.
@@ -198,8 +200,8 @@ public class mainWindow {
 	public mainWindow() {
 		
 		// Configuracion
-		configurePath();
-		configureOutput();
+//		configurePath();
+//		configureOutput();
 		
 		// Inicializacion
 		initWindow();
@@ -412,6 +414,16 @@ public class mainWindow {
 			}
 		});
 		mnBuscar.add(mntmRealizarBusqueda);
+		
+		// Generar elementos
+		mntmGenerarElementos = new JMenuItem();
+		mntmGenerarElementos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
+		mntmGenerarElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirGeneracion();
+			}
+		});
+		mnBuscar.add(mntmGenerarElementos);
 		
 		// IDIOMA
 		mnIdioma = new JMenu();
@@ -871,6 +883,7 @@ public class mainWindow {
 		mntmSalir.setText(Messages.getString("SWING_MAIN_SALIR")); //$NON-NLS-1$
 		mnBuscar.setText(Messages.getString("SWING_MAIN_BUSCAR")); //$NON-NLS-1$
 		mntmRealizarBusqueda.setText(Messages.getString("SWING_MAIN_REALIZAR_BUSQUEDA")); //$NON-NLS-1$
+		mntmGenerarElementos.setText(Messages.getString("SWING_MAIN_GENERAR")); //$NON-NLS-1$
 		mnIdioma.setText(Messages.getString("SWING_MAIN_IDIOMA")); //$NON-NLS-1$
 		rdbtnmntmEspanolargentina.setText(Messages.getString("SWING_MAIN_ES_AR")); //$NON-NLS-1$
 		rdbtnmntmInglesUs.setText(Messages.getString("SWING_MAIN_EN_US")); //$NON-NLS-1$
@@ -951,7 +964,8 @@ public class mainWindow {
             }
 		
         }
-		
+//		System.out.println(Messages.getString("TEST", new Object[]{"Brian", 93} ));
+//		System.out.println(Messages.getString("TEST"));
 	}
 
 	protected void nuevaEstructura() {
@@ -1193,6 +1207,18 @@ public class mainWindow {
 				b.setModalityType(ModalityType.APPLICATION_MODAL);	
 			}
 		}
+	}
+	
+
+	private void abrirGeneracion() {
+		if (archivo != null){
+			//DialogBuscar b = new DialogBuscar(this,almac);
+			DialogGenerarElementos b = new DialogGenerarElementos(this, archivo);
+			b.setVisible(true);
+			b.setAlwaysOnTop(true);
+			b.setModal(true);
+			b.setModalityType(ModalityType.APPLICATION_MODAL);
+		}	
 	}
 
 }

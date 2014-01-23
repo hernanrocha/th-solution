@@ -31,9 +31,43 @@ public class Messages {
 		try {
 			//Locale lugar = new Locale("es", "AR");
 			return RESOURCE_BUNDLE.getString(key);
-			//return RESOURCE_BUNDLE.
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
+	
+	public static String getString(String key, Object[] args){
+		try {
+			// Obtener cadena
+			String res = RESOURCE_BUNDLE.getString(key);
+			
+//			String sentence = "Define, Measure, Analyze, Design and Verify";
+//
+//		    String str = sentence.replace("ands", "");
+//		    System.out.println(str);
+//		    String[][] array = {{"1.1", "1.2"}, {"2.1", "2.2"}, {"3.1", "3.2"}};
+//		    System.out.println(array.length);
+//		    System.out.println(array[1].length);
+			
+			// Realizar reemplazo en argumentos
+			for(int i = 0; i < args.length; i++){
+				//Object[] arg = args[i];
+				
+				//if (arg.length == 2){
+				//	res = res.replace("{" + arg[0] + "}", arg[1].toString());
+				//}else if (arg.length == 1){
+				//	res = res.replace("{" + i + "}", arg[0].toString());
+				//}
+				
+				res = res.replace("{" + i + "}", args[i].toString());
+			}
+			
+			return res;
+		} catch (MissingResourceException e) {
+			return '!' + key + '!';
+		}
+		
+
+	}
+	
 }

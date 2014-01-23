@@ -11,7 +11,6 @@ public class DebugCompleto extends VistaArbol {
 
 	public DebugCompleto(ArbolB arbol){
 		super(arbol);
-		setTipo("DebugCompleto");
 	}
 
 	@Override
@@ -56,5 +55,10 @@ public class DebugCompleto extends VistaArbol {
 		
 		//Logger.getLogger("Arbol").debug(str);
 		return str;
+	}
+	
+	@Override
+	public String getTipo(){
+		return "DEBUG";
 	}
 }

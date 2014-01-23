@@ -6,6 +6,7 @@ import hash.HashAbs;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import common.Messages;
 import common.estructura.Elemento;
 import common.swing.ConsolaManager;
 
@@ -25,7 +26,7 @@ public class HashAbierto extends HashAbs {
 	private int MHprima;
 	private boolean separadoSolo;
 	private String tipo;
-	private DecimalFormat df = new DecimalFormat("0.0000");
+	private DecimalFormat df = new DecimalFormat("0.0000"); //$NON-NLS-1$
 	
 	public HashAbierto(int baldes,int ranuras,int ranurasSecundarias,double rhoDeDisenio,boolean separadoSolo){
 		this.baldes = baldes;
@@ -39,12 +40,12 @@ public class HashAbierto extends HashAbs {
 		this.separadoSolo=separadoSolo;
 		
 		if ( separadoSolo ){
-			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado" + ".");
-			this.tipo="(SEP)";
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_CREANDO_SEP")); //$NON-NLS-1$
+			this.tipo=Messages.getString("HASH_ABIERTO_SEP_NOMBRE_PARENTESIS"); //$NON-NLS-1$
 		}
 		else{
-			ConsolaManager.getInstance().escribir("Creando la estructura de Hash Abierto Separado Con Crecimiento Lineal" + ".");
-			this.tipo="(S.C.L.)";
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_CREANDO_SCL")); //$NON-NLS-1$
+			this.tipo=Messages.getString("HASH_ABIERTO_SCL_NOMBRE_PARENTESIS"); //$NON-NLS-1$
 		}
 		
 		//Se crea el espacio de Almacenamiento.
@@ -78,14 +79,15 @@ public class HashAbierto extends HashAbs {
 	public void insertar(Elemento e) {
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se intentará insertar el elemento" + ": ["+e.getNum()+"].");
+//		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se intentará insertar el elemento" + ": ["+e.getNum()+"].");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_INTENTAR_INSERTAR", new Object[]{e.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$
 		int baldeFinal = 0;
 		
 		if ( separadoSolo ){
 			//Se busca el balde a insertar el elemento.
 			int baldeAInsertar = h(e.getNum());
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h" + "(" + e.getNum() + ") = " + baldeAInsertar +".");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_APLICAR_H", new Object[]{e.getNum(), baldeAInsertar})); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			
 			//Si no hay más lugares en el balde lógico se le crean más ranuras.
 			if ( ! this.baldeConRanurasVirgenes(baldeAInsertar) ){
@@ -107,26 +109,26 @@ public class HashAbierto extends HashAbs {
 		}else
 		{	
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Para insertar sin crear baldes mellizos, el Rho temporal (ρt) contando al elemento a insertar debe ser menor o igual al Rho de Diseño (ρd).");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_1")); //$NON-NLS-1$ //$NON-NLS-2$
 			
 		//Si el factor de carga temporal no sobrepasa al factor de diseño.
 		if ( this.getRhoMasUnElemento() <= this.getRhoDeDisenio() ){
 			
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) contando el elemento a insertar = "+ df.format(getRhoMasUnElemento()) +" <= "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_2", new Object[]{df.format(getRhoMasUnElemento()), df.format(getRhoDeDisenio())} )); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			
 			//Se busca el balde a insertar el elemento.
 			int baldeAInsertar = h(e.getNum());
 			
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h(" + e.getNum() + ") = " + baldeAInsertar +".");
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Si el balde encontrado es menor que la frontera el elemento cae en un balde particionado.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_3", new Object[]{e.getNum(), baldeAInsertar} )); //$NON-NLS-1$ //$NON-NLS-2$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_4")); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			//Si el balde encontrado < frontera entonces el elemento cen un balde particionado.
 			if ( baldeAInsertar < frontera ){
 				baldeAInsertar = hprima(e.getNum());
-				ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El elemento cayó en un balde particionado, se le aplica h'(x) = "+baldeAInsertar+".");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_5", new Object[]{baldeAInsertar} )); //$NON-NLS-1$ //$NON-NLS-2$
 				
 			}
 			
@@ -152,9 +154,9 @@ public class HashAbierto extends HashAbs {
 		}else{
 		//Se crea un balde mellizo.
 			
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El Rho temporal (ρt) contando el elemento a insertar = "+ df.format(getRhoMasUnElemento()) +" > "+ df.format(getRhoDeDisenio())+" = Rho de Diseño (ρd).");
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se crea un balde mellizo.");
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se realeatorizan los dos baldes mellizos según h'(x).");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_6", new Object[]{df.format(getRhoMasUnElemento()), df.format(getRhoDeDisenio())} )); //$NON-NLS-1$ //$NON-NLS-2$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_7")); //$NON-NLS-1$ //$NON-NLS-2$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_8")); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			
 			// Se crea un balde mellizo al correspondiente balde según su orden lineal.
@@ -183,7 +185,7 @@ public class HashAbierto extends HashAbs {
 			//Se corre la frontera.
 			frontera++;
 			//Explicación
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se establece la nueva frontera = "+frontera+".");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_9", new Object[]{frontera} )); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			
 			for ( int i = 0 ; i < elementosAReubicar.size() ; i++ ){
@@ -191,7 +193,7 @@ public class HashAbierto extends HashAbs {
 			}
 			
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Luego de reubicar los baldes mellizos se vuelve a tratar de insertar el elemento : ["+e.getNum()+"].");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_10", new Object[]{e.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			//Se inserta el elemento.
 			this.insertar(e);
@@ -200,10 +202,10 @@ public class HashAbierto extends HashAbs {
 			//Tengo que actualizar la frontera y los h(x) y h'(x) en caso de que la frontera llegue a su limite.
 			if ( frontera == baldes ){
 				//Explicación
-				ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se duplicó completamente la estructura.");
-				ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "La frontera llegó a su límite por lo que vuelve a 0.");
-				ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "h(x) se vuelve h'(x).");
-				ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "h'(x) se vuelve x mod "+MHprima*2+".");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_11")); //$NON-NLS-1$ //$NON-NLS-2$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_12")); //$NON-NLS-1$ //$NON-NLS-2$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_13")); //$NON-NLS-1$ //$NON-NLS-2$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_14", new Object[]{MHprima*2} )); //$NON-NLS-1$ //$NON-NLS-2$
 				
 				MH = MHprima;
 				MHprima *= 2;
@@ -214,7 +216,7 @@ public class HashAbierto extends HashAbs {
 		}
 		//Agregamos la captura.
 		agregarCaptura();
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se insertó el elemento: [" + e.getNum() + "] en el balde : [" + baldeFinal + "].");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_ELEMENTO_INSERTADO", new Object[]{e.getNum(), baldeFinal} )); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override
@@ -223,21 +225,21 @@ public class HashAbierto extends HashAbs {
 		Integer aEliminar = e.get();
 
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se intentará eliminar el elemento: ["+aEliminar+"].");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_ELEMENTO_A_INSERTAR", new Object[]{aEliminar} )); //$NON-NLS-1$ //$NON-NLS-2$
 				
 		//Se busca el balde.
 		int baldeABuscar = h(aEliminar);
 		
 		//Explicación
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo,"Se aplica h(" + e.getNum() + ") = " + baldeABuscar+".");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo,Messages.getString("HASH_ABIERTO_EXPLICACION_15", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( ! separadoSolo )
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Si el balde encontrado es menor que la frontera el elemento pertenece a un balde particionado.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_16")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		//Si el balde encontrado < frontera entonces el elemento está en un balde particionado.
 		if ( baldeABuscar < frontera ){
 			baldeABuscar = hprima(aEliminar);
 			//Explicación
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo,"El elemento pertenece a un balde particionado,se le aplica h'(" + e.getNum() + ") = " + baldeABuscar+".");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo,Messages.getString("HASH_ABIERTO_EXPLICACION_17", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
 			
 		}
 		//Referencia al elemento que se va a devolver.
@@ -250,7 +252,7 @@ public class HashAbierto extends HashAbs {
 			cantidadRegistros--;
 			
 			//Explicación
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo,"Al borrar el elemento si este pertenecía a un balde lógico y el balde se queda sin elementos, se elimina al balde.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo,Messages.getString("HASH_ABIERTO_EXPLICACION_18")); //$NON-NLS-1$ //$NON-NLS-2$
 	
 			//Variable Auxiliar
 			int borrados = 0;
@@ -282,7 +284,7 @@ public class HashAbierto extends HashAbs {
 				}
 			}	
 		}
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se eliminó el elemento: [" + aEliminar + "] dejando su posición como borrada.");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_ELEMENTO_ELIMINADO", new Object[]{aEliminar} )); //$NON-NLS-1$ //$NON-NLS-2$
 		//Se Agrega la captura
 		agregarCaptura();
 	}
@@ -355,34 +357,34 @@ public class HashAbierto extends HashAbs {
 	
 	public String toGraph(){
 		String salida = new String();
-		salida += "base [ label= <<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"> \n";
+		salida += "base [ label= <<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"> \n"; //$NON-NLS-1$
 		for (int j = ranuras - 1 ; j >= 0 ; j--){
-			salida +="<TR> \n";
+			salida +="<TR> \n"; //$NON-NLS-1$
 			for (int i = 0 ; i < cantidadDeBaldesActuales ; i++){
 				if ( espacioDeAlmacenamiento.elementAt(i).elementAt(j).getEstado() == Celda.OCUPADO )
-					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + espacioDeAlmacenamiento.elementAt(i).elementAt(j).toString() + " </TD> \n";
+					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + espacioDeAlmacenamiento.elementAt(i).elementAt(j).toString() + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				else
 				if (  espacioDeAlmacenamiento.elementAt(i).elementAt(j).getEstado() == Celda.BORRADO )
-					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n";
+					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				else
 				if (  espacioDeAlmacenamiento.elementAt(i).elementAt(j).getEstado() == Celda.VIRGEN )
-					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	
+					salida += "<TD PORT=\"" + i+j + "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-		salida +="</TR> \n";
+		salida +="</TR> \n"; //$NON-NLS-1$
 		}
-		salida += "<TR> \n";
+		salida += "<TR> \n"; //$NON-NLS-1$
 		for (int i = 0 ; i < cantidadDeBaldesActuales ; i++){
-			salida +=  "<TD ALIGN=\"TEXT\" BGCOLOR=\"#FDFF69\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + i + " </B> </TD> \n";
+			salida +=  "<TD ALIGN=\"TEXT\" BGCOLOR=\"#FDFF69\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + i + " </B> </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		salida += "\n </TR>";
-		salida += "<TR> \n";
+		salida += "\n </TR>"; //$NON-NLS-1$
+		salida += "<TR> \n"; //$NON-NLS-1$
 		if (frontera > 0)
-			salida +=  "<TD COLSPAN=\""+frontera+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h'(x)" + " </B> </TD> \n";
-		salida +=  "<TD COLSPAN=\""+ (baldes-frontera)+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h(x)" + " </B> </TD> \n";
+			salida +=  "<TD COLSPAN=\""+frontera+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h'(x)" + " </B> </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		salida +=  "<TD COLSPAN=\""+ (baldes-frontera)+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h(x)" + " </B> </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		if (cantidadDeBaldesActuales - baldes > 0)
-			salida +=  "<TD COLSPAN=\""+ (cantidadDeBaldesActuales - baldes)+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h'(x)" + " </B> </TD> \n";
-		salida += "\n </TR>";
-		salida += "</TABLE>>, shape=none] \n";
+			salida +=  "<TD COLSPAN=\""+ (cantidadDeBaldesActuales - baldes)+"\" ALIGN=\"TEXT\" BGCOLOR=\"#FE9A2E\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + "h'(x)" + " </B> </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		salida += "\n </TR>"; //$NON-NLS-1$
+		salida += "</TABLE>>, shape=none] \n"; //$NON-NLS-1$
 		
 		for ( int i = 0 ; i < cantidadDeBaldesActuales; i++ ){
 			Vector<Celda> celdasADibujar = new Vector<Celda>();
@@ -395,31 +397,31 @@ public class HashAbierto extends HashAbs {
 			
 			for ( int j = 0 ; j < celdasADibujar.size() ; j++ ){
 				if ( actual == 0 )
-					salida += "flotante" + i + cantidad + " [ label= <<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"> \n";
+					salida += "flotante" + i + cantidad + " [ label= <<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 				
-				salida +="<TR> \n";
+				salida +="<TR> \n"; //$NON-NLS-1$
 
 				if ( celdasADibujar.elementAt(j).getEstado() == Celda.OCUPADO )
-					salida += "<TD PORT=\"" + i + (ranurasSecundarias - actual) +  "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + celdasADibujar.elementAt(j).toString() + " </TD> \n";
+					salida += "<TD PORT=\"" + i + (ranurasSecundarias - actual) +  "\" ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + celdasADibujar.elementAt(j).toString() + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				else
 				if ( celdasADibujar.elementAt(j).getEstado() == Celda.BORRADO )
-					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n";
+					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 				else
 				if ( celdasADibujar.elementAt(j).getEstado() == Celda.VIRGEN )
-					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	
+					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	 //$NON-NLS-1$ //$NON-NLS-2$
 
-				salida +="</TR> \n";
+				salida +="</TR> \n"; //$NON-NLS-1$
 				
 				actual++;
 				
 				if ( actual == ranurasSecundarias ){
 					actual=0;
-					salida += "</TABLE>>, shape=none] \n";
+					salida += "</TABLE>>, shape=none] \n"; //$NON-NLS-1$
 					
 					if ( cantidad == 1 )
-						salida += "base:" + i + (ranuras - 1) + ":n -> flotante" + i + cantidad + ":" + i + cantidad +":s \n";
+						salida += "base:" + i + (ranuras - 1) + ":n -> flotante" + i + cantidad + ":" + i + cantidad +":s \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					else
-						salida += "flotante" + i + (cantidad - 1) + ":"+ i + ranurasSecundarias + ":n -> flotante" + i + cantidad + ":" + i + 1 +":s \n";
+						salida += "flotante" + i + (cantidad - 1) + ":"+ i + ranurasSecundarias + ":n -> flotante" + i + cantidad + ":" + i + 1 +":s \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 					cantidad--;
 				}				
 			}	
@@ -431,30 +433,30 @@ public class HashAbierto extends HashAbs {
 	public String getInfo() {
 		String s;
 		if ( ! separadoSolo )
-			s ="*Estructura de Hash Abierto Separado Con Crecimiento Lineal (S.C.L.). \n\n";
+			s ="*" + Messages.getString("HASH_ABIERTO_INFO_TITULO_SCL") + "\n\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		else
-			s ="*Estructura de Hash Abierto Separado (SEP). \n\n";
-		s+="+Cantidad de Baldes: " + baldes + ".\n";
-		s+="+Cantidad de Ranuras: " + ranuras + ".\n";
+			s ="*" + Messages.getString("HASH_ABIERTO_INFO_TITULO_SEP") + "\n\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_BALDES") + ": " + baldes + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_RANURAS") + ": " + ranuras + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
-		s+=" -h(x) = x mod "+ MH + "\n";
+		s+=" -h(x) = x mod "+ MH + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		if ( ! separadoSolo )
-			s+=" -h'(x) = x mod "+ MHprima + "\n";
-		s+="+Capacidad de la estructura primaria: " + cantidadDeBaldesActuales * ranuras + " elementos.\n";
+			s+=" -h'(x) = x mod "+ MHprima + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CAPACIDAD") + ": " + cantidadDeBaldesActuales * ranuras + " " + "elementos" + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		if (! separadoSolo){
-		s+="+Cantidad de elementos: " + cantidadRegistros + ".\n";
-		s+="+Frontera: " + frontera + ".\n";
-		s+="+Factor de carga (Rho ρ) de diseño:\n     ρ=" + df.format(getRhoDeDisenio()) + ".\n";
-		s+="+Factor de carga (Rho ρ) temporal:\n     ρ=" + df.format(getRho()) + ".\n";
-		s+="+Factor de carga (Rho ρ) temporal tomando un elemento más:\n     ρ=" + df.format(getRhoMasUnElemento()) + ".\n";
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_CANTIDAD_ELEMENTOS") + ": " + cantidadRegistros + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_FRONTERA") + ": " + frontera + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_DISENIO") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoDeDisenio()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRho()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL_MAS_UNO") + ":\n     "+ Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoMasUnElemento()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 		return s;
 	}
 	
 	public String getTipo(){
 		if ( separadoSolo )
-			return "SEP";
-		return "S.C.L.";
+			return Messages.getString("HASH_ABIERTO_SEP_NOMBRE"); //$NON-NLS-1$
+		return Messages.getString("HASH_ABIERTO_SCL_NOMBRE"); //$NON-NLS-1$
 	}
 
 
@@ -465,24 +467,24 @@ public class HashAbierto extends HashAbs {
 		int baldeABuscar = h(e.getNum());
 		
 		//Explicación
-		ConsolaManager.getInstance().escribir("");
-		ConsolaManager.getInstance().escribir("Búsqueda del elemento ["+e+"] en la estructura de Hash Abierto " + tipo + ".");
+		ConsolaManager.getInstance().escribir(""); //$NON-NLS-1$
+		ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_BUSQUEDA_ELEMENTO", new Object[]{e, tipo} )); //$NON-NLS-1$
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h("+e.getNum()+") = "+baldeABuscar+".");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_21", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
 				
 		//Si el balde encontrado < frontera entonces el elemento cae en un balde particionado.
 		if ( baldeABuscar < frontera ){
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El elemento debe pertenecer a un balde particionado (ya que h("+e.getNum()+") = "+baldeABuscar+" < "+frontera+" = frontera)por lo que se aplicará h'(x).");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_22", new Object[]{e.getNum(), baldeABuscar, frontera} )); //$NON-NLS-1$ //$NON-NLS-2$
 			baldeABuscar = hprima(e.getNum());
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "Se aplica h'("+e.getNum()+") = "+baldeABuscar+".");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_EXPLICACION_23", new Object[]{e.getNum(), baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		//Si se encontró se devuelve verdadero, sino falso.
 		if ( posicionElementoEnBalde (baldeABuscar,e.getNum() ) != -1 ){
-			ConsolaManager.getInstance().escribirInfo("Hash Abierto " + tipo, "El elemento ["+e.getNum()+"] pertenece a este balde.");
-			ConsolaManager.getInstance().escribir("Se encontró el elemento ["+e+"].");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_ABIERTO_NOMBRE") + tipo, Messages.getString("HASH_ABIERTO_ELEMENTO_PERTENECE", new Object[]{e.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_ELEMENTO_ENCONTRADO", new Object[]{e} )); //$NON-NLS-1$
 		}else
-			ConsolaManager.getInstance().escribir("No se encontró el elemento ["+e+"].");
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_ABIERTO_ELEMENTO_NO_ENCONTRADO", new Object[]{e} )); //$NON-NLS-1$ 
 	}
 }

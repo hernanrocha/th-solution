@@ -1,5 +1,7 @@
 package hash.cerrado.tecnicas;
 
+import common.Messages;
+
 
 public class TecnicaCerradaRealeatorizada extends TecnicaAbs {
 
@@ -7,10 +9,10 @@ public class TecnicaCerradaRealeatorizada extends TecnicaAbs {
 	
 	public TecnicaCerradaRealeatorizada(int cantidadBaldes){
 		super(cantidadBaldes);
-		this.nombre = "Realeatorizada";
-		this.corto = "RE";
-		this.funcion = " - h(x) = x mod " + cantidadBaldes + ".";
-		this.funcionReasignacion = " - h'(x) = ( h(x) + [i * (x mod ( M - 1 )) + 1]) mod " + cantidadBaldes + ". \n    (i : Número de intento)";
+		this.nombre = Messages.getString("HASH_CERRADO_TECNICAS_RE_LARGO"); //$NON-NLS-1$
+		this.corto = Messages.getString("HASH_CERRADO_TECNICAS_RE_CORTO"); //$NON-NLS-1$
+		this.funcion = " - h(x) = x mod " + cantidadBaldes + "."; //$NON-NLS-1$ //$NON-NLS-2$
+		this.funcionReasignacion = " - h'(x) = ( h(x) + [i * (x mod ( M - 1 )) + 1]) mod " + cantidadBaldes + ". \n    (i : " + Messages.getString("HASH_CERRADO_TECNICAS_NUMERO_INTENTO") + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	@Override
@@ -21,7 +23,6 @@ public class TecnicaCerradaRealeatorizada extends TecnicaAbs {
 
 	@Override
 	public String getLista() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

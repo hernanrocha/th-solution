@@ -82,9 +82,9 @@ public abstract class Vista extends JPanel implements Serializable{
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+//	public void setTipo(String tipo) {
+//		this.tipo = tipo;
+//	}
 	
 	public void agregarCaptura(String accion){
 //		try {

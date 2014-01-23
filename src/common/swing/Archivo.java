@@ -76,7 +76,7 @@ public class Archivo extends JTabbedPane{
 		
 		// Mostrar mensaje si existia en alguna estructura
 		if(existe){
-			ConsolaManager.getInstance().escribirAdv(Messages.getString("ARCHIVO_ELEMENTO_EXISTENTE")); //$NON-NLS-1$
+			ConsolaManager.getInstance().escribirAdv(Messages.getString("ARCHIVO_ELEMENTO_EXISTENTE", new Object[]{e.getNum()} )); //$NON-NLS-1$
 		}
 	}
 	

@@ -3,6 +3,7 @@ package arbolb.estructura;
 import java.io.Serializable;
 import java.util.Vector;
 
+import common.Messages;
 //import org.apache.log4j.Logger;
 import common.estructura.Elemento;
 import common.swing.ConsolaManager;
@@ -63,10 +64,6 @@ public class NodoB implements Serializable {
 	public NodoB(NodoB parent, ArbolB arbol) {
 		this(parent, arbol, arbol.getOrden()/2 + arbol.getOrden() % 2 - 1, arbol.getOrden() - 1);
 	}
-	
-	public void setParent(NodoB parent) {
-		this.parent = parent;
-	}	
 
 	public NodoB getParent() {
 		return parent;
@@ -130,7 +127,10 @@ public class NodoB implements Serializable {
 		return lista;
 	}
 	
-	public Integer elemIndex(Elemento e){
+	// INTERNOS
+	
+	// Indice de un elemento
+	private Integer elemIndex(Elemento e){
     	int pos = 0;
 		while ( (pos < cantActual) && (e.mayorQue(datos[pos])) ){
 			pos++;
@@ -143,7 +143,8 @@ public class NodoB implements Serializable {
 		}
     }
 	
-	public Integer childIndex(NodoB n){
+	// Indice de un nodo hijo
+	private Integer childIndex(NodoB n){
     	int pos = 0;
 		while ( (pos <= cantActual) && (n != hijos[pos]) ){
 			pos++;
@@ -156,7 +157,8 @@ public class NodoB implements Serializable {
 		}
     }
 	
-	public Elemento getMayor(){
+	// Elemento mayor (eliminarEfectivo)
+	private Elemento getMayor(){
 		if(esHoja()){
 			return datos[cantActual-1];
 		}else{
@@ -164,14 +166,23 @@ public class NodoB implements Serializable {
 		}
 	}
 	
+	private void setParent(NodoB parent) {
+		this.parent = parent;
+	}
+
+	// VISTAS
+	
+	// Arreglo de elementos del nodo
 	public Elemento[] getDatos() {
 		return datos;
 	}
 
+	// Arreglo de hijos del nodo
 	public NodoB[] getHijos() {
 		return hijos;
 	}
 	
+	// Obtener vector de nodos hoja
 	public Vector<NodoB> getNodosHoja(){
 		Vector<NodoB> hojas = new Vector<NodoB>();
 		if(esHoja()){
@@ -188,27 +199,27 @@ public class NodoB implements Serializable {
 	
 	public String toStringSimple(){
 		String str = new String();
-		str += "[";
+		str += "["; //$NON-NLS-1$
 		for (int i=0; i<cantActual; i++){
 			if(i != 0){
-				str+= ",";				
+				str+= ",";				 //$NON-NLS-1$
 			}
 			str+= datos[i].toString();
 		}
-		str += "]";
+		str += "]"; //$NON-NLS-1$
 		return str;
 	}
 	
 	public String toString(){
 		String str = new String();
-		str += "Datos:";
+		str += "Datos:"; //$NON-NLS-1$
 		for (int i=0; i<cantActual; i++){
 			str+= datos[i].toString();
-			str+= ".";
+			str+= "."; //$NON-NLS-1$
 		}
 		for (int i=0; i<=cantActual; i++){
 			if (hijos[i] != null){
-				str+="\n";
+				str+="\n"; //$NON-NLS-1$
 				str+= hijos[i].toString();
 			}
 		}
@@ -303,7 +314,7 @@ public class NodoB implements Serializable {
 		Vector<NodoB> intervinientes = new Vector<NodoB>();
 		intervinientes.add(this);
 		arbol.setIntervinientes(intervinientes);
-		arbol.agregarCaptura("Realizar Split");
+		arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_SPLIT")); //$NON-NLS-1$
 		arbol.setIntervinientes(new Vector<NodoB>());
 		
 		// Paso 1: Dividir el nodo en 2 sub-nodos con un elemento separador
@@ -322,7 +333,7 @@ public class NodoB implements Serializable {
 	}
 	
 	private Split getSplit(){
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "(SPLIT)  Realizar split");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_SPLIT_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		Split split = new Split();
 		
@@ -362,7 +373,7 @@ public class NodoB implements Serializable {
 	public boolean insertarRedistribucionDerecha(){
 		// Asegurarse que sea hoja y haya nodo padre
 		if (!esHoja() || esRaiz()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER)  No puede aplicarse en el nodo");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_NO_POSIBLE")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -371,7 +382,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas derecho del padre
 		if(parentIndex == parent.cantActual){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER)  No hay nodo derecho para la redistribucion");			
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_NO_HAY_NODO"));			 //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -380,12 +391,12 @@ public class NodoB implements Serializable {
 
 		// El nodo derecho esta lleno
 		if(nodoDer.cantActual + 1 > nodoDer.getMaxElem()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER) El nodo derecho esta lleno");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_NODO_LLENO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
 		// El nodo derecho puede darle un elemento	
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER)  Realizar redistribucion a derecha");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		// Capturar estado previo
 		Vector<NodoB> intervinientes = new Vector<NodoB>();
@@ -393,7 +404,7 @@ public class NodoB implements Serializable {
 		intervinientes.add(nodoDer);
 		intervinientes.add(parent);
 		arbol.setIntervinientes(intervinientes);
-		arbol.agregarCaptura("Redistribucion a Derecha");
+		arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_REDIST_DER")); //$NON-NLS-1$
 		arbol.setIntervinientes(new Vector<NodoB>());
 		
 		// Intercambiar elementos
@@ -405,7 +416,7 @@ public class NodoB implements Serializable {
 	public boolean insertarRedistribucionIzquierda(){
 		// Asegurarse que sea hoja y haya nodo padre
 		if (!esHoja() || esRaiz()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ)  No puede aplicarse en el nodo");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_NO_POSIBLE")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -414,7 +425,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas izquierdo del padre
 		if(parentIndex == 0){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ)  No hay nodo izquierdo para la redistribucion");			
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_NO_HAY_NODO"));			 //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -423,12 +434,12 @@ public class NodoB implements Serializable {
 
 		// El nodo izquierdo esta lleno
 		if(nodoIzq.cantActual + 1 > nodoIzq.getMaxElem()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ) El nodo izquierdo esta lleno");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_NODO_LLENO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
 		// El nodo derecho puede darle un elemento	
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ)  Realizar redistribucion a izquierda");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		// Capturar estado previo
 		Vector<NodoB> intervinientes = new Vector<NodoB>();
@@ -436,7 +447,7 @@ public class NodoB implements Serializable {
 		intervinientes.add(nodoIzq);
 		intervinientes.add(parent);
 		arbol.setIntervinientes(intervinientes);
-		arbol.agregarCaptura("Redistribucion a Izquierda");
+		arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_REDIST_IZQ")); //$NON-NLS-1$
 		arbol.setIntervinientes(new Vector<NodoB>());
 		
 		// Intercambiar elementos
@@ -451,14 +462,17 @@ public class NodoB implements Serializable {
 	 *                                                                                 *
 	 ***********************************************************************************/
 	
-	// Buscar recursivamente el nodo a eliminar
     public void eliminar(Elemento e){
+    	// Buscar elemento en el nodo propio
     	Integer index = elemIndex(e);
     	if(index != null){
+    		// Eliminar el elemento del nodo
     		eliminarEfectivo(index);
     	}else if (esHoja()){
-    		//Logger.getLogger("Arbol").warn("El elemento no existe");
+    		// El elemento no existe
+    		return;
     	}else{
+    		// Buscar recursivamente el nodo a eliminar
 			int pos = 0;
 			while ( (pos < cantActual) && (e.mayorQue(datos[pos])) ){
 				pos++;
@@ -476,8 +490,6 @@ public class NodoB implements Serializable {
 			}
 			cantActual--;
 			datos[cantActual] = null;
-			//arbol.agregarCaptura("Elemento eliminado");
-			//arbol.agregarCaptura();
 			
 			// Verificar si es necesario aplicar alguna correccion
 			if(cantActual < getMinElem()){
@@ -487,7 +499,6 @@ public class NodoB implements Serializable {
 			// Reemplazar por nodo inmedianto inferior
 			Elemento victima = hijos[index].getMayor();
 			datos[index] = victima;
-			//arbol.agregarCaptura("Reemplazando por " + victima);
 			
 			// Eliminar nodo inmediato inferior
 			hijos[index].eliminar(victima);
@@ -533,7 +544,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas izquierdo del padre
 		if(index == 0){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION IZQ) No hay nodo izquierdo para fusionar");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_IZQ_NO_HAY_NODO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -542,7 +553,7 @@ public class NodoB implements Serializable {
 		
 		if(elementos >= arbol.getOrden()){
 			// Demasiados elementos para fusionar
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION IZQ) El nodo no puede quedar con " + elementos + " elementos");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_IZQ_NO_POSIBLE") + elementos + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}else{				
 			// Capturar estado previo
@@ -551,31 +562,26 @@ public class NodoB implements Serializable {
 			intervinientes.add(nodoIzq);
 			intervinientes.add(child);
 			arbol.setIntervinientes(intervinientes);
-			arbol.agregarCaptura("Fusion a Izquierda");
+			arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_FUSION_IZQ")); //$NON-NLS-1$
 			arbol.setIntervinientes(new Vector<NodoB>());
 			
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION IZQ) Realizar fusion");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_IZQ_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 			
 			// Pasar datos a nodo hermano izquierdo
 			for(int i = 0; i < child.cantActual; i++){
 				nodoIzq.insertarEfectivo(child.getDatos()[i], null, child.getHijos()[i+1]);
 			}
-			//arbol.agregarCaptura("Mover elementos de nodo izquierdo");
 			
 			// Copiar elemento del padre en nodo izquierdo
 			nodoIzq.insertarEfectivo(getDatos()[index - 1], null, child.getHijos()[0]);
-			//arbol.agregarCaptura("Mover elemento de padre");
 			
 			// Correr elementos del padre
-			//System.out.println("Index: " + index);
 			eliminarPorReacomodo(index);
-			//arbol.agregarCaptura("Eliminar separador del padre");
 			
 			// Determinar si el arbol decrece un nivel
 			if(arbol.getRaiz().cantActual == 0){
 				arbol.setRaiz(arbol.getRaiz().getHijos()[0]);
 				arbol.getRaiz().parent = null;
-				//arbol.agregarCaptura("Eliminar raiz antigua");
 			}
 			
 			return true;
@@ -588,7 +594,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas derecho del padre
 		if(index == cantActual){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION DER) No hay nodo derecho para fusionar");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_DER_NO_HAY_NODO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -597,7 +603,7 @@ public class NodoB implements Serializable {
 		
 		if(elementos >= arbol.getOrden()){
 			// Demasiados elementos para fusionar
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION DER) El nodo no puede quedar con " + elementos + " elementos");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_DER_NO_POSIBLE") + elementos + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}else{
 			// Capturar estado previo
@@ -606,30 +612,26 @@ public class NodoB implements Serializable {
 			intervinientes.add(nodoDer);
 			intervinientes.add(child);
 			arbol.setIntervinientes(intervinientes);
-			arbol.agregarCaptura("Fusion a Derecha");
+			arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_FUSION_DER")); //$NON-NLS-1$
 			arbol.setIntervinientes(new Vector<NodoB>());
 			
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(FUSION DER) Realizar fusion");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_DER_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Pasar datos desde el nodo hermano derecho
 			for(int i = 0; i < nodoDer.cantActual; i++){
 				child.insertarEfectivo(nodoDer.datos[i], null, nodoDer.hijos[i+1]);
 			}
-			//arbol.agregarCaptura("Mover elementos de nodo derecho");
 
 			// Copiar elemento del padre en nodo hijo
 			child.insertarEfectivo(datos[index], null, nodoDer.hijos[0]);
-			//arbol.agregarCaptura("Mover elemento de padre");
 
 			// Correr elementos del padre
 			eliminarPorReacomodo(index+1);
-			//arbol.agregarCaptura("Eliminar separador del padre");
 			
 			// Determinar si el arbol decrece un nivel
 			if(arbol.getRaiz().cantActual == 0){
 				arbol.setRaiz(arbol.getRaiz().hijos[0]);
 				arbol.getRaiz().parent = null;
-				//arbol.agregarCaptura("Eliminar raiz antigua");
 			}
 			
 			return true;
@@ -639,7 +641,7 @@ public class NodoB implements Serializable {
 	public boolean eliminarRedistribucionDerecha() {
 		// Asegurarse que sea hoja y haya nodo padre
 		if (!esHoja() || esRaiz()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER) No puede aplicarse en el nodo");			
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_NO_POSIBLE"));			 //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -648,7 +650,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas derecho del padre
 		if(parentIndex == parent.cantActual){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER) No hay nodo derecho para redistribuir");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_NO_HAY_NODO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -656,12 +658,12 @@ public class NodoB implements Serializable {
 		
 		if(nodoDer.cantActual - 1 < nodoDer.getMinElem()){
 			// El nodo derecho no puede dar elementos
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER) El nodo derecho no puede quedar con " + (nodoDer.cantActual-1) + " elementos");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_ELIM_NO_POSIBLE") + (nodoDer.cantActual-1) + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}
 
 		// El nodo derecho puede darle un elemento		
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST DER) Realizar redistribucion a derecha");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		// Capturar estado previo
 		Vector<NodoB> intervinientes = new Vector<NodoB>();
@@ -669,7 +671,7 @@ public class NodoB implements Serializable {
 		intervinientes.add(nodoDer);
 		intervinientes.add(parent);
 		arbol.setIntervinientes(intervinientes);
-		arbol.agregarCaptura("Redistribucion a Derecha");
+		arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_REDIST_DER")); //$NON-NLS-1$
 		arbol.setIntervinientes(new Vector<NodoB>());
 		
 		// Intercambiar elementos
@@ -682,7 +684,7 @@ public class NodoB implements Serializable {
 	public boolean eliminarRedistribuicionIzquierda(){
 		// Asegurarse que sea hoja y haya nodo padre
 		if (!esHoja() || esRaiz()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ) No puede aplicarse en el nodo");			
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_NO_POSIBLE"));			 //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -691,7 +693,7 @@ public class NodoB implements Serializable {
 		
 		// El nodo es el mas izquierdo del padre
 		if(parentIndex == 0){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ) No hay nodo izquierdo para distribuir");			
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_NO_HAY_NODO"));			 //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		
@@ -700,12 +702,12 @@ public class NodoB implements Serializable {
 
 		// El nodo izquierdo no puede dar elementos 
 		if(nodoIzq.cantActual - 1 < nodoIzq.getMinElem()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ) El nodo izquierdo no puede quedar con " + (nodoIzq.cantActual-1) + " elementos");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_ELIM_NO_POSIBLE") + (nodoIzq.cantActual-1) + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}
 		
 		// El nodo izquierdo puede darle un elemento	
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "(REDIST IZQ) Realizar redistribucion a izquierda");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_REALIZAR")); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		// Capturar estado previo
 		Vector<NodoB> intervinientes = new Vector<NodoB>();
@@ -713,7 +715,7 @@ public class NodoB implements Serializable {
 		intervinientes.add(nodoIzq);
 		intervinientes.add(parent);
 		arbol.setIntervinientes(intervinientes);
-		arbol.agregarCaptura("Redistribucion a Derecha");
+		arbol.agregarCaptura(Messages.getString("ARBOL_NODO_CAPT_REDIST_DER")); //$NON-NLS-1$
 		arbol.setIntervinientes(new Vector<NodoB>());
 		
 		// Intercambiar elementos
@@ -723,7 +725,6 @@ public class NodoB implements Serializable {
 	}
 
 	private void distribuirDerecha(NodoB nodoIzq, NodoB nodoDer, NodoB parent, int discrIndex) {
-		//Logger.getLogger("Arbol").info("Copiando elemento a derecha");
 		
 		// Insertar discriminante en nodo destino
 		nodoDer.insertarEfectivo(parent.datos[discrIndex]);
@@ -734,10 +735,10 @@ public class NodoB implements Serializable {
 		// Eliminar en nodo origen
 		nodoIzq.cantActual--;
 		nodoIzq.datos[nodoIzq.cantActual] = null;
+		
 	}
 	
 	private void distribuirIzquierda(NodoB nodoIzq, NodoB nodoDer, NodoB parent, int discrIndex) {
-		//Logger.getLogger("Arbol").info("Copiando elemento a izquierda");
 		
 		// Insertar discriminante en nodo destino
 		nodoIzq.insertarEfectivo(parent.datos[discrIndex]);
@@ -751,6 +752,7 @@ public class NodoB implements Serializable {
 		}
 		nodoDer.cantActual--;
 		nodoDer.datos[nodoDer.cantActual] = null;
+		
 	}
 	
 	/***********************************************************************************
@@ -760,7 +762,7 @@ public class NodoB implements Serializable {
 	 ***********************************************************************************/
 
 	public boolean buscar(Elemento e) {
-		// Verificar si lo encuentra en el propio
+		// Verificar si lo encuentra en el nodo propio
 		for (int i = 0; i < getCantActual(); i++){
 			if (datos[i].equals(e))
 				return true;
@@ -779,18 +781,18 @@ public class NodoB implements Serializable {
 	}
 
 	public void buscarConInfo(Elemento e) {
-		ConsolaManager.getInstance().escribirInfo("Arbol B", "Buscando elemento en Nodo " + toStringSimple());
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_BUSCAR_ELEMENTO") + toStringSimple()); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		// Verificar si lo encuentra en el propio
 		for (int i = 0; i < getCantActual(); i++){
 			if (datos[i].equals(e)){
-				ConsolaManager.getInstance().escribirInfo("Arbol B", "Elemento encontrado en la posicion " + (i + 1) + " del nodo.");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_ELEMENTO_ENCONTRADO") + (i + 1) + " del nodo."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return;
 			}
 		}
 		
 		if (esHoja()){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "No se encontró el elemento.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_ELEMENTO_NO_ENCONTRADO")); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		
@@ -801,7 +803,7 @@ public class NodoB implements Serializable {
 		}
 		
 		if (hijos[pos] != null){
-			ConsolaManager.getInstance().escribirInfo("Arbol B", "Accediendo al puntero al nodo número " + (pos + 1) + ".");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_ACCEDER_A_PUNTERO") + (pos + 1) + "."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			hijos[pos].buscarConInfo(e);			
 		}		
 	}

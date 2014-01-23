@@ -6,6 +6,7 @@ import java.io.Serializable;
 public abstract class TecnicaAbs implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
 	protected String nombre;
 	protected String corto;
 	protected String funcion;
@@ -24,6 +25,7 @@ public abstract class TecnicaAbs implements Serializable{
 	}
 	
 	public abstract int reasignar(int i, int x);
+	
 	public abstract String getLista();
 	
 	public String getNombre(){

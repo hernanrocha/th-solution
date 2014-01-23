@@ -5,6 +5,7 @@ import java.util.Vector;
 import hash.Celda;
 import hash.HashAbs;
 import hash.cerrado.tecnicas.TecnicaAbs;
+import common.Messages;
 import common.estructura.Elemento;
 import common.swing.ConsolaManager;
 
@@ -25,7 +26,7 @@ public class HashCerrado extends HashAbs {
 				espacioDeAlmacenamiento[i][j] = new Celda();
 		this.tecnica = tecnica;
 		
-		ConsolaManager.getInstance().escribir("Creando la estructura de Hash Cerrado con técnica: " + tecnica.getNombre() + " ("+tecnica.getCorto()+").");
+		ConsolaManager.getInstance().escribir(Messages.getString("HASH_CERRADO_CREANDO_ESTRUCTURA", new Object[]{tecnica.getNombre(), tecnica.getCorto()} )); //$NON-NLS-1$
 	}
 	
 	public int getBaldes() {
@@ -51,13 +52,13 @@ public class HashCerrado extends HashAbs {
 	@Override
 	public void insertar(Elemento aInsertar){
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se intentará insertar el elemento: ["+aInsertar.getNum()+"].");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_1", new Object[]{aInsertar.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				
 		//Se debe asegurar que no se sobrecargue la estructura.
 		if ( this.getRho() < 1.0 ){
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Hay espacio en la estructura.");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_HAY_ESPACIO")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			
 		//Se obtiene el balde y la posición del mismo a donde se va a insertar.
 		int baldeAInsertar = tecnica.h(aInsertar.get());
@@ -66,7 +67,7 @@ public class HashCerrado extends HashAbs {
 		boolean tecPseudo = false;
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se aplica h(" + aInsertar.getNum() + ") = " + baldeAInsertar +".");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_APLICA_H", new Object[]{aInsertar.getNum(), baldeAInsertar} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				
 		if ( posicionAInsertar != -1){
 			
@@ -74,15 +75,15 @@ public class HashCerrado extends HashAbs {
 			espacioDeAlmacenamiento[baldeAInsertar][posicionAInsertar].setElementoContenido(aInsertar);
 			espacioDeAlmacenamiento[baldeAInsertar][posicionAInsertar].setEstado(Celda.OCUPADO);
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se encontró lugar en el balde.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_SE_ENCONTRO_LUGAR")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			
 		}else{
 			
 			//Si NO existe lugar en el balde para insertar el elemento.
 			//Voy iterando los intentos para reasignar hasta poder insertar el elemento.
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "No hay espacio en el balde.");
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se aplicará h'("+aInsertar.getNum()+").");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_NO_HAY_ESPACIO")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_APLICARA_H_PRIMA", new Object[]{aInsertar.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			
 			
 			boolean insertado = false;
@@ -90,14 +91,14 @@ public class HashCerrado extends HashAbs {
 			for ( int i = 1; !insertado ; i++){
 
 				//Explicación.
-				ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se intenta insertar el elemento: [" + aInsertar.getNum() + "] intento : [" + i  + "].");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INTENTA_INSERTAR", new Object[]{aInsertar.getNum(), i} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				
 				//Se obtiene el balde y la posición del mismo a donde se va a insertar.
 				int baldeAInsertarReasignado = tecnica.reasignar(i,aInsertar.get());
 				if ( baldeAInsertarReasignado >= 0){
 					
 					//Explicación.
-					ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Balde Reasignado por h'("+aInsertar.getNum()+") = "+baldeAInsertarReasignado+".");
+					ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_BALDE_REASIGNADO", new Object[]{aInsertar.getNum(), baldeAInsertarReasignado} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					
 					int posicionAInsertarReasignado = posicionLibreBalde(baldeAInsertarReasignado);
 			
@@ -108,26 +109,26 @@ public class HashCerrado extends HashAbs {
 						insertado = true;
 						baldeFinal = baldeAInsertarReasignado;
 					}else
-						ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Imposible insertar el elemento : [" + aInsertar.getNum() + "] en el balde : [" + baldeAInsertarReasignado  + "].");
+						ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_IMPOSIBLE_INSERTAR_EN_BALDE", new Object[]{aInsertar.getNum(), baldeAInsertarReasignado} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}else{
 					//Es la tecnica pseudoazar y no encuentra balde
 					insertado = true;
 					tecPseudo = true;
-					ConsolaManager.getInstance().escribirAdv("La lista pseudoazar no provee suficiente información para un nuevo intento.");
-					ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Imposible insertar el elemento : [" + aInsertar.getNum() + "].");
+					ConsolaManager.getInstance().escribirAdv(Messages.getString("HASH_CERRADO_PSEUDO_INFO_INSUFICIENTE")); //$NON-NLS-1$
+					ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_IMPOSIBLE_INSERTAR", new Object[]{aInsertar.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
 			}
 		}
 		//Se pudo insertar por lo tanto se incrementa la cantidad de registros.
 		this.cantidadRegistros++;
 		if ( ! tecPseudo )
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se insertó el elemento: [" + aInsertar.getNum() + "] en el balde : [" + baldeFinal + "].");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INSERTADO_EN_BALDE", new Object[]{aInsertar.getNum(), baldeFinal} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		agregarCaptura();
 		}else{
 			//Se agrega otra captura para no quedar en desorden con las demas.
 			agregarCaptura();
 			//No se pudo insertar.	
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "No se pudo insertar el elemento en la estructura de Hash Cerrado por haber llegado al límite.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_2")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 	}
 
@@ -136,7 +137,7 @@ public class HashCerrado extends HashAbs {
 	public void eliminar(Elemento e) {
 		
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se intentará eliminar el elemento: ["+e.getNum()+"].");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_3", new Object[]{e.getNum()} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				
 		Integer aEliminar = e.get();
 		Celda celdaADesocupar = this.buscarCelda(aEliminar);
@@ -145,7 +146,7 @@ public class HashCerrado extends HashAbs {
 			celdaADesocupar.setEstado(Celda.BORRADO);
 			this.cantidadRegistros--;
 			//Explicación.
-			ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se eliminó el elemento: [" + aEliminar + "] dejando su posición como borrada.");
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_4", new Object[]{aEliminar} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			agregarCaptura();
 		}
 	}
@@ -275,40 +276,41 @@ public class HashCerrado extends HashAbs {
 	public String toGraph(){
 		String salida = new String();
 		for (int j = getRanuras() - 1 ; j >= 0 ; j--){
-			salida +="<TR> \n";
+			salida +="<TR> \n"; //$NON-NLS-1$
 			for (int i = 0 ; i < getBaldes() ; i++){
 				if ( espacioDeAlmacenamiento[i][j].getEstado() == Celda.OCUPADO )
-					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + espacioDeAlmacenamiento[i][j].toString() + " </TD> \n";
+					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#E8E8E8\"> " + espacioDeAlmacenamiento[i][j].toString() + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 				else
 				if ( espacioDeAlmacenamiento[i][j].getEstado() == Celda.BORRADO )
-					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n";
+					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#FF3232\"> " + " </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 				else
 				if ( espacioDeAlmacenamiento[i][j].getEstado() == Celda.VIRGEN )
-					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	
+					salida += "<TD ALIGN=\"TEXT\" HEIGHT=\"40\" WIDTH=\"40\" BGCOLOR=\"#C0FBF9\"> " + " </TD> \n";	 //$NON-NLS-1$ //$NON-NLS-2$
 			}
-		salida +="</TR> \n";
+		salida +="</TR> \n"; //$NON-NLS-1$
 		}
-		salida += "<TR> \n";
+		salida += "<TR> \n"; //$NON-NLS-1$
 		for (int i = 0 ; i < getBaldes() ; i++){
-			salida +=  "<TD ALIGN=\"TEXT\" BGCOLOR=\"#FDFF69\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + i + " </B> </TD> \n";
+			salida +=  "<TD ALIGN=\"TEXT\" BGCOLOR=\"#FDFF69\" HEIGHT=\"20\" WIDTH=\"40\"> <B> " + i + " </B> </TD> \n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		salida += "\n </TR>";
+		salida += "\n </TR>"; //$NON-NLS-1$
 		return salida;
 	}
 
 	@Override
 	public String getInfo() {
-		String s ="*Estructura de Hash Cerrado. \n \n";
-		s+="+Cantidad de Baldes: " + baldes + ".\n";
-		s+="+Cantidad de Ranuras: " + ranuras + ".\n";
-		s+="+Técnica: " + tecnica.getNombre() + " ("+tecnica.getCorto()+")\n";
-		s+=tecnica.getFuncion() + "\n";
-		s+=tecnica.getFuncionReasignada() + "\n";
-		if (tecnica.getCorto().equals("PS"))
-			s+=tecnica.getLista() + "\n";
-		s+="+Capacidad de la estructura: " + baldes * ranuras + " elementos.\n";
-		s+="+Cantidad de elementos: " + cantidadRegistros + ".\n";
-		s+="+Factor de carga (Rho ρ) temporal:\n     ρ=" + getRho() + ".\n";
+		String s ="*" + Messages.getString("HASH_CERRADO_INFO_TITULO") + " \n \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_BALDES") + ": " + baldes + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_RANURAS") + ": " + ranuras + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_TECNICA") + ": " + tecnica.getNombre() + " ("+tecnica.getCorto()+")\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		s+=tecnica.getFuncion() + "\n"; //$NON-NLS-1$
+		s+=tecnica.getFuncionReasignada() + "\n"; //$NON-NLS-1$
+		if (tecnica.getCorto().equals("PS")) //$NON-NLS-1$
+			s+=tecnica.getLista() + "\n"; //$NON-NLS-1$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_CAPACIDAD") + ": " + baldes * ranuras + " elementos.\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_CANTIDAD_ELEMENTOS") + ": " + cantidadRegistros + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_RHO_TEMPORAL") + ":\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="     " + Messages.getString("HASH_CERRADO_INFO_RHO") + " = " + getRho() + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		return s;
 	}
 
@@ -318,16 +320,16 @@ public class HashCerrado extends HashAbs {
 		Integer aBuscar = e.getNum();
 		
 		//Explicación
-		ConsolaManager.getInstance().escribir("");
-		ConsolaManager.getInstance().escribir("Búsqueda del elemento ["+e+"] en la estructura de Hash Cerrado con técnica: " + tecnica.getNombre() + " ("+tecnica.getCorto()+") .");
+		ConsolaManager.getInstance().escribir(""); //$NON-NLS-1$
+		ConsolaManager.getInstance().escribir(Messages.getString("HASH_CERRADO_BUSQUEDA", new Object[]{e, tecnica.getNombre(), tecnica.getCorto()} )); //$NON-NLS-1$
 		Celda celdaABuscar = buscarCeldaConInfo(aBuscar);
 		
 		if ( celdaABuscar != null ){
 			//Explicación
-			ConsolaManager.getInstance().escribir("Se encontró el elemento ["+e+"].");
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_CERRADO_ELEMENTO_ENCONTRADO", new Object[]{e} )); //$NON-NLS-1$
 		}else{
 			//Explicación
-			ConsolaManager.getInstance().escribir("No se encontró el elemento ["+e+"].");
+			ConsolaManager.getInstance().escribir(Messages.getString("HASH_CERRADO_ELEMENTO_NO_ENCONTRADO", new Object[]{e} )); //$NON-NLS-1$
 		}
 	}
 	
@@ -340,7 +342,7 @@ public class HashCerrado extends HashAbs {
 		Celda celdaSalida = null;
 
 		//Explicación.
-		ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se aplica h("+aBuscar+") = "+baldeABuscar+" y se busca si el elemento existe en el balde.");
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_5", new Object[]{aBuscar, baldeABuscar} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 			if ( posicionABuscar != -1){
 
@@ -350,13 +352,13 @@ public class HashCerrado extends HashAbs {
 
 				if ( baldeConRanurasVirgenes(baldeABuscar) ){
 					//Explicación
-					ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se encontró una ranura vírgen por lo que se finaliza la búsqueda.");
+					ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_6")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}else{
 					
 				//Si NO se encuentra el elemento en el balde, se debe buscar en otro balde.
 
 				//Explicación.
-				ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "No se encontró el elemento en el balde encontrado.");
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_7")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 				//Voy iterando los intentos para reasignar hasta poder encontrar el elemento o determinar que no se encuentra.
 				boolean encontrado = false;
@@ -372,7 +374,7 @@ public class HashCerrado extends HashAbs {
 					if ( baldeABuscarReasignado >= 0 ){
 
 						//Explicación
-						ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se aplica h'("+aBuscar+") = "+baldeABuscarReasignado+" con intento ["+i+"] y se busca si el elemento existe en el balde.");
+						ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_8", new Object[]{aBuscar, baldeABuscarReasignado, i} )); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 						//Evitamos los ciclos
 						if ( ! recorridos.contains(baldeABuscarReasignado) ){
@@ -392,7 +394,7 @@ public class HashCerrado extends HashAbs {
 								if ( this.baldeConRanurasVirgenes(baldeABuscarReasignado) ){
 
 									//Explicación
-									ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se encontró una ranura vírgen por lo que se finaliza la búsqueda.");
+									ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_9")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 									//Si se encuentra una ranura virgén se finaliza la búsqueda.
 									fin = true;
@@ -400,7 +402,7 @@ public class HashCerrado extends HashAbs {
 							}
 						}else{
 							//Explicación
-							ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se llegó a un ciclo por lo que se finaliza la búsqueda.");
+							ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_INFORMACION_10")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 							fin = true;
 						}
 
@@ -408,8 +410,8 @@ public class HashCerrado extends HashAbs {
 						//Es la tecnica pseudoazar y no tiene más información para seguir buscando.
 						fin = true;
 						encontrado = true;
-						ConsolaManager.getInstance().escribirAdv("La lista pseudoazar no provee suficiente información para un nuevo intento.");
-						ConsolaManager.getInstance().escribirInfo("Hash Cerrado " + "("+ tecnica.getCorto() +")", "Se finaliza la búsqueda.");
+						ConsolaManager.getInstance().escribirAdv(Messages.getString("HASH_CERRADO_INFORMACION_11")); //$NON-NLS-1$
+						ConsolaManager.getInstance().escribirInfo(Messages.getString("HASH_CERRADO_NOMBRE") + "("+ tecnica.getCorto() +")", Messages.getString("HASH_CERRADO_BUSQUEDA_FINALIZADA")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					}
 				}
 			}
