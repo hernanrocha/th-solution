@@ -28,7 +28,7 @@ public class BMasClustered extends VistaArbol{
 		str += "digraph structs { \n"; //$NON-NLS-1$
 		str += "  node [shape=record]; \n splines=line \n"; //$NON-NLS-1$
 		
-		if(arbol.getCantElementos() != 0){
+		if(arbol.getCantidadElementos() != 0){
 
 			// Conectar las hojas
 			Vector<NodoB> hojas = arbol.getRaiz().getNodosHoja();

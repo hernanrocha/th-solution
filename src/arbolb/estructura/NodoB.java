@@ -92,11 +92,11 @@ public class NodoB implements Serializable {
 		return parent == null;
 	}
 		
-	public int getCantElementos() {
+	public int getCantidadElementos() {
 		int cant = cantActual;
 		for (int i=0; i<=cantActual; i++){
 			if (hijos[i] != null){
-				cant += hijos[i].getCantElementos();
+				cant += hijos[i].getCantidadElementos();
 			}
 		}
 		return cant;

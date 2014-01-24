@@ -20,7 +20,7 @@ public class BMasIndice extends VistaArbol{
 		str += "digraph structs { \n"; //$NON-NLS-1$
 		str += "  node [shape=record]; \n splines=line \n"; //$NON-NLS-1$
 
-		if(arbol.getCantElementos() != 0){
+		if(arbol.getCantidadElementos() != 0){
 
 			// Referencias		
 			str +="ref [ label= <<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"3\" COLOR=\"#000000\"> \n";  //$NON-NLS-1$

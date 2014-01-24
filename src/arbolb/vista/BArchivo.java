@@ -23,7 +23,7 @@ public class BArchivo extends VistaArbol {
 		str += "digraph structs { "; //$NON-NLS-1$
 		str += "  node [shape=record]; splines=line; "; //$NON-NLS-1$
 		
-		if(arbol.getCantElementos() != 0){
+		if(arbol.getCantidadElementos() != 0){
 			// Estructura del arbol
 			str += toGraph(arbol.getRaiz());
 			

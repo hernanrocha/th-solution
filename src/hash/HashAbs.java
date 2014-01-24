@@ -14,5 +14,10 @@ public abstract class HashAbs extends Almacenamiento{
 	
 	protected Integer cantidadRegistros = 0;
 	
+	@Override
+	public int getCantidadElementos(){
+		return cantidadRegistros;
+	}
+	
 	public abstract double getRho ();
 }

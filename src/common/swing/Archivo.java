@@ -60,23 +60,34 @@ public class Archivo extends JTabbedPane{
 	}
 	
 	public void insertar(Elemento e){
-		boolean existe = false;
+		boolean existe = false;		
+		boolean maxCantidad = false;
 		
 		// Insertar en los distintos almacenamientos
 		for (Almacenamiento a : almac){
 			if (!a.buscar(e)){
-				a.insertar(e);
-				
-				// Determinar que cambio.
-				changed = true;
+				if (a.getCantidadElementos() >= Almacenamiento.MAX_ELEMENTOS){
+					// Se llego a la maxima cantidad de elementos permitida
+					maxCantidad = true;
+				}else{
+					// Insertar
+					a.insertar(e);
+
+					// Determinar que cambio.
+					changed = true;					
+				}				
 			}else{
 				existe = true;
 			}
 		}
-		
+
 		// Mostrar mensaje si existia en alguna estructura
 		if(existe){
 			ConsolaManager.getInstance().escribirAdv(Messages.getString("ARCHIVO_ELEMENTO_EXISTENTE", new Object[]{e.getNum()} )); //$NON-NLS-1$
+		}
+		
+		if(maxCantidad){
+			ConsolaManager.getInstance().escribirAdv(Messages.getString("ARCHIVO_CANTIDAD_MAXIMA_ELEMENTOS")); //$NON-NLS-1$
 		}
 	}
 	

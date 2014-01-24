@@ -106,7 +106,7 @@ public class ArbolB extends Almacenamiento{
 		s+="+" + "Maximo Numero de Hijos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		s+="    " + (n) + " " + "para cualquier nodo" + " \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
-		s+="+" + "Cantidad de elementos" + ": " + getCantElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + "Cantidad de elementos" + ": " + getCantidadElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		s+="+" + "Profundidad" + ": " + getProfundidad() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
 		return s;
@@ -176,8 +176,9 @@ public class ArbolB extends Almacenamiento{
 	 * Obtener cantidad total de elementos del arbol
 	 * @return Cantidad de elementos
 	 */
-	public int getCantElementos(){
-		return raiz.getCantElementos();
+	@Override
+	public int getCantidadElementos(){
+		return raiz.getCantidadElementos();
 	}
 	
 	/**

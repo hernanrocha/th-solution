@@ -136,6 +136,7 @@ public class mainWindow {
 
 	private JMenu mnBuscar;
 	private JMenuItem mntmRealizarBusqueda;
+	private JMenuItem mntmCargarAcciones;
 	private JMenuItem mntmGenerarElementos;
 
 	private JMenu mnIdioma;
@@ -415,6 +416,16 @@ public class mainWindow {
 		});
 		mnBuscar.add(mntmRealizarBusqueda);
 		
+		// Cargar Acciones Desde Archivo
+		mntmCargarAcciones = new JMenuItem();
+		mntmCargarAcciones.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		mntmCargarAcciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				leerAccionesArchivo();
+			}
+		});
+		mnBuscar.add(mntmCargarAcciones);
+		
 		// Generar elementos
 		mntmGenerarElementos = new JMenuItem();
 		mntmGenerarElementos.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
@@ -506,20 +517,6 @@ public class mainWindow {
 		
 		// Acciones
 		initAcciones();
-		
-		// Separador
-		verticalBox.add(new JSeparator());
-		
-		// Cargar Desde Archivo
-		JButton btnCargarDesdeArchivo = new JButton(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO")); //$NON-NLS-1$
-		btnCargarDesdeArchivo.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnCargarDesdeArchivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				leerAccionesArchivo();
-				//generarDatos(5, 10, 7);
-			}
-		});
-		verticalBox.add(btnCargarDesdeArchivo);
 		
 		// Separador
 		verticalBox.add(new JSeparator());
@@ -883,6 +880,7 @@ public class mainWindow {
 		mntmSalir.setText(Messages.getString("SWING_MAIN_SALIR")); //$NON-NLS-1$
 		mnBuscar.setText(Messages.getString("SWING_MAIN_BUSCAR")); //$NON-NLS-1$
 		mntmRealizarBusqueda.setText(Messages.getString("SWING_MAIN_REALIZAR_BUSQUEDA")); //$NON-NLS-1$
+		mntmCargarAcciones.setText(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO"));
 		mntmGenerarElementos.setText(Messages.getString("SWING_MAIN_GENERAR")); //$NON-NLS-1$
 		mnIdioma.setText(Messages.getString("SWING_MAIN_IDIOMA")); //$NON-NLS-1$
 		rdbtnmntmEspanolargentina.setText(Messages.getString("SWING_MAIN_ES_AR")); //$NON-NLS-1$
@@ -946,7 +944,7 @@ public class mainWindow {
             	// Lectura del fichero
             	String linea;
             	while((linea = br.readLine()) != null){
-            		//System.out.println("Linea: " + linea);
+            		System.out.println("Linea: " + linea);
             		String[] tokens = linea.trim().split(" "); //$NON-NLS-1$
 
             		if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_INSERTAR_MINUSCULA"))){ //$NON-NLS-1$

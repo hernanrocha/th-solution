@@ -9,6 +9,8 @@ import common.Vista;
 
 public abstract class Almacenamiento implements Serializable{
 	private static final long serialVersionUID = 1L;
+
+	public static final int MAX_ELEMENTOS = 100;
 	
 	public Vector<Vista> vistas = new Vector<Vista>();
 	
@@ -20,7 +22,9 @@ public abstract class Almacenamiento implements Serializable{
 
 	public abstract void buscarConInfo(Elemento e);
 
-	public abstract String getInfo();
+	public abstract String getInfo();	
+
+	public abstract int getCantidadElementos();
 	
 	// 1. Agregar vistas al almacenamiento
 	public void agregarVista(Vista v){
@@ -48,4 +52,5 @@ public abstract class Almacenamiento implements Serializable{
 	public Vector<Vista> getVistas(){
 		return vistas;
 	}
+
 }

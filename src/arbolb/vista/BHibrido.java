@@ -24,7 +24,7 @@ public class BHibrido extends VistaArbol {
 		str += "digraph structs { \n"; //$NON-NLS-1$
 		str += "  node [shape=record]; \n \n"; //$NON-NLS-1$
 		
-		if(arbol.getCantElementos() != 0){
+		if(arbol.getCantidadElementos() != 0){
 			// Generar archivo de datos
 			Vector<Elemento> elementos = arbol.getRaiz().getListaElementos();
 			for (Elemento e : elementos){
