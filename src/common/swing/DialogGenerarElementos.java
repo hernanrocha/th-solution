@@ -47,10 +47,10 @@ public class DialogGenerarElementos extends JDialog {
 		getContentPane().add(paneForm, BorderLayout.CENTER);
 		paneForm.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
-				ColumnSpec.decode("min:grow"),
+				ColumnSpec.decode("min:grow"), //$NON-NLS-1$
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("64dlu:grow"),
-				ColumnSpec.decode("100dlu"),
+				ColumnSpec.decode("64dlu:grow"), //$NON-NLS-1$
+				ColumnSpec.decode("100dlu"), //$NON-NLS-1$
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -120,18 +120,18 @@ public class DialogGenerarElementos extends JDialog {
 		}
 		{
 			txtMinimo = new JTextField(10);
-			txtMinimo.setFont(new Font("Tahoma", Font.BOLD, 12));
-			paneForm.add(txtMinimo, "4, 8, fill, default");
+			txtMinimo.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			paneForm.add(txtMinimo, "4, 8, fill, default"); //$NON-NLS-1$
 		}
 		{
 			JLabel lblMaximo = new JLabel(Messages.getString("SWING_GENERAR_ELEMENTOS_MAXIMO")); //$NON-NLS-1$
-			lblMaximo.setFont(new Font("Tahoma", Font.BOLD, 12));
-			paneForm.add(lblMaximo, "2, 10, right, default");
+			lblMaximo.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			paneForm.add(lblMaximo, "2, 10, right, default"); //$NON-NLS-1$
 		}
 		{
 			txtMaximo = new JTextField(10);
-			txtMaximo.setFont(new Font("Tahoma", Font.BOLD, 12));
-			paneForm.add(txtMaximo, "4, 10, fill, default");
+			txtMaximo.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
+			paneForm.add(txtMaximo, "4, 10, fill, default"); //$NON-NLS-1$
 		}
 		{
 			JPanel paneGenerar = new JPanel();

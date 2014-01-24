@@ -17,15 +17,15 @@ public class DialogGenerando extends JDialog {
 	
 
 	public DialogGenerando(mainWindow mainWindow) {
-		super(mainWindow.frmAplicacion, "", ModalityType.APPLICATION_MODAL);
+		super(mainWindow.frmAplicacion, "", ModalityType.APPLICATION_MODAL); //$NON-NLS-1$
 		setResizable(false);
 		setUndecorated(true);
 		setBackground(new Color(Color.TRANSLUCENT));
 		setBounds(100, 100, 450, 150);
 		
 		// Imagen Generando
-		JLabel lblGenerando = new JLabel("");
-		lblGenerando.setIcon(new ImageIcon(DialogGenerando.class.getResource("/img/generando.png")));
+		JLabel lblGenerando = new JLabel(""); //$NON-NLS-1$
+		lblGenerando.setIcon(new ImageIcon(DialogGenerando.class.getResource("/img/generando.png"))); //$NON-NLS-1$
 		lblGenerando.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblGenerando, BorderLayout.CENTER);
 

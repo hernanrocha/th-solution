@@ -448,9 +448,9 @@ public class HashAbierto extends HashAbs {
 		
 		if (! separadoSolo){
 			s+="+" + Messages.getString("HASH_ABIERTO_INFO_FRONTERA") + ": " + frontera + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_DISENIO") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoDeDisenio()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRho()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL_MAS_UNO") + ":\n     "+ Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoMasUnElemento()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_DISENIO") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoDeDisenio()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL") + ":\n     " + Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRho()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			s+="+" + Messages.getString("HASH_ABIERTO_INFO_RHO_TEMPORAL_MAS_UNO") + ":\n     "+ Messages.getString("HASH_CERRADO_INFO_RHO") + "=" + df.format(getRhoMasUnElemento()) + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		}
 		return s;
 	}

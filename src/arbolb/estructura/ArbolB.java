@@ -84,30 +84,30 @@ public class ArbolB extends Almacenamiento{
 	public String getInfo() {
 		int n = getOrden();
 		
-		String s ="*Estructura de Arbol B."; //$NON-NLS-1$
+		String s ="*" + Messages.getString("ARBOL_INFO_TITULO"); //$NON-NLS-1$ //$NON-NLS-2$
 		s+= "\n \n"; //$NON-NLS-1$
 		
-		s+="+" + "Orden" + ": " + n + ".\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + "Estrategias de Insercion" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_ORDEN") + ": " + n + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("ARBOL_INFO_INSERCION") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (Estrategia e : crecim){
 			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		s+="+" + "Estrategias de Eliminacion" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_ELIMINACION") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (Estrategia e : decrec){
 			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		s+="+" + "Minimo Numero de Elementos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		s+= "    " + "1 para raiz" + ", " + (n/2 + n % 2 - 1) + " " + "para otro nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		s+="+" + "Maximo Numero de Elementos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		s+="    " + (n-1) + " " + "para cualquier nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + "Minimo Numero de Hijos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		s+= "    0 " + "para hojas" + ", 2 " + "para raiz" + ", " + (n/2 + n % 2) + " " + "para otro nodo" + "\n";		 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-		s+="+" + "Maximo Numero de Hijos" + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		s+="    " + (n) + " " + "para cualquier nodo" + " \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("ARBOL_INFO_MIN_ELEM_TITULO") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + Messages.getString("ARBOL_INFO_MIN_ELEM_DESC", new Object[]{(n/2 + n % 2 - 1)} ) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_MAX_ELEM_TITULO") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + Messages.getString("ARBOL_INFO_MAX_ELEM_DESC", new Object[]{(n-1)} ) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_MIN_HIJOS_TITULO") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + Messages.getString("ARBOL_INFO_MIN_HIJOS_DESC", new Object[]{(n/2 + n % 2)} ) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_MAX_HIJOS_TITULO") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="    " + Messages.getString("ARBOL_INFO_MAX_HIJOS_DESC", new Object[]{(n)} ) + " \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
-		s+="+" + "Cantidad de elementos" + ": " + getCantidadElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + "Profundidad" + ": " + getProfundidad() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("ARBOL_INFO_CANTIDAD_ELEM") + ": " + getCantidadElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("ARBOL_INFO_PROFUNDIDAD") + ": " + getProfundidad() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
 		return s;
 	}

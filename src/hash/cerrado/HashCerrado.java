@@ -307,7 +307,7 @@ public class HashCerrado extends HashAbs {
 		s+=tecnica.getFuncionReasignada() + "\n"; //$NON-NLS-1$
 		if (tecnica.getCorto().equals("PS")) //$NON-NLS-1$
 			s+=tecnica.getLista() + "\n"; //$NON-NLS-1$
-		s+="+" + Messages.getString("HASH_CERRADO_INFO_CAPACIDAD") + ": " + baldes * ranuras + " elementos.\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("HASH_CERRADO_INFO_CAPACIDAD", new Object[]{(baldes * ranuras)} ) +".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		s+="+" + Messages.getString("HASH_CERRADO_INFO_CANTIDAD_ELEMENTOS") + ": " + cantidadRegistros + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		s+="+" + Messages.getString("HASH_CERRADO_INFO_RHO_TEMPORAL") + ":\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		s+="     " + Messages.getString("HASH_CERRADO_INFO_RHO") + " = " + getRho() + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$

@@ -3,6 +3,8 @@ package common.estructura;
 import java.io.Serializable;
 import java.util.Vector;
 
+import common.Messages;
+
 public class Elemento implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -26,9 +28,9 @@ public class Elemento implements Serializable{
 
 	public String toString(){
 		if (this.num != FIN_ARCHIVO){
-			return ""+get();
+			return ""+get(); //$NON-NLS-1$
 		}else{
-			return "FIN";
+			return Messages.getString("ELEMENTO_FIN"); //$NON-NLS-1$
 		}
 	}
 	

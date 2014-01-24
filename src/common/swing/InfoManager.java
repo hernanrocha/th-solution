@@ -42,8 +42,8 @@ public class InfoManager {
 		// Con esto se escribe en la consola.
 		try {
 			if ( getDisplay() != null )
-				getDisplay().setText("");
-			getDisplay().getDocument().insertString(getDisplay().getDocument().getLength(),s+"\n", null);
+				getDisplay().setText(""); //$NON-NLS-1$
+			getDisplay().getDocument().insertString(getDisplay().getDocument().getLength(),s+"\n", null); //$NON-NLS-1$
 			//Aca iria la scroll.
 		} catch(BadLocationException exc) {}
 	}

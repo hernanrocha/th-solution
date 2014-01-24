@@ -55,14 +55,14 @@ public class GraphViz
 	 */
 	//public static String TEMP_DIR = "./tmp";        // Linux
 	//public static String TEMP_DIR = "tmp";        // Windows
-	public static String TEMP_DIR = System.getProperty("java.io.tmpdir"); // Windows (Fix)
-	public static String IMAGE_EXT = "png";
+	public static String TEMP_DIR = System.getProperty("java.io.tmpdir"); // Windows (Fix) //$NON-NLS-1$
+	public static String IMAGE_EXT = "png"; //$NON-NLS-1$
 
 	/**
 	 * Where is your dot program located? It will be called externally.
 	 */
 	//private static String DOT = "/usr/bin/dot";	// Linux
-	private static String DOT = "dot/dot.exe";	// Windows
+	private static String DOT = "dot/dot.exe";	// Windows //$NON-NLS-1$
 
 	/**
 	 * The source of the common.graph written in dot language.
@@ -95,7 +95,7 @@ public class GraphViz
 	 * Adds a string to the common.graph's source (with newline).
 	 */
 	public void addln(String line) {
-		graph.append(line + "\n");
+		graph.append(line + "\n"); //$NON-NLS-1$
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class GraphViz
 			{
 				img_stream = get_img_stream(dot, type);
 				if (dot.delete() == false) 
-				   System.err.println("Warning: " + dot.getAbsolutePath() + " could not be deleted!");
+				   System.err.println("Warning: " + dot.getAbsolutePath() + " could not be deleted!"); //$NON-NLS-1$ //$NON-NLS-2$
 				return img_stream;
 			}
 			return null;
@@ -172,11 +172,11 @@ public class GraphViz
 			verificarDirectorio(TEMP_DIR);
 
 
-			img = File.createTempFile("graph_", "."+type, new File(TEMP_DIR));
+			img = File.createTempFile("graph_", "."+type, new File(TEMP_DIR)); //$NON-NLS-1$ //$NON-NLS-2$
 			Runtime rt = Runtime.getRuntime();
 
 			// patch by Mike Chenault
-			String[] args = {mainWindow.INSTALL_PATH + DOT, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()};
+			String[] args = {mainWindow.INSTALL_PATH + DOT, "-T"+type, dot.getAbsolutePath(), "-o", img.getAbsolutePath()}; //$NON-NLS-1$ //$NON-NLS-2$
 			Process p = rt.exec(args);
 
 			p.waitFor();
@@ -188,15 +188,15 @@ public class GraphViz
 			if( in != null ) in.close();
 
 			if (img.delete() == false) 
-				System.err.println("Warning: " + img.getAbsolutePath() + " could not be deleted!");
+				System.err.println("Warning: " + img.getAbsolutePath() + " could not be deleted!"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		catch (java.io.IOException ioe) {
-			System.err.println("Error:    in I/O processing of tempfile in dir " + TEMP_DIR+"\n");
-			System.err.println("       or in calling external command");
+			System.err.println("Error:    in I/O processing of tempfile in dir " + TEMP_DIR+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.err.println("       or in calling external command"); //$NON-NLS-1$
 			ioe.printStackTrace();
 		}
 		catch (java.lang.InterruptedException ie) {
-			System.err.println("Error: the execution of the external program was interrupted");
+			System.err.println("Error: the execution of the external program was interrupted"); //$NON-NLS-1$
 			ie.printStackTrace();
 		}
 
@@ -206,7 +206,7 @@ public class GraphViz
 	public static void verificarDirectorio(String dir) {
 		File carpeta = new File(dir);
 		if(!carpeta.exists()){
-			System.out.println("Crear carpeta faltante");
+			System.out.println("Crear carpeta faltante"); //$NON-NLS-1$
 			carpeta.mkdirs();
 		}		
 	}
@@ -223,13 +223,13 @@ public class GraphViz
 		try {
 			verificarDirectorio(TEMP_DIR);
 
-			temp = File.createTempFile("graph_", ".dot.tmp", new File(GraphViz.TEMP_DIR));
+			temp = File.createTempFile("graph_", ".dot.tmp", new File(GraphViz.TEMP_DIR)); //$NON-NLS-1$ //$NON-NLS-2$
 			FileWriter fout = new FileWriter(temp);
 			fout.write(str);
 			fout.close();
 		}
 		catch (Exception e) {
-			System.err.println("Error: I/O error while writing the dot source to temp file!");
+			System.err.println("Error: I/O error while writing the dot source to temp file!"); //$NON-NLS-1$
 			return null;
 		}
 		return temp;
@@ -240,7 +240,7 @@ public class GraphViz
 	 * @return A string to open a graph.
 	 */
 	public String start_graph() {
-		return "digraph G {";
+		return "digraph G {"; //$NON-NLS-1$
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class GraphViz
 	 * @return A string to close a graph.
 	 */
 	public String end_graph() {
-		return "}";
+		return "}"; //$NON-NLS-1$
 	}
 
 	/**
@@ -273,7 +273,7 @@ public class GraphViz
 			dis.close();
 		} 
 		catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		this.graph = sb;

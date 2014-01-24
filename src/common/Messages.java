@@ -15,11 +15,11 @@ public class Messages {
 
 	public static void setLanguage(String lang){
 		switch (lang) {
-		case "es_AR":
-			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("es", "AR"));
+		case "es_AR": //$NON-NLS-1$
+			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("es", "AR")); //$NON-NLS-1$ //$NON-NLS-2$
 			break;
-		case "en_US":
-			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("en", "US"));
+		case "en_US": //$NON-NLS-1$
+			RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$
 			break;
 		default:
 			ResourceBundle.getBundle(BUNDLE_NAME);
@@ -59,7 +59,7 @@ public class Messages {
 				//	res = res.replace("{" + i + "}", arg[0].toString());
 				//}
 				
-				res = res.replace("{" + i + "}", args[i].toString());
+				res = res.replace("{" + i + "}", args[i].toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			
 			return res;

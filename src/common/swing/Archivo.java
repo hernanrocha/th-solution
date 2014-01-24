@@ -104,11 +104,11 @@ public class Archivo extends JTabbedPane{
 
 	public void guardar(String path, String name) {
 		try {
-			if(!path.endsWith(".est")){
-				path = path + ".est";
+			if(!path.endsWith(".est")){ //$NON-NLS-1$
+				path = path + ".est"; //$NON-NLS-1$
 			}
 			ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(path));
-			salida.writeObject(Messages.getString("ARCHIVO_NOMBRE") + ": " + path); //$NON-NLS-1$
+			salida.writeObject(Messages.getString("ARCHIVO_NOMBRE") + ": " + path); //$NON-NLS-1$ //$NON-NLS-2$
 			salida.writeObject(almac);
 			salida.writeObject(NodoB.getCantidad());
 			salida.close();
@@ -143,8 +143,8 @@ public class Archivo extends JTabbedPane{
 	@SuppressWarnings("unchecked")
 	public boolean cargar(String path) {
 		try {
-			if(!path.endsWith(".est")){
-				path = path + ".est";
+			if(!path.endsWith(".est")){ //$NON-NLS-1$
+				path = path + ".est"; //$NON-NLS-1$
 			}
 			ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(path));
 			String mensaje = (String) entrada.readObject();

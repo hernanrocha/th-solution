@@ -2,6 +2,7 @@ package hash;
 
 import java.io.Serializable;
 
+import common.Messages;
 import common.estructura.Elemento;
 
 
@@ -43,12 +44,12 @@ public class Celda implements Serializable{
 	}
 	
 	public String toString(){
-		String salida="";
+		String salida=""; //$NON-NLS-1$
 		if ( this.getEstado() == Celda.VIRGEN )
-			salida = "V";
+			salida = Messages.getString("CELDA_VIRGEN"); //$NON-NLS-1$
 		else
 			if ( this.getEstado() == Celda.BORRADO )
-				salida = "B";
+				salida = Messages.getString("CELDA_BORRADO"); //$NON-NLS-1$
 		else
 			if ( this.getEstado() == Celda.OCUPADO )
 				salida = this.getElementoContenido().toString();

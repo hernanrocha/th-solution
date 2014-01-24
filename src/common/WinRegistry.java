@@ -33,39 +33,39 @@ public class WinRegistry {
 
   static {
     try {
-      regOpenKey = userClass.getDeclaredMethod("WindowsRegOpenKey",
+      regOpenKey = userClass.getDeclaredMethod("WindowsRegOpenKey", //$NON-NLS-1$
           new Class[] { int.class, byte[].class, int.class });
       regOpenKey.setAccessible(true);
-      regCloseKey = userClass.getDeclaredMethod("WindowsRegCloseKey",
+      regCloseKey = userClass.getDeclaredMethod("WindowsRegCloseKey", //$NON-NLS-1$
           new Class[] { int.class });
       regCloseKey.setAccessible(true);
-      regQueryValueEx = userClass.getDeclaredMethod("WindowsRegQueryValueEx",
+      regQueryValueEx = userClass.getDeclaredMethod("WindowsRegQueryValueEx", //$NON-NLS-1$
           new Class[] { int.class, byte[].class });
       regQueryValueEx.setAccessible(true);
-      regEnumValue = userClass.getDeclaredMethod("WindowsRegEnumValue",
+      regEnumValue = userClass.getDeclaredMethod("WindowsRegEnumValue", //$NON-NLS-1$
           new Class[] { int.class, int.class, int.class });
       regEnumValue.setAccessible(true);
-      regQueryInfoKey = userClass.getDeclaredMethod("WindowsRegQueryInfoKey1",
+      regQueryInfoKey = userClass.getDeclaredMethod("WindowsRegQueryInfoKey1", //$NON-NLS-1$
           new Class[] { int.class });
       regQueryInfoKey.setAccessible(true);
       regEnumKeyEx = userClass.getDeclaredMethod(  
-          "WindowsRegEnumKeyEx", new Class[] { int.class, int.class,  
+          "WindowsRegEnumKeyEx", new Class[] { int.class, int.class,   //$NON-NLS-1$
               int.class });  
       regEnumKeyEx.setAccessible(true);
       regCreateKeyEx = userClass.getDeclaredMethod(  
-          "WindowsRegCreateKeyEx", new Class[] { int.class,  
+          "WindowsRegCreateKeyEx", new Class[] { int.class,   //$NON-NLS-1$
               byte[].class });  
       regCreateKeyEx.setAccessible(true);  
       regSetValueEx = userClass.getDeclaredMethod(  
-          "WindowsRegSetValueEx", new Class[] { int.class,  
+          "WindowsRegSetValueEx", new Class[] { int.class,   //$NON-NLS-1$
               byte[].class, byte[].class });  
       regSetValueEx.setAccessible(true); 
       regDeleteValue = userClass.getDeclaredMethod(  
-          "WindowsRegDeleteValue", new Class[] { int.class,  
+          "WindowsRegDeleteValue", new Class[] { int.class,   //$NON-NLS-1$
               byte[].class });  
       regDeleteValue.setAccessible(true); 
       regDeleteKey = userClass.getDeclaredMethod(  
-          "WindowsRegDeleteKey", new Class[] { int.class,  
+          "WindowsRegDeleteKey", new Class[] { int.class,   //$NON-NLS-1$
               byte[].class });  
       regDeleteKey.setAccessible(true); 
     }
@@ -97,7 +97,7 @@ public class WinRegistry {
       return readString(userRoot, hkey, key, valueName);
     }
     else {
-      throw new IllegalArgumentException("hkey=" + hkey);
+      throw new IllegalArgumentException("hkey=" + hkey); //$NON-NLS-1$
     }
   }
 
@@ -121,7 +121,7 @@ public class WinRegistry {
       return readStringValues(userRoot, hkey, key);
     }
     else {
-      throw new IllegalArgumentException("hkey=" + hkey);
+      throw new IllegalArgumentException("hkey=" + hkey); //$NON-NLS-1$
     }
   }
 
@@ -145,7 +145,7 @@ public class WinRegistry {
       return readStringSubKeys(userRoot, hkey, key);
     }
     else {
-      throw new IllegalArgumentException("hkey=" + hkey);
+      throw new IllegalArgumentException("hkey=" + hkey); //$NON-NLS-1$
     }
   }
 
@@ -171,10 +171,10 @@ public class WinRegistry {
       regCloseKey.invoke(userRoot, new Object[] { new Integer(ret[0]) });
     }
     else {
-      throw new IllegalArgumentException("hkey=" + hkey);
+      throw new IllegalArgumentException("hkey=" + hkey); //$NON-NLS-1$
     }
     if (ret[1] != REG_SUCCESS) {
-      throw new IllegalArgumentException("rc=" + ret[1] + "  key=" + key);
+      throw new IllegalArgumentException("rc=" + ret[1] + "  key=" + key); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -200,7 +200,7 @@ public class WinRegistry {
       writeStringValue(userRoot, hkey, key, valueName, value);
     }
     else {
-      throw new IllegalArgumentException("hkey=" + hkey);
+      throw new IllegalArgumentException("hkey=" + hkey); //$NON-NLS-1$
     }
   }
 
@@ -224,7 +224,7 @@ public class WinRegistry {
       rc = deleteKey(userRoot, hkey, key);
     }
     if (rc != REG_SUCCESS) {
-      throw new IllegalArgumentException("rc=" + rc + "  key=" + key);
+      throw new IllegalArgumentException("rc=" + rc + "  key=" + key); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -249,7 +249,7 @@ public class WinRegistry {
       rc = deleteValue(userRoot, hkey, key, value);
     }
     if (rc != REG_SUCCESS) {
-      throw new IllegalArgumentException("rc=" + rc + "  key=" + key + "  value=" + value);
+      throw new IllegalArgumentException("rc=" + rc + "  key=" + key + "  value=" + value); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
   }
 

@@ -87,7 +87,7 @@ public class DialogAcercaDe extends JDialog {
 			contentPanel.add(lblBrian, "3, 4"); //$NON-NLS-1$
 		}
 		{
-			JLabel lblDesarrolladores = new JLabel("      " + Messages.getString("SWING_ABOUT_DESARROLLADORES") + "      "); //$NON-NLS-1$
+			JLabel lblDesarrolladores = new JLabel("      " + Messages.getString("SWING_ABOUT_DESARROLLADORES") + "      "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			lblDesarrolladores.setFont(new Font("Tahoma", Font.BOLD, 12)); //$NON-NLS-1$
 			lblDesarrolladores.setHorizontalAlignment(SwingConstants.CENTER);
 			contentPanel.add(lblDesarrolladores, "5, 2"); //$NON-NLS-1$

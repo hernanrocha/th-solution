@@ -88,13 +88,13 @@ public class mainWindow {
 	//private static final String DIR_ERR = "./logs.log"; // Linux
 
 	// Directorio de instalacion
-	public static String INSTALL_PATH = ""; // Windows
+	public static String INSTALL_PATH = ""; // Windows //$NON-NLS-1$
 	
 	// Directorio de usuario
-	public static String USER_HOME = ""; // Windows
+	public static String USER_HOME = ""; // Windows //$NON-NLS-1$
 	
 	// Directorio de aplicacion
-	public static String APP_HOME = ""; // Windows
+	public static String APP_HOME = ""; // Windows //$NON-NLS-1$
 
 	// --------- Panel Derecho - Begin --------- //
 	
@@ -184,7 +184,7 @@ public class mainWindow {
 					
 					// Procesar Argumentos
 					for (String s : argumentos){
-						System.out.println("Abrir " + s);
+						System.out.println("Abrir " + s); //$NON-NLS-1$
 						window.abrirEstructura(s);
 					}
 					
@@ -240,35 +240,35 @@ public class mainWindow {
 		USER_HOME = System.getProperty("user.home"); //$NON-NLS-1$
 		
 		// Configurar carpeta de aplicacion
-		File appDir = new File(USER_HOME + "\\TH Solution\\");
+		File appDir = new File(USER_HOME + "\\TH Solution\\"); //$NON-NLS-1$
 
 		if (!appDir.exists() || !appDir.isDirectory()) {
 			boolean result = appDir.mkdir();
 
 			if(result) {    
-				System.out.println("DIRECTORIO creado");  
+				System.out.println("DIRECTORIO creado");   //$NON-NLS-1$
 			}
 		}
-		APP_HOME = appDir.getAbsolutePath() + "\\";
+		APP_HOME = appDir.getAbsolutePath() + "\\"; //$NON-NLS-1$
 		
 		// Configurar carpeta de instalacion
 		String value;
 		try {
 			value = WinRegistry.readString (
 				    WinRegistry.HKEY_LOCAL_MACHINE,                             //HKEY
-				   "SOFTWARE\\THSolution",                                      //Key (32 bits)
-				   "InstallPath");                                              //ValueName
+				   "SOFTWARE\\THSolution",                                      //Key (32 bits) //$NON-NLS-1$
+				   "InstallPath");                                              //ValueName //$NON-NLS-1$
 			if (value == null){
 				value = WinRegistry.readString (
 					    WinRegistry.HKEY_LOCAL_MACHINE,                         //HKEY
-					   "SOFTWARE\\Wow6432Node\\THSolution",                     //Key (64 bits)
-					   "InstallPath");                                          //ValueName				
+					   "SOFTWARE\\Wow6432Node\\THSolution",                     //Key (64 bits) //$NON-NLS-1$
+					   "InstallPath");                                          //ValueName				 //$NON-NLS-1$
 			}
 			
 			if(value == null){
 				return;
 			}
-			INSTALL_PATH = value + "\\";
+			INSTALL_PATH = value + "\\"; //$NON-NLS-1$
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -880,7 +880,7 @@ public class mainWindow {
 		mntmSalir.setText(Messages.getString("SWING_MAIN_SALIR")); //$NON-NLS-1$
 		mnBuscar.setText(Messages.getString("SWING_MAIN_BUSCAR")); //$NON-NLS-1$
 		mntmRealizarBusqueda.setText(Messages.getString("SWING_MAIN_REALIZAR_BUSQUEDA")); //$NON-NLS-1$
-		mntmCargarAcciones.setText(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO"));
+		mntmCargarAcciones.setText(Messages.getString("SWING_MAIN_CARGAR_DESDE_ARCHIVO")); //$NON-NLS-1$
 		mntmGenerarElementos.setText(Messages.getString("SWING_MAIN_GENERAR")); //$NON-NLS-1$
 		mnIdioma.setText(Messages.getString("SWING_MAIN_IDIOMA")); //$NON-NLS-1$
 		rdbtnmntmEspanolargentina.setText(Messages.getString("SWING_MAIN_ES_AR")); //$NON-NLS-1$
@@ -944,7 +944,7 @@ public class mainWindow {
             	// Lectura del fichero
             	String linea;
             	while((linea = br.readLine()) != null){
-            		System.out.println("Linea: " + linea);
+            		System.out.println("Linea: " + linea); //$NON-NLS-1$
             		String[] tokens = linea.trim().split(" "); //$NON-NLS-1$
 
             		if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_INSERTAR_MINUSCULA"))){ //$NON-NLS-1$

@@ -179,7 +179,7 @@ public abstract class Vista extends JPanel implements Serializable{
 //			gv.add(fichero.readLine());
 //		} catch (IOException e) {}
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
-		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
+		String nombre = GraphViz.TEMP_DIR + "/grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;   //$NON-NLS-1$ //$NON-NLS-2$
 	    File out = new File(nombre);
 	  	gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), GraphViz.IMAGE_EXT ), out );
 	}	
@@ -190,9 +190,9 @@ public abstract class Vista extends JPanel implements Serializable{
 		GraphViz.verificarDirectorio(GraphViz.TEMP_DIR);
 		
 		
-		src = GraphViz.TEMP_DIR + "grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;  
+		src = GraphViz.TEMP_DIR + "grafico_" + getTipo() + "." + GraphViz.IMAGE_EXT;   //$NON-NLS-1$ //$NON-NLS-2$
 
-		System.out.println("Agregar tab: " + src); 
+		System.out.println("Agregar tab: " + src);  //$NON-NLS-1$
 		
 		tabArchivo.addTab(getTipo(), this);
 		imagen.setIcon(new ImageIcon(src));
