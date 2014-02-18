@@ -83,19 +83,27 @@ public class ArbolB extends Almacenamiento{
 	@Override
 	public String getInfo() {
 		int n = getOrden();
+		int i;
 		
 		String s ="*" + Messages.getString("ARBOL_INFO_TITULO"); //$NON-NLS-1$ //$NON-NLS-2$
 		s+= "\n \n"; //$NON-NLS-1$
 		
 		s+="+" + Messages.getString("ARBOL_INFO_ORDEN") + ": " + n + ".\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + Messages.getString("ARBOL_INFO_INSERCION") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="+" + Messages.getString("ARBOL_INFO_INSERCION") + ": \n     "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		i = 1;
 		for (Estrategia e : crecim){
-			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+			s+= i + ") " + e.toString() + ". "; //$NON-NLS-1$ //$NON-NLS-2$
+			i++;
 		}
-		s+="+" + Messages.getString("ARBOL_INFO_ELIMINACION") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		s+="\n";
+		i = 1;
+		s+="+" + Messages.getString("ARBOL_INFO_ELIMINACION") + ": \n     "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		
 		for (Estrategia e : decrec){
-			s+= "    " + e.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+			s+= i + ") " + e.toString() + ". "; //$NON-NLS-1$ //$NON-NLS-2$
+			i++;
 		}
+		s+="\n";
 		
 		s+="+" + Messages.getString("ARBOL_INFO_MIN_ELEM_TITULO") + ": \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		s+="    " + Messages.getString("ARBOL_INFO_MIN_ELEM_DESC", new Object[]{(n/2 + n % 2 - 1)} ) + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -107,7 +115,7 @@ public class ArbolB extends Almacenamiento{
 		s+="    " + Messages.getString("ARBOL_INFO_MAX_HIJOS_DESC", new Object[]{(n)} ) + " \n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 		s+="+" + Messages.getString("ARBOL_INFO_CANTIDAD_ELEM") + ": " + getCantidadElementos() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		s+="+" + Messages.getString("ARBOL_INFO_PROFUNDIDAD") + ": " + getProfundidad() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		s+="+" + Messages.getString("ARBOL_INFO_PROFUNDIDAD") + ": " + getProfundidad(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		
 		return s;
 	}

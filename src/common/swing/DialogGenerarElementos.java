@@ -34,7 +34,7 @@ public class DialogGenerarElementos extends JDialog {
 	private JButton btnGenerar;
 	private JTextField txtMinimo;
 	private JTextField txtMaximo;
-	private Archivo archivo;
+//	private Archivo archivo;
 	private mainWindow window;
 	
 	public DialogGenerarElementos(mainWindow mainWindow, Archivo archivo) {
@@ -67,7 +67,7 @@ public class DialogGenerarElementos extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		this.window = mainWindow;
-		this.archivo = archivo;
+//		this.archivo = archivo;
 		{
 			JLabel lblAyuda = new JLabel(Messages.getString("SWING_GENERAR_TIP")); //$NON-NLS-1$
 			lblAyuda.setHorizontalAlignment(SwingConstants.CENTER);

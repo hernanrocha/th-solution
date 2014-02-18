@@ -553,7 +553,7 @@ public class NodoB implements Serializable {
 		
 		if(elementos >= arbol.getOrden()){
 			// Demasiados elementos para fusionar
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_IZQ_NO_POSIBLE") + elementos + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_IZQ_NO_POSIBLE", new Object[]{elementos})); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}else{				
 			// Capturar estado previo
@@ -603,7 +603,7 @@ public class NodoB implements Serializable {
 		
 		if(elementos >= arbol.getOrden()){
 			// Demasiados elementos para fusionar
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_DER_NO_POSIBLE") + elementos + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_FUSION_DER_NO_POSIBLE", new Object[]{elementos})); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}else{
 			// Capturar estado previo
@@ -658,7 +658,7 @@ public class NodoB implements Serializable {
 		
 		if(nodoDer.cantActual - 1 < nodoDer.getMinElem()){
 			// El nodo derecho no puede dar elementos
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_ELIM_NO_POSIBLE") + (nodoDer.cantActual-1) + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_DER_ELIM_NO_POSIBLE", new Object[]{(nodoDer.cantActual-1)})); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}
 
@@ -702,7 +702,7 @@ public class NodoB implements Serializable {
 
 		// El nodo izquierdo no puede dar elementos 
 		if(nodoIzq.cantActual - 1 < nodoIzq.getMinElem()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_ELIM_NO_POSIBLE") + (nodoIzq.cantActual-1) + " elementos"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_REDIST_IZQ_ELIM_NO_POSIBLE", new Object[]{(nodoIzq.cantActual-1)})); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return false;
 		}
 		
@@ -786,7 +786,7 @@ public class NodoB implements Serializable {
 		// Verificar si lo encuentra en el propio
 		for (int i = 0; i < getCantActual(); i++){
 			if (datos[i].equals(e)){
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_ELEMENTO_ENCONTRADO") + (i + 1) + " del nodo."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("ARBOL_NODO_ARBOLB"), Messages.getString("ARBOL_NODO_ELEMENTO_ENCONTRADO", new Object[]{(i + 1)})); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return;
 			}
 		}
