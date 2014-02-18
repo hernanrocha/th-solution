@@ -142,7 +142,7 @@ public class mainWindow {
 	private JMenu mnIdioma;
 	private ButtonGroup groupIdioma;
 	private JRadioButtonMenuItem rdbtnmntmEspanolargentina;
-	private JRadioButtonMenuItem rdbtnmntmInglesUs;
+//	private JRadioButtonMenuItem rdbtnmntmInglesUs;
 
 	private JMenu mnAyuda;
 	private JMenuItem mntmAyuda;
@@ -457,15 +457,15 @@ public class mainWindow {
 		groupIdioma.add(rdbtnmntmEspanolargentina);
 		
 		// Idioma en_US
-		rdbtnmntmInglesUs = new JRadioButtonMenuItem();
-		rdbtnmntmInglesUs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Messages.setLanguage("en_US"); //$NON-NLS-1$
-				generateMessages();
-			}
-		});
-		mnIdioma.add(rdbtnmntmInglesUs);
-		groupIdioma.add(rdbtnmntmInglesUs);
+//		rdbtnmntmInglesUs = new JRadioButtonMenuItem();
+//		rdbtnmntmInglesUs.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				Messages.setLanguage("en_US"); //$NON-NLS-1$
+//				generateMessages();
+//			}
+//		});
+//		mnIdioma.add(rdbtnmntmInglesUs);
+//		groupIdioma.add(rdbtnmntmInglesUs);
 		
 		// AYUDA
 		mnAyuda = new JMenu();
@@ -884,7 +884,7 @@ public class mainWindow {
 		mntmGenerarElementos.setText(Messages.getString("SWING_MAIN_GENERAR")); //$NON-NLS-1$
 		mnIdioma.setText(Messages.getString("SWING_MAIN_IDIOMA")); //$NON-NLS-1$
 		rdbtnmntmEspanolargentina.setText(Messages.getString("SWING_MAIN_ES_AR")); //$NON-NLS-1$
-		rdbtnmntmInglesUs.setText(Messages.getString("SWING_MAIN_EN_US")); //$NON-NLS-1$
+//		rdbtnmntmInglesUs.setText(Messages.getString("SWING_MAIN_EN_US")); //$NON-NLS-1$
 		mnAyuda.setText(Messages.getString("SWING_MAIN_AYUDA")); //$NON-NLS-1$
 		mntmAyuda.setText(Messages.getString("SWING_MAIN_AYUDA_MANUAL")); //$NON-NLS-1$
 		mntmAcercaDe.setText(Messages.getString("SWING_MAIN_ACERCA_DE")); //$NON-NLS-1$
