@@ -5,8 +5,13 @@ import java.util.Vector;
 import hash.Celda;
 import hash.HashAbs;
 import hash.cerrado.tecnicas.TecnicaAbs;
+import hash.cerrado.tecnicas.TecnicaCerradaCuadratica;
+import hash.cerrado.tecnicas.TecnicaCerradaPseudoazar;
+import hash.cerrado.tecnicas.TecnicaCerradaRealeatorizada;
+import hash.cerrado.tecnicas.TecnicaReasignacionLineal;
 import common.Messages;
 import common.estructura.Elemento;
+import common.swing.Archivo;
 import common.swing.ConsolaManager;
 
 
@@ -28,7 +33,80 @@ public class HashCerrado extends HashAbs {
 		
 		ConsolaManager.getInstance().escribir(Messages.getString("HASH_CERRADO_CREANDO_ESTRUCTURA", new Object[]{tecnica.getNombre(), tecnica.getCorto()} )); //$NON-NLS-1$
 	}
-	
+
+	//Constructor desde archivo
+	public static void load(Archivo arch, Vector<String> str){
+
+		// Obtener valores
+		int baldes = Integer.parseInt(str.elementAt(0));
+		int ranuras = Integer.parseInt(str.elementAt(1));
+
+		if ( str.elementAt(2).equals("1") ){
+			// Crear hash
+			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaReasignacionLineal(baldes));
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashCerrado(hash));
+
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}
+
+		if ( str.elementAt(3).equals("1")  ){
+			// Crear hash
+			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaCuadratica(baldes));
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashCerrado(hash));
+
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}
+
+		if ( str.elementAt(4).equals("1")  ){
+			// Crear hash
+			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaRealeatorizada(baldes));
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashCerrado(hash));
+
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}
+
+		if ( str.elementAt(5).equals("1")  ){
+
+			Vector<Integer> lista = new Vector<Integer>();
+			for (int i = 6 ; i < str.size() ; i++ ){
+				try{
+					lista.add(Integer.parseInt( str.elementAt(i) ));
+				}catch (NumberFormatException e){}
+			}
+			// Crear hash
+			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaPseudoazar(baldes,lista));
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashCerrado(hash));
+
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}
+
+	}
+
+
 	public int getBaldes() {
 		return baldes;
 	}
