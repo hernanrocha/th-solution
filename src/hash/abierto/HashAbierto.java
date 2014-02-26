@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import common.Messages;
 import common.estructura.Elemento;
+import common.swing.Archivo;
 import common.swing.ConsolaManager;
 
 public class HashAbierto extends HashAbs {
@@ -58,7 +59,48 @@ public class HashAbierto extends HashAbs {
 		}
 		
 	}
-	
+
+	public static void load (Archivo arch, Vector<String> str){
+		// Configurar hash hash.abierto
+
+		// Obtener valores
+		Integer baldes = Integer.parseInt(str.elementAt(1));
+		Integer ranuras = Integer.parseInt(str.elementAt(2));
+		Integer ranurasSecundarias = Integer.parseInt(str.elementAt(3));
+
+		double rhoDisenio = 0;
+		if (str.size() > 4){
+			rhoDisenio = Double.parseDouble(str.elementAt(4)); 
+		}
+
+
+		if (str.elementAt(0).equals("0")){
+			// Crear hash
+			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashAbierto(hash));
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}else{
+			// Crear hash
+			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,false);
+
+			// Asignar
+			arch.agregarAlmacenamiento(hash);
+
+			// Agregar vista
+			hash.agregarVista(new VistaHashAbierto(hash));
+			//Agregar primera captura desde aca.
+			hash.agregarCaptura();
+		}
+
+
+	}
+
 
 	public double getRhoDeDisenio(){
 		return this.rhoDeDisenio;

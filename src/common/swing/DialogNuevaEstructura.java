@@ -1132,6 +1132,8 @@ public class DialogNuevaEstructura extends JDialog {
 	public void doConfiguracionHashCerrado() {
 		// Configurar hash cerrado
 		
+		Vector<String> salidaArchivo = new Vector<String>() ;
+		
 		// Obtener valores
 		int baldes = HashCerrado.DEFAULT_CANT_BALDES;
 		int ranuras = HashCerrado.DEFAULT_CANT_RANURAS;
@@ -1140,6 +1142,9 @@ public class DialogNuevaEstructura extends JDialog {
 			baldes = (int) txtCantBaldes.getValue();
 			ranuras = (int) txtCeldasPorBalde.getValue();
 		}catch (Exception e){ }
+		
+		salidaArchivo.add(""+baldes);
+		salidaArchivo.add(""+ranuras);
 		
 		if ( chkTRL.isSelected() ){
 			// Crear hash
@@ -1153,7 +1158,10 @@ public class DialogNuevaEstructura extends JDialog {
 			
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+			
+			salidaArchivo.add("1");
+		}else
+			salidaArchivo.add("0");
 
 		if ( chkTC.isSelected() ){
 			// Crear hash
@@ -1167,7 +1175,10 @@ public class DialogNuevaEstructura extends JDialog {
 			
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+			
+			salidaArchivo.add("1");
+		}else
+			salidaArchivo.add("0");
 		
 		if ( chkTR.isSelected() ){
 			// Crear hash
@@ -1181,15 +1192,23 @@ public class DialogNuevaEstructura extends JDialog {
 			
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+			
+			salidaArchivo.add("1");
+		}else
+			salidaArchivo.add("0");
 		
 		if ( chkTP.isSelected() ){
+			
+			salidaArchivo.add("1");
 			
 			Vector<Integer> lista = new Vector<Integer>();
 			String[] valores = txtListaPseudo.getText().split(","); //$NON-NLS-1$
 			for (String v : valores){
 				try{
 					lista.add(Integer.parseInt( v.trim() ));
+
+					salidaArchivo.add(""+ Integer.parseInt(  v.trim() ));
+					
 				}catch (NumberFormatException e){}
 			}
 			// Crear hash
@@ -1203,12 +1222,21 @@ public class DialogNuevaEstructura extends JDialog {
 			
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+			
+		}else
+			salidaArchivo.add("0");
+		
+	
+		//En este punto se tiene el vector de strings !!
 		
 	}
-	
+
 	public void doConfiguracionHashAbierto() {
 		// Configurar hash hash.abierto
+		
+		Vector<String> salidaArchivoSep = new Vector<String>();
+
+		Vector<String> salidaArchivoSCL = new Vector<String>() ;
 		
 		// Obtener valores
 		Integer baldes = HashAbierto.DEFAULT_CANT_BALDES;
@@ -1221,11 +1249,10 @@ public class DialogNuevaEstructura extends JDialog {
 			ranuras = (Integer) txtRanurasAbierto.getValue();
 			ranurasSecundarias = (Integer) txtRanurasSecundariasAbierto.getValue();
 			rhoDisenio = (Double) txtRhoDisenioAbierto.getValue();
-		}catch (Exception e){
-			//Logger.getLogger("HASHABIERTO").warn("Error al cargar valores de hash hash.abierto");
-		}
+		}catch (Exception e){}
 		
 		if (chkSep.isSelected()){
+				
 			// Crear hash
 			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
 
@@ -1236,7 +1263,8 @@ public class DialogNuevaEstructura extends JDialog {
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+		}else
+			salidaArchivoSep = null;
 		
 		if (chkSCL.isSelected()){
 			// Crear hash
@@ -1249,10 +1277,9 @@ public class DialogNuevaEstructura extends JDialog {
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}
+		}else
+			salidaArchivoSCL = null;
 		
-		
-
 	}
 	
 	public void doConfiguracionFinal() {
