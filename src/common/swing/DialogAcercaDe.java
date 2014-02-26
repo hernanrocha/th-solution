@@ -22,10 +22,7 @@ import common.Messages;
 
 public class DialogAcercaDe extends JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6228527787800000645L;
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel = new JPanel();
 	
 	public DialogAcercaDe(mainWindow mainWindow) {

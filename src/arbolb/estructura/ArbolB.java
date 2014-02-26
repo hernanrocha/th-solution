@@ -3,16 +3,47 @@ package arbolb.estructura;
 
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
+
 import common.Messages;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
+import common.swing.Archivo;
 import common.swing.ConsolaManager;
 
+import arbolb.estrategias.CrecimRedistDerecha;
+import arbolb.estrategias.CrecimRedistIzquierda;
+import arbolb.estrategias.CrecimSplit;
+import arbolb.estrategias.DecrecFusionDerecha;
+import arbolb.estrategias.DecrecFusionIzquierda;
+import arbolb.estrategias.DecrecRedistDerecha;
+import arbolb.estrategias.DecrecRedistIzquierda;
 import arbolb.estrategias.Estrategia;
+import arbolb.vista.BArchivo;
+import arbolb.vista.BHibrido;
+import arbolb.vista.BIndice;
+import arbolb.vista.BMasClustered;
+import arbolb.vista.BMasIndice;
 
 public class ArbolB extends Almacenamiento{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_ORDEN = 4;
+	
+	
+	private static final int I_ORDEN = 0;
+	private static final int I_BINDICE = 1;
+	private static final int I_BHIBRIDO = 2;
+	private static final int I_BARCHIVO = 3;
+	private static final int I_BMASINDICE = 4;
+	private static final int I_BMASCLUSTERED = 5;
+	private static final int I_INS_SPLIT = 6;
+	private static final int I_INS_RED_IZQ = 7;
+	private static final int I_INS_RED_DER = 8;
+	private static final int I_ELIM_FUS_IZQ = 9;
+	private static final int I_ELIM_FUS_DER = 10;
+	private static final int I_ELIM_RED_IZQ = 11;
+	private static final int I_ELIM_RED_DER = 12;
+	private static final int I_CLUSTERS = 13;
 	
 	// Estructura
 	private NodoB raiz;
@@ -33,7 +64,109 @@ public class ArbolB extends Almacenamiento{
 	public ArbolB(int orden){
 		this.orden = orden;
 		setRaiz(new NodoB(null, this));
-	}	
+	}
+	
+	public static void load(Archivo arch, Vector<String> str){
+		
+
+		// Resetear cantidad de nodos
+		NodoB.resetCantidad();
+
+		// Orden del arbol
+		int orden = ArbolB.DEFAULT_ORDEN;
+		try{
+			orden = Integer.parseInt(str.get(I_ORDEN));
+		}catch (Exception e){
+
+		}
+
+		// Crear arbol
+		ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CREAR_ARBOL_ORDEN") + orden); //$NON-NLS-1$ //$NON-NLS-2$
+		ArbolB arbol = new ArbolB(orden);
+		arch.agregarAlmacenamiento(arbol);
+
+		//----------------------------------------------------------------------------------------------------------//
+
+		// Agregar vista Arbol B Indice
+		if(str.get(I_BINDICE).equals("1")){
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
+			arbol.agregarVista(new BIndice(arbol));
+		}
+
+		// Agregar vista Arbol B Hibrido
+		if(str.get(I_BHIBRIDO).equals("1")){
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BHIBRIDO")); //$NON-NLS-1$ //$NON-NLS-2$
+			arbol.agregarVista(new BHibrido(arbol));
+		}
+
+		// Agregar vista Arbol B Archivo
+		if(str.get(I_BARCHIVO).equals("1")){
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BARCHIVO")); //$NON-NLS-1$ //$NON-NLS-2$
+			arbol.agregarVista(new BArchivo(arbol));
+		}
+
+		// Agregar vista Arbol B Mas Indice
+		if(str.get(I_BMASINDICE).equals("1")){
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
+			arbol.agregarVista(new BMasIndice(arbol));
+
+		}
+
+		// Agregar vista Arbol B Mas Clustered
+		if(str.get(I_BMASCLUSTERED).equals("1")){
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASCLUSTERED")); //$NON-NLS-1$ //$NON-NLS-2$
+			try{
+				int cluster = Integer.parseInt(str.get(I_CLUSTERS));
+				System.out.println("cluster " + cluster); //$NON-NLS-1$
+				arbol.agregarVista(new BMasClustered(arbol, cluster));
+			}catch(Exception e){
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CLUSTER_INCORRECTO")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.agregarVista(new BMasClustered(arbol));				
+			}
+		}
+
+		//----------------------------------------------------------------------------------------------------------// 
+
+		// Setear metodo de insercion
+		for(int i = 0; i < 3; i++){
+			if ("Split" == i){
+				//$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_SPLIT")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaCrecim(new CrecimSplit());
+			}else if ("Redistribucion Izquierda" == i){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaCrecim(new CrecimRedistIzquierda());
+			}else if ("Redistribucion Derecha" == i){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaCrecim(new CrecimRedistDerecha());
+			}
+		}
+
+		//----------------------------------------------------------------------------------------------------------//
+
+		// Setear metodo de eliminacion		
+		for(int i = 0; i < 4; i++){
+			if ("Fusion Izquierda" == i){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaDecrec(new DecrecFusionIzquierda());
+			} else if ("Fusion Derecha"){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaDecrec(new DecrecFusionDerecha());
+			} else if ("Redistribucion Izquierda"){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaDecrec(new DecrecRedistIzquierda());
+				break;
+			} else if ("Redistribucion Derecha"){ //$NON-NLS-1$
+				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
+				arbol.addEstrategiaDecrec(new DecrecRedistDerecha());
+			}
+		}		
+
+		//----------------------------------------------------------------------------------------------------------//
+
+		// Agregar primera captura.
+		arbol.agregarCaptura();
+	}
 	
 	//------------------------------ Interfaz Almacenamiento ------------------------------//
 	

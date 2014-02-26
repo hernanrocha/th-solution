@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
@@ -18,6 +19,7 @@ import common.Messages;
 import common.Vista;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
+import arbolb.estructura.ArbolB;
 import arbolb.estructura.NodoB;
 
 public class Archivo extends JTabbedPane{
@@ -151,6 +153,10 @@ public class Archivo extends JTabbedPane{
 			System.out.println(mensaje);
 			//Logger.getLogger("Cargar Estructura").info(mensaje);
 			almac = (Vector<Almacenamiento>) entrada.readObject();
+//			Object obj = entrada.readObject();
+//			if (obj instanceof Vector<?>) {
+//				almac = (Vector<Almacenamiento>) entrada.readObject();
+//			}
 			NodoB.setCantidad((int) entrada.readObject());
 			entrada.close();
 			setPath(path);
@@ -161,7 +167,7 @@ public class Archivo extends JTabbedPane{
 			return true;
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
-			return false;
+			return false;			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return false;

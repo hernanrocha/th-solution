@@ -27,8 +27,8 @@ import common.Messages;
 import common.estructura.Elemento;
 
 public class DialogGenerarElementos extends JDialog {
-
-	private static final long serialVersionUID = -323333444335042128L;
+	
+	private static final long serialVersionUID = 1L;
 	private final JPanel paneForm = new JPanel();
 	private JTextField txtElemento;
 	private JButton btnGenerar;

@@ -9,12 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class DialogGenerando extends JDialog {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3548905569646750622L;
 	
+	private static final long serialVersionUID = 1L;
 
 	public DialogGenerando(mainWindow mainWindow) {
 		super(mainWindow.frmAplicacion, "", ModalityType.APPLICATION_MODAL); //$NON-NLS-1$

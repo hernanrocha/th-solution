@@ -66,8 +66,8 @@ import common.estructura.Elemento;
 //import org.apache.log4j.Logger;
 
 public class DialogNuevaEstructura extends JDialog {
-
-	private static final long serialVersionUID = 1290782647459590900L;
+	
+	private static final long serialVersionUID = 1L;
 	
 	private static final int SCREEN_INICIO = 0;
 	private static final int SCREEN_CONFIGURACION = 1;	
@@ -984,7 +984,7 @@ public class DialogNuevaEstructura extends JDialog {
 					//Logger.getLogger("NuevaEstructura").warn("Error al obtener elementos iniciales");
 				}
 			}		
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_ELEMENTOS_INCIALES") + ": " + elementos); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_ELEMENTOS_INICIALES") + ": " + elementos); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}else{
 			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_ESTRUCTURA_SIN_ELEMENTOS")); //$NON-NLS-1$ //$NON-NLS-2$
 		}

@@ -201,8 +201,8 @@ public class mainWindow {
 	public mainWindow() {
 		
 		// Configuracion
-//		configurePath();
-//		configureOutput();
+		configurePath();
+		configureOutput();
 		
 		// Inicializacion
 		initWindow();
@@ -234,6 +234,9 @@ public class mainWindow {
 	 *    . USER_HOME
 	 *    . APP_HOME (guardar logs)
 	 *    . INSTALL_PATH (acceder a ayuda, dot)
+	 * Para ello, accede al registro:
+	 *    . HKEY_LOCAL_MACHINE/SOFTWARE/THSolution, InstallPath (32 bits)
+	 *    . HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/THSolution, InstallPath (64 bits)
 	 */
 	private void configurePath() {
 		// Configurar carpeta de usuario
