@@ -3,14 +3,6 @@ package arbolb.estructura;
 
 import java.util.Vector;
 
-import javax.swing.DefaultListModel;
-
-import common.Messages;
-import common.estructura.Almacenamiento;
-import common.estructura.Elemento;
-import common.swing.Archivo;
-import common.swing.ConsolaManager;
-
 import arbolb.estrategias.CrecimRedistDerecha;
 import arbolb.estrategias.CrecimRedistIzquierda;
 import arbolb.estrategias.CrecimSplit;
@@ -24,6 +16,12 @@ import arbolb.vista.BHibrido;
 import arbolb.vista.BIndice;
 import arbolb.vista.BMasClustered;
 import arbolb.vista.BMasIndice;
+
+import common.Messages;
+import common.estructura.Almacenamiento;
+import common.estructura.Elemento;
+import common.swing.Archivo;
+import common.swing.ConsolaManager;
 
 public class ArbolB extends Almacenamiento{
 	private static final long serialVersionUID = 1L;
@@ -67,8 +65,6 @@ public class ArbolB extends Almacenamiento{
 	}
 	
 	public static void load(Archivo arch, Vector<String> str){
-		
-
 		// Resetear cantidad de nodos
 		NodoB.resetCantidad();
 
@@ -128,15 +124,15 @@ public class ArbolB extends Almacenamiento{
 		//----------------------------------------------------------------------------------------------------------// 
 
 		// Setear metodo de insercion
-		for(int i = 0; i < 3; i++){
-			if ("Split" == i){
+		for(int i = 1; i <= 3; i++){
+			if (Integer.parseInt(str.get(I_INS_SPLIT)) == i){
 				//$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_SPLIT")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimSplit());
-			}else if ("Redistribucion Izquierda" == i){ //$NON-NLS-1$
+			} else if (Integer.parseInt(str.get(I_INS_RED_IZQ)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimRedistIzquierda());
-			}else if ("Redistribucion Derecha" == i){ //$NON-NLS-1$
+			} else if (Integer.parseInt(str.get(I_INS_RED_DER)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaCrecim(new CrecimRedistDerecha());
 			}
@@ -145,27 +141,35 @@ public class ArbolB extends Almacenamiento{
 		//----------------------------------------------------------------------------------------------------------//
 
 		// Setear metodo de eliminacion		
-		for(int i = 0; i < 4; i++){
-			if ("Fusion Izquierda" == i){ //$NON-NLS-1$
+		for(int i = 1; i <= 4; i++){
+			if (Integer.parseInt(str.get(I_ELIM_FUS_IZQ)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecFusionIzquierda());
-			} else if ("Fusion Derecha"){ //$NON-NLS-1$
+			} else if (Integer.parseInt(str.get(I_ELIM_FUS_DER)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecFusionDerecha());
-			} else if ("Redistribucion Izquierda"){ //$NON-NLS-1$
+			} else if (Integer.parseInt(str.get(I_ELIM_RED_IZQ)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecRedistIzquierda());
-				break;
-			} else if ("Redistribucion Derecha"){ //$NON-NLS-1$
+			} else if (Integer.parseInt(str.get(I_ELIM_RED_DER)) == i){ //$NON-NLS-1$
 				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
 				arbol.addEstrategiaDecrec(new DecrecRedistDerecha());
 			}
-		}		
+		}
 
 		//----------------------------------------------------------------------------------------------------------//
 
 		// Agregar primera captura.
 		arbol.agregarCaptura();
+		
+		System.out.println("Parametros:");
+		String info = "ArbolB";
+		info += " " + str.get(0);
+		for(int i = 1; i < str.size(); i++){
+			info += "," + str.get(i);
+		}
+		arch.addInfo(info);
+		System.out.println("Fin");
 	}
 	
 	//------------------------------ Interfaz Almacenamiento ------------------------------//

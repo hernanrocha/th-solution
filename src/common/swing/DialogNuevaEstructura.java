@@ -3,11 +3,6 @@ package common.swing;
 import hash.abierto.HashAbierto;
 import hash.abierto.VistaHashAbierto;
 import hash.cerrado.HashCerrado;
-import hash.cerrado.VistaHashCerrado;
-import hash.cerrado.tecnicas.TecnicaCerradaCuadratica;
-import hash.cerrado.tecnicas.TecnicaCerradaPseudoazar;
-import hash.cerrado.tecnicas.TecnicaCerradaRealeatorizada;
-import hash.cerrado.tecnicas.TecnicaReasignacionLineal;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -41,20 +36,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import arbolb.estrategias.CrecimRedistDerecha;
-import arbolb.estrategias.CrecimRedistIzquierda;
-import arbolb.estrategias.CrecimSplit;
-import arbolb.estrategias.DecrecFusionDerecha;
-import arbolb.estrategias.DecrecFusionIzquierda;
-import arbolb.estrategias.DecrecRedistDerecha;
-import arbolb.estrategias.DecrecRedistIzquierda;
 import arbolb.estructura.ArbolB;
 import arbolb.estructura.NodoB;
-import arbolb.vista.BArchivo;
-import arbolb.vista.BHibrido;
-import arbolb.vista.BIndice;
-import arbolb.vista.BMasClustered;
-import arbolb.vista.BMasIndice;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -1015,117 +998,77 @@ public class DialogNuevaEstructura extends JDialog {
 		// Resetear cantidad de nodos
 		NodoB.resetCantidad();
 
-		// Orden del arbol
-		int orden = ArbolB.DEFAULT_ORDEN;
-		try{
-			orden = (int) txtOrden.getValue();
-		}catch (Exception e){
-
-		}
-
-		// Crear arbol
-		ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CREAR_ARBOL_ORDEN") + orden); //$NON-NLS-1$ //$NON-NLS-2$
-		ArbolB arbol = new ArbolB(orden);
-		arch.agregarAlmacenamiento(arbol);
-
-		//----------------------------------------------------------------------------------------------------------//
-
+		Vector<String> salidaArbol = new Vector<String>();
+		
+		salidaArbol.add(txtOrden.getValue().toString());
+		System.out.println(txtOrden.getValue().toString());
+		
 		// Agregar vista Arbol B Indice
 		if(chckbxBIndice.isSelected()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
-			arbol.agregarVista(new BIndice(arbol));
+			salidaArbol.add("1");
+		}else{
+			salidaArbol.add("0");
 		}
-
+		
 		// Agregar vista Arbol B Hibrido
 		if(chckbxBHibrido.isSelected()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BHIBRIDO")); //$NON-NLS-1$ //$NON-NLS-2$
-			arbol.agregarVista(new BHibrido(arbol));
+			salidaArbol.add("1");
+		}else{
+			salidaArbol.add("0");
 		}
-
+		
 		// Agregar vista Arbol B Archivo
 		if(chckbxBArchivo.isSelected()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BARCHIVO")); //$NON-NLS-1$ //$NON-NLS-2$
-			arbol.agregarVista(new BArchivo(arbol));
+			salidaArbol.add("1");
+		}else{
+			salidaArbol.add("0");
 		}
-
+		
 		// Agregar vista Arbol B Mas Indice
 		if(chckbxBMasIndice.isSelected()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASINDICE")); //$NON-NLS-1$ //$NON-NLS-2$
-			arbol.agregarVista(new BMasIndice(arbol));
-
+			salidaArbol.add("1");
+		}else{
+			salidaArbol.add("0");
 		}
-
+		
 		// Agregar vista Arbol B Mas Clustered
 		if(chckbxBmasClustered.isSelected()){
-			ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_NUEVOTIPO_BMASCLUSTERED")); //$NON-NLS-1$ //$NON-NLS-2$
-			try{
-				int cluster = (int) txtTamCluster.getValue();
-				System.out.println("cluster " + cluster); //$NON-NLS-1$
-				arbol.agregarVista(new BMasClustered(arbol, cluster));
-			}catch(Exception e){
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_CLUSTER_INCORRECTO")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.agregarVista(new BMasClustered(arbol));				
-			}
+			salidaArbol.add("1");
+		}else{
+			salidaArbol.add("0");
 		}
-
-		//----------------------------------------------------------------------------------------------------------// 
-
-		// Setear metodo de insercion
+		
+		// Insercion
 		@SuppressWarnings("rawtypes")
 		DefaultListModel modeloInsertar = (DefaultListModel) listInsertar.getModel();
-		for(int i = 0; i < modeloInsertar.getSize(); i++){
-			switch (modeloInsertar.elementAt(i).toString()) {
-			case "Split": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_SPLIT")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaCrecim(new CrecimSplit());
-				break;
-			case "Redistribucion Izquierda": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaCrecim(new CrecimRedistIzquierda());
-				break;
-			case "Redistribucion Derecha": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_INS_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaCrecim(new CrecimRedistDerecha());
-				break;
-			default:
-				//Logger.getLogger("Arbol").warn("Metodo de eliminacion desconocido");
-				break;
+		String[] ins = new String[]{"Split", "Redistribucion Izquierda", "Redistribucion Derecha"};
+		for(int a = 0; a < 3; a++){
+			for(int i = 0; i < modeloInsertar.getSize(); i++){
+				if (modeloInsertar.elementAt(i).toString().equals(ins[a])) {
+					salidaArbol.add(""+(i+1));
+				}
 			}
 		}
-
-		//----------------------------------------------------------------------------------------------------------//
-
-		// Setear metodo de eliminacion		
+		
+		// Eliminacion
 		@SuppressWarnings("rawtypes")
 		DefaultListModel modeloEliminar = (DefaultListModel) listEliminar.getModel();
-		for(int i = 0; i < modeloEliminar.getSize(); i++){
-			switch (modeloEliminar.elementAt(i).toString()) {
-			case "Fusion Izquierda": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaDecrec(new DecrecFusionIzquierda());
-				break;
-			case "Fusion Derecha": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_FUSION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaDecrec(new DecrecFusionDerecha());
-				break;
-			case "Redistribucion Izquierda": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_IZQUIERDA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaDecrec(new DecrecRedistIzquierda());
-				break;
-			case "Redistribucion Derecha": //$NON-NLS-1$
-				ConsolaManager.getInstance().escribirInfo(Messages.getString("SWING_FORM_ARBOLB"), Messages.getString("SWING_FORM_AGREGAR_ELIM_REDISTRIBUCION_DERECHA")); //$NON-NLS-1$ //$NON-NLS-2$
-				arbol.addEstrategiaDecrec(new DecrecRedistDerecha());
-				break;
-			default:
-				//Logger.getLogger("Arbol").warn("Metodo de eliminacion desconocido");
-				break;
+		String[] elim = new String[]{"Fusion Izquierda", "Fusion Derecha", "Redistribucion Izquierda", "Redistribucion Derecha"};
+		for(int a = 0; a < 4; a++){
+			for(int i = 0; i < modeloEliminar.getSize(); i++){
+				if (modeloEliminar.elementAt(i).toString().equals(elim[a])) {
+					salidaArbol.add(""+(i+1));
+				}
 			}
-		}		
-
-		//----------------------------------------------------------------------------------------------------------//
-
-		// Agregar primera captura.
-		arbol.agregarCaptura();
+		}
+				
+		// Agregar tamaño de cluster
+		if(chckbxBmasClustered.isSelected()){
+			salidaArbol.add(txtTamCluster.getValue().toString());
+		}
+		
+		// Crear
+		ArbolB.load(arch, salidaArbol);
 
 	}
 	
@@ -1147,52 +1090,16 @@ public class DialogNuevaEstructura extends JDialog {
 		salidaArchivo.add(""+ranuras);
 		
 		if ( chkTRL.isSelected() ){
-			// Crear hash
-			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaReasignacionLineal(baldes));
-
-			// Asignar
-			arch.agregarAlmacenamiento(hash);
-			
-			// Agregar vista
-			hash.agregarVista(new VistaHashCerrado(hash));
-			
-			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
-			
 			salidaArchivo.add("1");
 		}else
 			salidaArchivo.add("0");
 
 		if ( chkTC.isSelected() ){
-			// Crear hash
-			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaCuadratica(baldes));
-
-			// Asignar
-			arch.agregarAlmacenamiento(hash);
-			
-			// Agregar vista
-			hash.agregarVista(new VistaHashCerrado(hash));
-			
-			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
-			
 			salidaArchivo.add("1");
 		}else
 			salidaArchivo.add("0");
 		
 		if ( chkTR.isSelected() ){
-			// Crear hash
-			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaRealeatorizada(baldes));
-
-			// Asignar
-			arch.agregarAlmacenamiento(hash);
-			
-			// Agregar vista
-			hash.agregarVista(new VistaHashCerrado(hash));
-			
-			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
-			
 			salidaArchivo.add("1");
 		}else
 			salidaArchivo.add("0");
@@ -1201,32 +1108,17 @@ public class DialogNuevaEstructura extends JDialog {
 			
 			salidaArchivo.add("1");
 			
-			Vector<Integer> lista = new Vector<Integer>();
 			String[] valores = txtListaPseudo.getText().split(","); //$NON-NLS-1$
 			for (String v : valores){
 				try{
-					lista.add(Integer.parseInt( v.trim() ));
-
-					salidaArchivo.add(""+ Integer.parseInt(  v.trim() ));
-					
+					salidaArchivo.add(""+ Integer.parseInt(  v.trim() ));					
 				}catch (NumberFormatException e){}
-			}
-			// Crear hash
-			HashCerrado hash = new HashCerrado(baldes, ranuras, new TecnicaCerradaPseudoazar(baldes,lista));
-
-			// Asignar
-			arch.agregarAlmacenamiento(hash);
-			
-			// Agregar vista
-			hash.agregarVista(new VistaHashCerrado(hash));
-			
-			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
-			
-		}else
+			}			
+		}else{
 			salidaArchivo.add("0");
-		
+		}
 	
+		HashCerrado.load(arch, salidaArchivo);
 		//En este punto se tiene el vector de strings !!
 		
 	}
@@ -1236,7 +1128,7 @@ public class DialogNuevaEstructura extends JDialog {
 		
 		Vector<String> salidaArchivoSep = new Vector<String>();
 
-		Vector<String> salidaArchivoSCL = new Vector<String>() ;
+		Vector<String> salidaArchivoSCL = new Vector<String>();
 		
 		// Obtener valores
 		Integer baldes = HashAbierto.DEFAULT_CANT_BALDES;
@@ -1257,28 +1149,34 @@ public class DialogNuevaEstructura extends JDialog {
 			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
 
 			// Asignar
-			arch.agregarAlmacenamiento(hash);
+//			arch.agregarAlmacenamiento(hash);
 			
 			// Agregar vista
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}else
+			
+			HashAbierto.load(arch, salidaArchivoSep);
+		}else{
 			salidaArchivoSep = null;
+		}
 		
 		if (chkSCL.isSelected()){
 			// Crear hash
 			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,false);
 
 			// Asignar
-			arch.agregarAlmacenamiento(hash);
+//			arch.agregarAlmacenamiento(hash);
 			
 			// Agregar vista
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
-		}else
+			
+			HashAbierto.load(arch, salidaArchivoSCL);
+		}else{
 			salidaArchivoSCL = null;
+		}
 		
 	}
 	
@@ -1286,11 +1184,9 @@ public class DialogNuevaEstructura extends JDialog {
 		
 		if ( ! chckbxSinElementos.isSelected() ){
 			// Insertar elementos
-			if ( ! elementos.isEmpty() )
-				for(Elemento e : elementos){
-					arch.insertar(e);
-				}
-			
+			if ( ! elementos.isEmpty() ){
+				parent.insertarDatos(elementos);
+			}
 		}
 		
 		// Actualizar pantalla

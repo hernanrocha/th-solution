@@ -1,26 +1,28 @@
 package common.swing;
 
-import java.io.FileInputStream;
+import hash.abierto.HashAbierto;
+import hash.cerrado.HashCerrado;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-//import org.apache.log4j.Logger;
+import arbolb.estructura.ArbolB;
 
 import common.Messages;
 import common.Vista;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
-import arbolb.estructura.ArbolB;
-import arbolb.estructura.NodoB;
 
 public class Archivo extends JTabbedPane{
 
@@ -30,10 +32,8 @@ public class Archivo extends JTabbedPane{
 	private String path;
 	private boolean changed;
 	protected mainWindow window;
-
-//	public Archivo() {
-//		this.setDoubleBuffered(true);
-//	}
+	
+	String info = new String();
 
 	public Archivo(int tabPlacement, mainWindow windowP) {
 		super(tabPlacement);
@@ -103,17 +103,67 @@ public class Archivo extends JTabbedPane{
 			}				
 		}
 	}
+	
+	public void load(mainWindow window, File archivo) {
+		
+        FileReader fr;
+        BufferedReader br;
+        try {
+        	fr = new FileReader (archivo);
+        	br = new BufferedReader(fr);
+
+        	// Lectura del fichero
+        	String linea;
+        	while((linea = br.readLine()) != null){
+        		System.out.println("Linea: " + linea); //$NON-NLS-1$
+        		String[] tokens = linea.trim().split(" "); //$NON-NLS-1$
+
+        		String action = tokens[0].toLowerCase();
+        		
+        		if (action.equals(Messages.getString("SWING_MAIN_INSERTAR_MINUSCULA"))){ //$NON-NLS-1$
+        			System.out.println("Insertar");
+        			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
+        			window.insertarDatos(elementos);
+        		}else if (action.equals(Messages.getString("SWING_MAIN_ELIMINAR_MINUSCULA"))){ //$NON-NLS-1$
+        			System.out.println("Eliminar");
+        			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
+        			window.eliminarDatos(elementos);
+        		}else if (action.equals("arbolb")){
+        			Vector<String> params = getParams(tokens[1]);
+        			System.out.println("Agregar arbol");
+        			ArbolB.load(this, params);
+        		}else if (action.equals("hashcerrado")){
+        			Vector<String> params = getParams(tokens[1]);
+        			System.out.println("Hash Cerrado");
+        			HashCerrado.load(this, params);
+        		}else if (action.equals("hashabierto")){
+        			Vector<String> params = getParams(tokens[1]);
+        			System.out.println("Hash Abierto");
+        			HashAbierto.load(this, params);
+        		}
+        	}
+        } catch (FileNotFoundException e) {
+        	e.printStackTrace();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+		
+	}
 
 	public void guardar(String path, String name) {
 		try {
 			if(!path.endsWith(".est")){ //$NON-NLS-1$
 				path = path + ".est"; //$NON-NLS-1$
 			}
-			ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(path));
-			salida.writeObject(Messages.getString("ARCHIVO_NOMBRE") + ": " + path); //$NON-NLS-1$ //$NON-NLS-2$
-			salida.writeObject(almac);
-			salida.writeObject(NodoB.getCantidad());
-			salida.close();
+			File f = new File(path);
+
+			FileWriter w = new FileWriter(f);
+			BufferedWriter bw = new BufferedWriter(w);
+			PrintWriter wr = new PrintWriter(bw);  
+			
+			wr.write(info);
+			wr.close();
+			bw.close();
 			
 			setPath(path);
 			setName(name);
@@ -140,41 +190,6 @@ public class Archivo extends JTabbedPane{
 
 	public String getPath() {
 		return path;
-	}
-
-	@SuppressWarnings("unchecked")
-	public boolean cargar(String path) {
-		try {
-			if(!path.endsWith(".est")){ //$NON-NLS-1$
-				path = path + ".est"; //$NON-NLS-1$
-			}
-			ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(path));
-			String mensaje = (String) entrada.readObject();
-			System.out.println(mensaje);
-			//Logger.getLogger("Cargar Estructura").info(mensaje);
-			almac = (Vector<Almacenamiento>) entrada.readObject();
-//			Object obj = entrada.readObject();
-//			if (obj instanceof Vector<?>) {
-//				almac = (Vector<Almacenamiento>) entrada.readObject();
-//			}
-			NodoB.setCantidad((int) entrada.readObject());
-			entrada.close();
-			setPath(path);
-						
-			//Determino que cambio
-			changed = false;
-			
-			return true;
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-			return false;			
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return false;
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-			return false;
-		}
 	}
 
 	public void primeraCaptura() {
@@ -249,5 +264,25 @@ public class Archivo extends JTabbedPane{
 	
 	public Vector<Almacenamiento> getAlmac(){
 		return almac;
+	}
+	
+	public void addInfo(String str){
+		System.out.println("Agregar " + str);
+		info += str + "\n";
+	}
+
+
+	
+	private Vector<String> getParams(String str){
+		
+		Vector<String> params = new Vector<String>();
+		String[] valores = str.split(","); //$NON-NLS-1$
+
+		for (String v : valores){
+			params.add(v.trim());
+		}
+		
+		return params;
+		
 	}
 }

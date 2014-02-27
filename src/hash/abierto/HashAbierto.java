@@ -98,7 +98,12 @@ public class HashAbierto extends HashAbs {
 			hash.agregarCaptura();
 		}
 
-
+		String info = "HashAbierto";
+		info += " " + str.get(0);
+		for(int i = 1; i < str.size(); i++){
+			info += "," + str.get(i);
+		}
+		arch.addInfo(info);
 	}
 
 

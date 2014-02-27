@@ -1,18 +1,35 @@
 package common.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -21,12 +38,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-// import org.apache.log4j.Logger;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import common.FiltroArchivoEstructura;
 import common.FiltroArchivoTexto;
@@ -34,44 +58,7 @@ import common.Messages;
 import common.WinRegistry;
 import common.estructura.Almacenamiento;
 import common.estructura.Elemento;
-
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-
-import java.awt.Toolkit;
-
-import javax.swing.JTextPane;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.Cursor;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-
-import common.swing.ConsolaManager;
-import javax.swing.JRadioButtonMenuItem;
+// import org.apache.log4j.Logger;
 
 public class mainWindow {
 	
@@ -185,7 +172,7 @@ public class mainWindow {
 					// Procesar Argumentos
 					for (String s : argumentos){
 						System.out.println("Abrir " + s); //$NON-NLS-1$
-						window.abrirEstructura(s);
+						window.abrirEstructura(new File(s));
 					}
 					
 				} catch (Exception e) {
@@ -923,50 +910,27 @@ public class mainWindow {
 	 ***********************************************************************************/
 	
 	protected void leerAccionesArchivo() {
-		//Crear un objeto FileChooser
+		
+		// Crear un objeto FileChooser
         JFileChooser fc = new JFileChooser();
         
-        //Mostrar la ventana para abrir archivo y recoger la respuesta
+        // Mostrar la ventana para abrir archivo y recoger la respuesta
         fc.setFileFilter(new FiltroArchivoTexto());
         int respuesta = fc.showOpenDialog(null);
         
-        //Comprobar si se ha pulsado Aceptar
+        // Comprobar si se ha pulsado Aceptar
         if (respuesta == JFileChooser.APPROVE_OPTION){
-            //Crear un objeto File con el archivo elegido
-            File archivo = fc.getSelectedFile();
+            // Crear un objeto File con el archivo elegido
+            File arch = fc.getSelectedFile();
             
-            //Mostrar el nombre del archivo en un campo de texto
-            System.out.println(archivo.getPath());
+            // Mostrar el nombre del archivo en un campo de texto
+            System.out.println(arch.getPath());
 
-            FileReader fr;
-            BufferedReader br;
-            try {
-            	fr = new FileReader (archivo);
-            	br = new BufferedReader(fr);
-
-            	// Lectura del fichero
-            	String linea;
-            	while((linea = br.readLine()) != null){
-            		System.out.println("Linea: " + linea); //$NON-NLS-1$
-            		String[] tokens = linea.trim().split(" "); //$NON-NLS-1$
-
-            		if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_INSERTAR_MINUSCULA"))){ //$NON-NLS-1$
-            			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
-            			insertarDatos(elementos);
-            		}else if (tokens[0].toLowerCase().equals(Messages.getString("SWING_MAIN_ELIMINAR_MINUSCULA"))){ //$NON-NLS-1$
-            			Vector<Elemento> elementos = Elemento.parseToElements(tokens[1]);
-            			eliminarDatos(elementos);
-            		}
-            	}
-            } catch (FileNotFoundException e) {
-            	e.printStackTrace();
-            } catch (IOException e) {
-            	e.printStackTrace();
-            }
+            // Cargar datos en archivo
+            archivo.load(this, arch);
 		
         }
-//		System.out.println(Messages.getString("TEST", new Object[]{"Brian", 93} ));
-//		System.out.println(Messages.getString("TEST"));
+        
 	}
 
 	protected void nuevaEstructura() {
@@ -1014,7 +978,9 @@ public class mainWindow {
 	        
 	        //Comprobar si se ha pulsado Aceptar
 	        if (respuesta == JFileChooser.APPROVE_OPTION){
-	            //Crear un objeto File con el archivo elegido
+	        	abrirEstructura(fc.getSelectedFile());
+	        	
+	            /*//Crear un objeto File con el archivo elegido
 	            File archivoElegido = fc.getSelectedFile();
 	            
 	            //Mostrar el nombre del archivo en un campo de texto
@@ -1022,19 +988,23 @@ public class mainWindow {
 	            	            	            
 	            // Intenta cargar archivo y mostrarlo en pantalla
 	    		archivo = new Archivo(JTabbedPane.BOTTOM, this);
-	    		if(archivo.cargar(archivoElegido.getPath())){
-
+	    		
+	    		// Cargar
+	    		archivo.load(this, archivoElegido);
+	    		
+//	    		if(archivo.cargar(archivoElegido.getPath())){
+//
 		            // Agregar pesta�a referida al archivo
-		    		archivo.setBackground(Color.WHITE);
+//		    		archivo.setBackground(Color.WHITE);
 		    		tabsArchivos.addTab(archivoElegido.getName(), archivo);
 		    		
 		    		// Agrega vistas al archivo
 		    		archivo.ultimaCaptura();
 					actualizarImagen();	
 		    		archivo.agregarTab();
-	    		}else{
-	    			archivo = null;
-	    		}
+//	    		}else{
+//	    			archivo = null;
+//	    		}*/
 	        }
 		}else{
 			cerrarEstructura();
@@ -1042,24 +1012,26 @@ public class mainWindow {
 		}		
 	}
 	
-	protected void abrirEstructura(String est){
-		File archivoElegido = new File(est);
+	protected void abrirEstructura(File archivoElegido){
 		
 		// Intenta cargar archivo y mostrarlo en pantalla
 		archivo = new Archivo(JTabbedPane.BOTTOM, this);
-		if(archivo.cargar(archivoElegido.getPath())){
-
-            // Agregar pesta�a referida al archivo
-    		archivo.setBackground(Color.WHITE);
+		
+		// Cargar
+		archivo.load(this, archivoElegido);
+		
+//		if(archivo.cargar(archivoElegido.getPath())){
+//
+            // Agregar pestaña referida al archivo
     		tabsArchivos.addTab(archivoElegido.getName(), archivo);
     		
     		// Agrega vistas al archivo
     		archivo.ultimaCaptura();
 			actualizarImagen();
     		archivo.agregarTab();
-		}else{
-			archivo = null;
-		}
+//		}else{
+//			archivo = null;
+//		}
 	}
 	
 	protected void guardarEstructura(){
@@ -1132,14 +1104,19 @@ public class mainWindow {
 	 ***********************************************************************************/
 	
 	protected void insertarDatos(Vector<Elemento> elementos) {
-		if (archivo != null){
+		if ( (archivo != null) && (elementos != null) && (elementos.size() > 0) ){
 
 			long tiempoInicial = System.currentTimeMillis();
 
 			// Insertar elementos en el archivo
-			for (Elemento e : elementos){
-				archivo.insertar(e);
+			String info = "Insertar";
+			archivo.insertar(elementos.get(0));
+			info += " " + elementos.get(0);
+			for (int i = 1; i < elementos.size(); i++){
+				archivo.insertar(elementos.get(i));
+				info += "," + elementos.get(i);
 			}
+			archivo.addInfo(info);
 
 			long tiempoMedio = System.currentTimeMillis();
 
@@ -1157,14 +1134,19 @@ public class mainWindow {
 	}
 	
 	protected void eliminarDatos(Vector<Elemento> elementos) {
-		if (archivo != null){
+		if ( (archivo != null) && (elementos != null) && (elementos.size() > 0) ){
 
 			long tiempoInicial = System.currentTimeMillis();
 
 			// Insertar elementos en el archivo
-			for (Elemento e : elementos){
-				archivo.eliminar(e);
+			String info = "Eliminar";
+			archivo.eliminar(elementos.get(0));
+			info += " " + elementos.get(0);
+			for (int i = 1; i < elementos.size(); i++){
+				archivo.eliminar(elementos.get(i));
+				info += "," + elementos.get(i);
 			}
+			archivo.addInfo(info);
 
 			long tiempoMedio = System.currentTimeMillis();
 

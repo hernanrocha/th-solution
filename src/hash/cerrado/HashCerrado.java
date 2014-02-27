@@ -103,6 +103,13 @@ public class HashCerrado extends HashAbs {
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
 		}
+		
+		String info = "HashCerrado";
+		info += " " + str.get(0);
+		for(int i = 1; i < str.size(); i++){
+			info += "," + str.get(i);
+		}
+		arch.addInfo(info);
 
 	}
 
