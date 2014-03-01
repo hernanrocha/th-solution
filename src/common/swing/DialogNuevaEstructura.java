@@ -1148,6 +1148,12 @@ public class DialogNuevaEstructura extends JDialog {
 			// Crear hash
 			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
 
+			//Agregar cosas
+			salidaArchivoSep.add("0");
+			salidaArchivoSep.add(""+baldes);
+			salidaArchivoSep.add(""+ranuras);
+			salidaArchivoSep.add(""+ranurasSecundarias);
+			
 			// Asignar
 //			arch.agregarAlmacenamiento(hash);
 			
@@ -1155,6 +1161,8 @@ public class DialogNuevaEstructura extends JDialog {
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
 			hash.agregarCaptura();
+			
+			
 			
 			HashAbierto.load(arch, salidaArchivoSep);
 		}else{
@@ -1165,13 +1173,20 @@ public class DialogNuevaEstructura extends JDialog {
 			// Crear hash
 			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,false);
 
+			//Agregar cosas
+			salidaArchivoSCL.add("1");
+			salidaArchivoSCL.add(""+baldes);
+			salidaArchivoSCL.add(""+ranuras);
+			salidaArchivoSCL.add(""+ranurasSecundarias);
+			salidaArchivoSCL.add(""+rhoDisenio);
+				
 			// Asignar
 //			arch.agregarAlmacenamiento(hash);
 			
 			// Agregar vista
 			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
+			hash.agregarCaptura();	
 			
 			HashAbierto.load(arch, salidaArchivoSCL);
 		}else{
