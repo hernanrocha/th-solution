@@ -1,0 +1,3 @@
+Para utilizar el archivo de texto de Acciones, basta con crear la estructura deseada, y realizar las acciones mediante Estructura-Cargar Acciones o Ctrl-A.
+
+Cada linea del archivo de texto corresponde a una accion (Insertar/Eliminar), seguida de un espacio en blanco, y la lista de elementos (todos juntos, sin espacio, separados por coma).

@@ -1,0 +1,26 @@
+Los archivos de esta carpeta corresponden a los "Ejercicios Tipo" subidos a CUYS.
+
+-------------------------------------------------------------------------------------
+
+Ejercicio Tipo de Arbol B
+
+http://www.comoustedyasabe.com.ar/datos/Tercero/1er_cuatrimestre/Estructuras/Practica/EjercicioTipoArbolB.pdf
+
+Los ejercicios de Insercion con Split, Redistribucion, y Eliminacion con Fusion, estan resueltos en los archivos split.est, redistribucion.est y fusion.est respectivamente.
+
+-------------------------------------------------------------------------------------
+
+Ejercicio Tipo de Hashing
+
+http://www.comoustedyasabe.com.ar/datos/Tercero/1er_cuatrimestre/Estructuras/Practica/EjercicioTipoHashing.pdf
+
+Ejercicio de Hash Separado con Crecimiento Lineal, resuelto en el archivo hashcrecimiento.est
+
+-------------------------------------------------------------------------------------
+
+Los archivos almacenan una estructura con las caracteristicas dadas en los ejemplos, y dos secuencias de insercion/eliminacion: una para formar el arbol inicial, y otra con las acciones mostradas en el ejemplo.
+
+Para abrir los archivos, simplemente ejecutar THSolution y abrir alguno de los archivos del ejemplo mediante Archivo-Abrir o Ctrl-O.
+Para ver el progreso paso a paso de la estructura, puede desplazarse por las capturas mediante los "Botones de capturas".
+
+Tambien, si se desea, pueden agregarse o eliminarse otros elementos ingresados por el usuario a través de la interfaz del programa.
