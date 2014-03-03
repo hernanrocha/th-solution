@@ -142,6 +142,9 @@ public class Archivo extends JTabbedPane{
         			HashAbierto.load(this, params);
         		}
         	}
+        	
+			// Actualizar pantalla
+			window.actualizarImagen();
         } catch (FileNotFoundException e) {
         	e.printStackTrace();
         } catch (IOException e) {

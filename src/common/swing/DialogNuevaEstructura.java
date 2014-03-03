@@ -1,7 +1,6 @@
 package common.swing;
 
 import hash.abierto.HashAbierto;
-import hash.abierto.VistaHashAbierto;
 import hash.cerrado.HashCerrado;
 
 import java.awt.BorderLayout;
@@ -1146,7 +1145,7 @@ public class DialogNuevaEstructura extends JDialog {
 		if (chkSep.isSelected()){
 				
 			// Crear hash
-			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
+//			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,true);
 
 			//Agregar cosas
 			salidaArchivoSep.add("0");
@@ -1158,9 +1157,9 @@ public class DialogNuevaEstructura extends JDialog {
 //			arch.agregarAlmacenamiento(hash);
 			
 			// Agregar vista
-			hash.agregarVista(new VistaHashAbierto(hash));
+//			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
-			hash.agregarCaptura();
+//			hash.agregarCaptura();
 			
 			
 			
@@ -1171,7 +1170,7 @@ public class DialogNuevaEstructura extends JDialog {
 		
 		if (chkSCL.isSelected()){
 			// Crear hash
-			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,false);
+//			HashAbierto hash = new HashAbierto(baldes, ranuras, ranurasSecundarias, rhoDisenio,false);
 
 			//Agregar cosas
 			salidaArchivoSCL.add("1");
@@ -1184,9 +1183,9 @@ public class DialogNuevaEstructura extends JDialog {
 //			arch.agregarAlmacenamiento(hash);
 			
 			// Agregar vista
-			hash.agregarVista(new VistaHashAbierto(hash));
+//			hash.agregarVista(new VistaHashAbierto(hash));
 			//Agregar primera captura desde aca.
-			hash.agregarCaptura();	
+//			hash.agregarCaptura();	
 			
 			HashAbierto.load(arch, salidaArchivoSCL);
 		}else{
