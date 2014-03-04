@@ -1,0 +1,3 @@
+Aplicacion didáctica para Estructuras de Almacenamiento de Datos.
+UNICEN Tandil - Argentina - 2013
+Version 1.0

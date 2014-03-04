@@ -1,0 +1,11 @@
+Descripcion de los archivos de instalacion
+
+THSolution.exe
+Loader del archivo THSolution.jar
+Realizado por launch4java
+
+THSolution.smm
+Configuracion del instalador mediante Smart Install Maker
+
+THSolution-setup.exe
+Archivo instalador de THSolution.
