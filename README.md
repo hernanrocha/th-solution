@@ -11,22 +11,21 @@ Las estructuras soportadas son:
 
 TH Solution requiere de una version de [Java](https://www.java.com/) instalada en tu computadora.
 
-La ultima version del instalador se puede descargar [aqui](./releases)
+La ultima version del instalador se puede descargar [aqui](../../releases/latest)
 
 ## Ejemplos
-https://github.com/herny1993/th-solution/blob/master/examples/
+
+Puedes ver algunos ejemplos de uso en la carpeta de [ejemplos](examples)
 
 ## Profesores
 
-RIVERO, Laura
-
-FERRAGGINE, Viviana
+ - RIVERO, Laura
+ - FERRAGGINE, Viviana
 
 ## Alumnos
 
-CAIMMI, Brian
-
-ROCHA, Hernán
+ - CAIMMI, Brian
+ - ROCHA, Hernán
 
 ===========
 
