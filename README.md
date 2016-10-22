@@ -1,21 +1,28 @@
-THSolution
-===========
+# TH Solution
 
-Aplicacion didáctica de Estructuras de Almacenamiento
+TH Solution es una aplicación con fines didácticos, que permite crear diferentes estructuras de almacenamiento y operar sobre ellas (agregar, buscar o eliminar elementos), observando en todo momento el estado de las estructuras elegidas, y los pasos que se realizan para llevar a cabo cada operación.
 
-<h3>Instalación</h3>
-https://github.com/herny1993/th-solution/blob/master/installer/install/THSolution-setup.exe
+Las estructuras soportadas son:
+ - Arboles B
+ - Hashing Cerrado
+ - Hashing Abierto
 
-<h3>Ejemplos</h3>
+## Instalación
+
+TH Solution requiere de una version de [Java](https://www.java.com/) instalada en tu computadora.
+
+La ultima version del instalador se puede descargar [aqui](./releases)
+
+## Ejemplos
 https://github.com/herny1993/th-solution/blob/master/examples/
 
-<h3>Profesores</h3>
+## Profesores
 
 RIVERO, Laura
 
 FERRAGGINE, Viviana
 
-<h3>Alumnos</h3>
+## Alumnos
 
 CAIMMI, Brian
 
